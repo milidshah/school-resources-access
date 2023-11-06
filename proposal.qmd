@@ -24,6 +24,26 @@ This data set is taken from the United States' Department of Education's Nationa
 
 # Question
 
-??
+**How does the availability of specific resources in a school, such as counseling services, technology, and extracurricular activities, influence the frequency disciplinary actions taken?**
+
+# Motivation
+
+# Goal
+
+# Prospective Visualizations
 
 # Plan
+
+## Week 1
+
+## Week 2
+
+## Week 3
+
+## Week 4
+
+## Week 5
+
+## Week 6
+
+## Week 7
