@@ -1,0 +1,29 @@
+---
+title: "School Safety"
+subtitle: "Proposal"
+author: "The Data Diggers"
+format: html
+editor: visual
+---
+
+```{r}
+#| label: load-packages-data
+#| message: FALSE
+
+install.packages("haven")
+library(haven)
+library(tidyverse)
+library(scales)
+
+school_safety <- read_sas("data/pu_ssocs18.sas7bdat")
+```
+
+# Dataset
+
+This data set is taken from the United States' Department of Education's National Center for Educational Statistics. The raw data contains `r nrow(school_safety)` rows and `r ncol(school_safety)` columns, which interpreted based on the context of the data set, means there is data for `r ncol(school_safety)` different variables for `r nrow(school_safety)` schools. The data comes from a survey conducted by the Institute of Education Sciences during the 2017-2018 school year, and it was published for public use in 2020.
+
+# Question
+
+??
+
+# Plan
