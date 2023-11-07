@@ -20,25 +20,45 @@ school_safety <- read_sas("data/pu_ssocs18.sas7bdat")
 
 # **Proposal**
 
+## **Goals**
+
 This project intends to analyze issues of social justice and race in schools by exploring how specific resources in a school can influence the frequency of disciplinary actions. This pressing issue, highlighted from our FOCUS courses, will be reported through a data dashboard, and followed by proposals to mitigate the impacts of the trends seen through the data dashboard. 
 
-# **Goals**
+### Dataset
 
-First and foremost, the project seeks to provide a comprehensive, data-driven understanding of the complex interplay between crime rates, school disciplinary actions, and the quality of education in a given community or neighborhood. By visualizing this data, the project aims to elucidate patterns and correlations that might not be immediately apparent through raw statistics. It seeks to identify hotspots of high crime rates and their direct impact on school disciplinary actions, including suspensions, expulsions, or other punitive measures. Furthermore, the project aims to illustrate how these disciplinary actions may, in turn, influence the overall quality of education in the area. Ultimately, the visualization project strives to equip policymakers, educators, and communities with valuable insights to inform evidence-based decision-making, leading to the development of targeted interventions and policies to create safer, more supportive, and effective learning environments for all students.
+The dataset we are using is the `school_safety` dataset from the United States Department of Education National Center for Educational Statistics (NCES). It contains `r nrow(school_safety)` observations or rows and `r ncol(school_safety)` columns/ variables; interpreted in the context of the dataset, this means there is data for `r ncol(school_safety)` different variables for `r nrow(school_safety)` schools. The data comes from a survey conducted 7 separate times by the Institute of Education Sciences since 1999. We chose the most recent dataset (covering 2017-2018 school year) published for public use in 2020. The main function of this data is to represent characteristics that relate to safety resources of various schools across the United States. Each row represents a unique school and contains a multitude of variables relating to school safety and other school characteristics. For the purpose of simplifying this data, we will be focusing on 30 main variables (the numbers in bracket specify the variable orders in original dataset): 
 
-## Dataset
+1.  Social emotional learning training for students (35)
 
-Amaia
+2.  Individual mentoring/tutoring/coaching by adults (37)
 
-## Question
+3.  Student involvement in restorative circles (40)
 
-Amaia
+4.  Promote sense of community/social integration (41)
 
-## **Motivation**
+5.  Acceptance groups (44-46)
+
+6.  Formal process to obtain parental input (47)
+
+7.  Provide training or assistance to parents (48)
+
+8.  Community Involvement (51 - 58) 
+
+9.  Treatment at school by school-employed or contracted mental health professional (88)
+
+10. Teacher training (97-109)
+
+These each can be combined to assess school resources (one factor we are observing in our research question. We will also use the variable \"school disciplinary actions\" to represent the frequency of disciplinary actions in a school. 
+
+### Question
+
+How does the availability of specific resources in a school, such as mental health support, acceptance groups, community involvement, etc. influence the frequency of disciplinary actions?
+
+### Motivation
 
 In our classes focused on social justice in schools and critical race theory of education, we have facilitated numerous discussions analyzing how various environmental factors can influence a student's educational experience and learning outcomes. One particular topic we touched on was school disciplinary policies. Disciplinary actions, when administered unfairly or ineffectively, are known to be linked to the school-to-prison pipeline, a systemic problem funneling students, often from marginalized backgrounds, into the criminal justice system. By analyzing the influence of factors such as mental health support, acceptance groups, and community involvement on execution of school discipline, we can pinpoint potential resources to break this damaging cycle. Ultimately, addressing our research question has the potential to improve the educational experiences and life prospects of students in high-crime areas, leading to more equitable and successful educational outcomes.
 
-## **Data Visualization & Impact**
+### Data Visualization & Impact
 
 In order to answer our research question, we plan to create a data dashboard. We will first generate a composite school support resource variable by combining data variables capturing mental health support, acceptance groups, community involvement, etc. into a single likert scale variable indicating the overall level of support resources schools possess. The main visualization will be a histogram/scatter plot that has the composite school support resource variable on the x axis and the frequency of school discipline on the y axis.  With this visualization, we intend to visualize preliminary trends in the influence of support resources on disciplinary actions. Next, we plan/ hope to make the data dashboard interactive, meaning that clicking on each bin will yield a unique visualization for specific support resource variables. These "sub-graphs" will show how each category of support resource compares to the disciplinary action used in response to school policy violations. 
 

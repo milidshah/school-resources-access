@@ -187,28 +187,40 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="proposal" class="level1">
 <h1><strong>Proposal</strong></h1>
+<section id="goals" class="level2">
+<h2 class="anchored" data-anchor-id="goals"><strong>Goals</strong></h2>
 <p>This project intends to analyze issues of social justice and race in schools by exploring how specific resources in a school can influence the frequency of disciplinary actions. This pressing issue, highlighted from our FOCUS courses, will be reported through a data dashboard, and followed by proposals to mitigate the impacts of the trends seen through the data dashboard.&nbsp;</p>
+<section id="dataset" class="level3">
+<h3 class="anchored" data-anchor-id="dataset">Dataset</h3>
+<p>The dataset we are using is the <code>school_safety</code> dataset from the United States Department of Education National Center for Educational Statistics (NCES). It contains 2762 observations or rows and 424 columns/ variables; interpreted in the context of the dataset, this means there is data for 424 different variables for 2762 schools. The data comes from a survey conducted 7 separate times by the Institute of Education Sciences since 1999. We chose the most recent dataset (covering 2017-2018 school year) published for public use in 2020. The main function of this data is to represent characteristics that relate to safety resources of various schools across the United States. Each row represents a unique school and contains a multitude of variables relating to school safety and other school characteristics. For the purpose of simplifying this data, we will be focusing on 30 main variables (the numbers in bracket specify the variable orders in original dataset):&nbsp;</p>
+<ol type="1">
+<li><p>Social emotional learning training for students (35)</p></li>
+<li><p>Individual mentoring/tutoring/coaching by adults (37)</p></li>
+<li><p>Student involvement in restorative circles (40)</p></li>
+<li><p>Promote sense of community/social integration (41)</p></li>
+<li><p>Acceptance groups (44-46)</p></li>
+<li><p>Formal process to obtain parental input (47)</p></li>
+<li><p>Provide training or assistance to parents (48)</p></li>
+<li><p>Community Involvement (51 - 58)&nbsp;</p></li>
+<li><p>Treatment at school by school-employed or contracted mental health professional (88)</p></li>
+<li><p>Teacher training (97-109)</p></li>
+</ol>
+<p>These each can be combined to assess school resources (one factor we are observing in our research question. We will also use the variable "school disciplinary actions" to represent the frequency of disciplinary actions in a school.&nbsp;</p>
 </section>
-<section id="goals" class="level1">
-<h1><strong>Goals</strong></h1>
-<p>First and foremost, the project seeks to provide a comprehensive, data-driven understanding of the complex interplay between crime rates, school disciplinary actions, and the quality of education in a given community or neighborhood. By visualizing this data, the project aims to elucidate patterns and correlations that might not be immediately apparent through raw statistics. It seeks to identify hotspots of high crime rates and their direct impact on school disciplinary actions, including suspensions, expulsions, or other punitive measures. Furthermore, the project aims to illustrate how these disciplinary actions may, in turn, influence the overall quality of education in the area. Ultimately, the visualization project strives to equip policymakers, educators, and communities with valuable insights to inform evidence-based decision-making, leading to the development of targeted interventions and policies to create safer, more supportive, and effective learning environments for all students.</p>
-<section id="dataset" class="level2">
-<h2 class="anchored" data-anchor-id="dataset">Dataset</h2>
-<p>Amaia</p>
+<section id="question" class="level3">
+<h3 class="anchored" data-anchor-id="question">Question</h3>
+<p>How does the availability of specific resources in a school, such as mental health support, acceptance groups, community involvement, etc. influence the frequency of disciplinary actions?</p>
 </section>
-<section id="question" class="level2">
-<h2 class="anchored" data-anchor-id="question">Question</h2>
-<p>Amaia</p>
-</section>
-<section id="motivation" class="level2">
-<h2 class="anchored" data-anchor-id="motivation"><strong>Motivation</strong></h2>
+<section id="motivation" class="level3">
+<h3 class="anchored" data-anchor-id="motivation">Motivation</h3>
 <p>In our classes focused on social justice in schools and critical race theory of education, we have facilitated numerous discussions analyzing how various environmental factors can influence a student’s educational experience and learning outcomes. One particular topic we touched on was school disciplinary policies. Disciplinary actions, when administered unfairly or ineffectively, are known to be linked to the school-to-prison pipeline, a systemic problem funneling students, often from marginalized backgrounds, into the criminal justice system. By analyzing the influence of factors such as mental health support, acceptance groups, and community involvement on execution of school discipline, we can pinpoint potential resources to break this damaging cycle. Ultimately, addressing our research question has the potential to improve the educational experiences and life prospects of students in high-crime areas, leading to more equitable and successful educational outcomes.</p>
 </section>
-<section id="data-visualization-impact" class="level2">
-<h2 class="anchored" data-anchor-id="data-visualization-impact"><strong>Data Visualization &amp; Impact</strong></h2>
+<section id="data-visualization-impact" class="level3">
+<h3 class="anchored" data-anchor-id="data-visualization-impact">Data Visualization &amp; Impact</h3>
 <p>In order to answer our research question, we plan to create a data dashboard. We will first generate a composite school support resource variable by combining data variables capturing mental health support, acceptance groups, community involvement, etc. into a single likert scale variable indicating the overall level of support resources schools possess. The main visualization will be a histogram/scatter plot that has the composite school support resource variable on the x axis and the frequency of school discipline on the y axis.&nbsp; With this visualization, we intend to visualize preliminary trends in the influence of support resources on disciplinary actions. Next, we plan/ hope to make the data dashboard interactive, meaning that clicking on each bin will yield a unique visualization for specific support resource variables. These “sub-graphs” will show how each category of support resource compares to the disciplinary action used in response to school policy violations.&nbsp;</p>
 <p>In addition to this main visualization, we also plan on extending our analysis to school types. We’ll use the dashboard to separately visualize our findings in relation to location of schools (rural/urban) and category of schools (e.g., regular public, charter, magenet). These visualizations could further help us identify trends in the distribution of support resources and characteristics of disciplinary actions across different school types, potentially informing policy developments.&nbsp;</p>
 <p>Overall, by using this data dashboard, we will be able to see whether the amount of resources a school has to support its students, impacts the frequencies of school discipline. This visualization not only helps us see a problem that potentially exists in the correlation of discipline in a school to the amount of resources for student success, but it also might indicate ways to mitigate this issue, by honing in on certain variables (school resources) that lead to less need for school discipline. Overall, through this data dashboard, we will be able to better understand our current research question as well as take strides in applying our findings to learn more about common and pressing issues.</p>
+</section>
 </section>
 <section id="weekly-plan" class="level2">
 <h2 class="anchored" data-anchor-id="weekly-plan">Weekly Plan</h2>
