@@ -48,18 +48,58 @@ Overall, by using this data dashboard, we will be able to see whether the amount
 
 ## Weekly Plan
 
-### Week 1
+### Week 1 (week of October 24th)
 
-### Week 2
+-   All Members: Find a topic from our FOCUS classes to analyze. Search for data and develop a research question
 
-### Week 3
+### Week 2 (week of October 31)
 
-### Week 4
+-   Amaia: Find dataset and write dataset overview. Create a repository structure
 
-### Week 5
+-   Amaris and Sarah: draft the research question and purpose statement in the proposal document.
 
-### Week 6
+-   Mili:  Research different data visualizations to make and write an overview of the goal in the proposal. Find methods to incorporate a new element into the project -- data dictionary?
 
-### Week 7
+### Week 3 (week of November 7)
+
+-   All members: Finalize and finish the project proposal. Edit the parts you did not write.
+
+-   Amaia: finish loading the dataset. Make sure it is loaded in data folder. Create data dictionary. 
+
+-   Amaris and Sarah: Clean the dataset and filter it to only the variables that will be used. Create a new dataframe that will be used for the project and load it into data folder. Make data dictionary.
+
+-   Mili: Start learning how to make data dashboard. Finalize visualizations to put on data dashboard.
+
+### Week 4 (week of November 14)
+
+-   Mili: Start on data dashboard
+
+-   Amaia: filter out the variables from the dataset that we are going to use
+
+-   Sarah and Amaris: create data visualizations that we can eventually add to the data dashboard
+
+### Week 5 (week of November 21)
+
+-   Mili: finalize the layout for data dashboard
+
+-   Sarah: Start analysis and write-up for finished plots
+
+-   Amaia: research the history behind trends shown in the plots
+
+-   Amaris: begin constructing and structuring the slide show presentation
+
+### Week 6 (week of November 28)
+
+-   Amaia and Amaris: continue researching and writing about the findings of the plots
+
+-   Mili and Sarah: Polish and finalize the slide show for the peer review. Make sure to include takeaways and applications from the findings.
+
+### Week 7 (week of December 5)
+
+-   Amaris and Sarah: correct issues brought up in the peer review on repo
+
+-   Amaia and Mili: edit the slideshow based on the issues
+
+-   Everyone: practice the presentation
 
 ### 
