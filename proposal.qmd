@@ -18,6 +18,14 @@ library(scales)
 school_safety <- read_sas("data/pu_ssocs18.sas7bdat")
 ```
 
+# **Proposal**
+
+This project intends to analyze issues of social justice and race in schools by exploring how specific resources in a school can influence the frequency of disciplinary actions. This pressing issue, highlighted from our FOCUS courses, will be reported through a data dashboard, and followed by proposals to mitigate the impacts of the trends seen through the data dashboard. 
+
+# **Goals**
+
+First and foremost, the project seeks to provide a comprehensive, data-driven understanding of the complex interplay between crime rates, school disciplinary actions, and the quality of education in a given community or neighborhood. By visualizing this data, the project aims to elucidate patterns and correlations that might not be immediately apparent through raw statistics. It seeks to identify hotspots of high crime rates and their direct impact on school disciplinary actions, including suspensions, expulsions, or other punitive measures. Furthermore, the project aims to illustrate how these disciplinary actions may, in turn, influence the overall quality of education in the area. Ultimately, the visualization project strives to equip policymakers, educators, and communities with valuable insights to inform evidence-based decision-making, leading to the development of targeted interventions and policies to create safer, more supportive, and effective learning environments for all students.
+
 # Dataset
 
 This data set is taken from the United States' Department of Education's National Center for Educational Statistics. The raw data contains `r nrow(school_safety)` rows and `r ncol(school_safety)` columns, which interpreted based on the context of the data set, means there is data for `r ncol(school_safety)` different variables for `r nrow(school_safety)` schools. The data comes from a survey conducted by the Institute of Education Sciences during the 2017-2018 school year, and it was published for public use in 2020.
