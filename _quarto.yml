@@ -1,0 +1,19 @@
+project: 
+  type: website
+  output-dir: docs
+
+website: 
+  title: Data Diggers
+  navbar: 
+    left:
+      - href: index.qmd
+        text: Project
+      - href: presentation.qmd
+        text: Presentation
+      - href: proposal.qmd
+        text: Proposal
+      - href: about.qmd
+        text: About
+    right:
+      - icon: github
+        href: https://github.com/sta113-f23/project-2-data-diggers

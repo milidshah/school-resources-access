@@ -1,0 +1,12 @@
+---
+title: "About"
+format: html
+editor: visual
+---
+
+This project was developed by **\_\_\_\_** For [STA 113FS: Visualizing Data](#0) at Duke University. The team is comprised of the following team members.
+
+-   Team member 1: **\_\_\_**
+-   Team member 2: **\_\_\_**
+-   Team member 3: **\_\_\_**
+-   Team member 4: **\_\_\_**
