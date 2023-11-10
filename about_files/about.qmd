@@ -1,0 +1,12 @@
+---
+title: "About"
+format: html
+editor: visual
+---
+
+This project was developed by **Data Diggers** For [STA 113FS: Visualizing Data](#0) at Duke University. The team is comprised of the following team members.
+
+-   Team member 1: Amaia Clayton, freshman studying Public Policy and Spanish
+-   Team member 2: Sarah Tran, freshman studying Computer Science
+-   Team member 3: Amaris Man, freshman studying Neuroscience
+-   Team member 4: Mili Shah, freshman studying Public Policy and Computer Science
