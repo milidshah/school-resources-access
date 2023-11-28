@@ -10,7 +10,7 @@ editor: visual
 #| label: load-packages-data
 #| message: FALSE
 
-#install.packages("haven")
+# install.packages("haven")
 library(haven)
 library(tidyverse)
 library(scales)
