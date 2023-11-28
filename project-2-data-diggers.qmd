@@ -10,6 +10,10 @@ library(tidyverse)
 library(scales)
 ```
 
+```{r}
+theme_set(theme_minimal(base_size = 16))
+```
+
 Data Import and Filtration
 
 ```{r}
@@ -28,9 +32,19 @@ school_safety_2 <- school_safety |>
          C0179, # Student involvement in restorative circles
          C0186, # Promote sense of community/social integration
          C0204:C0218, # Community Involvement
+         C0602, # Threat assessment team formal meetings
          C0669, # Treatment at school by school-employed or contracted mental health professional
          C0266:C0277, # Teacher training
          )
     # this code chunk just might be helpful later on
     #contains("pred"), genre, percentile, runtime, gross)
+```
+
+```{r}
+#| label: random test graph
+
+ggplot(school_safety_2, aes(x = as.factor(C0602), y = INCID18, fill = as.factor(C0181))) + 
+  # geom_point(alpha = 0.5) + 
+  geom_col()
+
 ```
