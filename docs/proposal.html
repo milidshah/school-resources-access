@@ -116,11 +116,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./index.qmd" rel="" target="">
+    <a class="nav-link" href="./index.html" rel="" target="">
  <span class="menu-text">Project</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./presentation.qmd" rel="" target="">
+    <a class="nav-link" href="./presentation.html" rel="" target="">
  <span class="menu-text">Presentation</span></a>
   </li>  
   <li class="nav-item">
@@ -178,7 +178,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("haven")</span></span>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("haven")</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)</span>
@@ -189,7 +189,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1><strong>Proposal</strong></h1>
 <section id="goals" class="level2">
 <h2 class="anchored" data-anchor-id="goals">Goals</h2>
-<p>This project intends to analyze issues of social justice in schools by exploring how specific resources in a school can influence the frequency of conflict, measured through the amount of disciplinary actions. This pressing issue highlights topics from our focus courses, such as the impact of social justice in education and the need for proper school resources to better support students of different backgrounds. We will analyze this issue through a data dashboard, followed by proposals to mitigate the impacts of the trends seen through the visualization.&nbsp;</p>
+<p>This project intends to analyze issues of social justice in schools by exploring how specific resources in a school can influence the frequency of conflict, measured through the amount of “incidents” at a school. In the dataset, the “incident” variables are “counts of a variety of recorded incidents at…schools, such as rape (or attempted rape), robbery, physical attacks or fights, and possession of a firearm or explosive device. In addition to being asked to report the number of recorded incidents, respondents were asked to report the number of those incidents reported to the police,” (NCES).</p>
+<p>This pressing issue highlights topics from our focus courses, such as the impact of social justice in education and the need for proper school resources to better support students of different backgrounds. We will analyze this issue through a data dashboard, followed by proposals to mitigate the impacts of the trends seen through the visualization.&nbsp;</p>
 </section>
 <section id="dataset" class="level2">
 <h2 class="anchored" data-anchor-id="dataset">Dataset</h2>
@@ -206,12 +207,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>Treatment at school by school-employed or contracted mental health professional (88)</p></li>
 <li><p>Teacher training (97-109)</p></li>
 </ol>
-<p>These each can be combined to assess school resources (one factor we are observing in our research question). We will also use variables 182-185 to assess “school disciplinary actions” to represent the frequency of disciplinary actions in a school.&nbsp;</p>
+<p>These each can be combined to assess school resources (one factor we are observing in our research question). We will also use variables 186, incidents, and 187, incidents reported to police, to assess frequency of conflict.</p>
 <p>Finally, we will use a school size variable (202) and an urbanicity variable (200) to further specify and focus our analysis.</p>
 </section>
 <section id="question" class="level2">
 <h2 class="anchored" data-anchor-id="question">Question</h2>
-<p>How does the availability of specific resources in a school, such as mental health support, acceptance groups, community involvement, etc. influence the frequency of disciplinary actions?</p>
+<p>How is the availability of specific resources, such as mental health support, acceptance groups, community involvement, etc. associated with the frequency of conflict in a school?</p>
 </section>
 <section id="motivation" class="level2">
 <h2 class="anchored" data-anchor-id="motivation">Motivation</h2>
@@ -219,9 +220,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="data-visualization-impact" class="level2">
 <h2 class="anchored" data-anchor-id="data-visualization-impact">Data Visualization &amp; Impact</h2>
-<p>In order to answer our research question, we plan to learn how to create a data dashboard, which will tie in a new skill as well combine old skills we learned about making data visualizations (scatterplot, histogram, etc). We will first generate a composite school support resource variable by combining data variables capturing mental health support, acceptance groups, community involvement, etc. into a single Likert scale variable indicating the overall level of support resources schools possess. The main visualization will be a scatter plot that has the composite school support resource variable on the x axis and the frequency of school discipline on the y axis.&nbsp; With this visualization, we intend to visualize preliminary trends in the influence of support resources on disciplinary actions. Next, we plan to make the data dashboard interactive, meaning that clicking on each bin will yield a unique visualization for specific support resource variable. These “sub-graphs” will show how each individual support resource compares to the frequency of disciplinary actions.&nbsp;</p>
-<p>In addition to this main visualization, we also plan on extending our analysis to school types. We’ll use the dashboard to separately visualize our findings in relation to location of schools (rural/urban) and school size – both variables that can be obtained from the same <code>school_safety</code> dataset. These visualizations could further help us identify trends in the distribution of support resources and characteristics of disciplinary actions across different school types, potentially informing policy developments.&nbsp;</p>
-<p>Overall, by using this data dashboard, we will be able to see whether the amount of resources a school has to support its students, impacts the frequencies of school discipline. This visualization not only might help us understand a potential problem in the correlation of discipline in a school to the amount of resources for student success, but it also might indicate ways to mitigate this issue, by honing in on certain variables (school resources) that lead to less need for school discipline. Overall, through this data dashboard, we will be able to better understand our current research question as well as take strides in applying our findings to learn more about common and pressing issues.</p>
+<p>In order to answer our research question, we plan to learn how to create a data dashboard, which will tie in a new skill as well combine old skills we learned about making data visualizations (scatterplot, histogram, etc). We will first generate a composite school support resource variable by combining data variables capturing mental health support, acceptance groups, community involvement, etc. into a single Likert scale variable indicating the overall level of support resources schools possess. The main visualization will be a scatter plot that has the composite school support resource variable on the x axis and the frequency of incidents on the y axis.&nbsp; With this visualization, we intend to visualize preliminary trends in the influence of support resources on disciplinary actions. Next, we plan to make the data dashboard interactive, meaning that clicking on each bin will yield a unique visualization for specific support resource variable. These “sub-graphs” will show how each individual support resource compares to the frequency of incidents.&nbsp;</p>
+<p>In addition to this main visualization, we also plan on extending our analysis to school types. We’ll use the dashboard to separately visualize our findings in relation to location of schools (rural/urban) and school size – both variables that can be obtained from the same <code>school_safety</code> dataset. These visualizations could further help us identify trends in the distribution of support resources and characteristics of incidents across different school types, potentially informing policy developments.&nbsp;</p>
+<p>Overall, by using this data dashboard, we will be able to see whether the amount of resources a school has to support its students, impacts the frequencies of incidents. This visualization not only might help us understand a potential problem in the correlation of incidents in a school to the amount of resources for student success, but it also might indicate ways to mitigate this issue, by honing in on certain variables (school resources) that lead to less need for school discipline. Overall, through this data dashboard, we will be able to better understand our current research question as well as take strides in applying our findings to learn more about common and pressing issues.</p>
 </section>
 <section id="weekly-plan" class="level2">
 <h2 class="anchored" data-anchor-id="weekly-plan">Weekly Plan</h2>
@@ -283,7 +284,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="organization" class="level2">
 <h2 class="anchored" data-anchor-id="organization">Organization</h2>
-<p>This repo will be organized into four main folders: <code>data</code>, <code>images</code>, <code>about_files</code>, and <code>presentation and write up</code>. In the <code>data</code> folder, we have loaded our dataset and will update it with our data dictionary once we filter the dataset to the final one that we will use in the data analysis. In the <code>about_files</code> folder, we have a document stating the authors of this project as well as a short description. The <code>images</code> folder is empty now, but we plan to put the images of the plots we create in that folder. Finally, the <code>presentation and write up</code> folder will contain our final proposal file, the presentation pdf, and the write up in addition to the code in the <code>index.qmd</code> file.</p>
+<p>This repo will be organized into three main folders: <code>data</code>, <code>images</code>, and <code>about_files</code>. In the <code>data</code> folder, we have loaded our dataset and will update it with our data dictionary once we filter the dataset to the final one that we will use in the data analysis. In the <code>about_files</code> folder, we have a document stating the authors of this project as well as a short description. The <code>images</code> folder is empty now, but we plan to put the images of the plots we create in that folder. The final proposal file, presentation pdf, write up, and index file will not be placed into folders to allow for clear rendering.</p>
 
 
 </section>
