@@ -1,0 +1,35 @@
+---
+title: "Availability of Resources in Schools in Relation to Frequency of Conflict in Schools (year)"
+subtitle: "STA 113FS - Project 2"
+author: "The Data Diggers"
+format: html
+editor: visual
+---
+
+```{r}
+#| label: load-packages-data
+#| message: FALSE
+
+# install.packages("haven")
+library(haven)
+library(tidyverse)
+library(scales)
+library(ggthemes)
+library(forcats)
+
+school_safety <- read_sas("data/pu_ssocs18.sas7bdat")
+```
+
+```{r}
+#| label: filtering-dataset
+
+
+```
+
+```{r}
+#| label: creating-data-dashboard
+
+
+
+
+```

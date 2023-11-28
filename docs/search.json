@@ -250,5 +250,12 @@
     "title": "School Safety",
     "section": "Organization",
     "text": "Organization\nThis repo will be organized into three main folders: data, images, and about_files. In the data folder, we have loaded our dataset and will update it with our data dictionary once we filter the dataset to the final one that we will use in the data analysis. In the about_files folder, we have a document stating the authors of this project as well as a short description. The images folder is empty now, but we plan to put the images of the plots we create in that folder. The final proposal file, presentation pdf, write up, and index file will not be placed into folders to allow for clear rendering."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Availability of Resources in Schools in Relation to Frequency of Conflict in Schools (year)",
+    "section": "",
+    "text": "# install.packages(\"haven\")\nlibrary(haven)\nlibrary(tidyverse)\nlibrary(scales)\nlibrary(ggthemes)\nlibrary(forcats)\n\nschool_safety &lt;- read_sas(\"data/pu_ssocs18.sas7bdat\")"
   }
 ]
