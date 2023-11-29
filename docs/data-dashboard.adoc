@@ -1,0 +1,45 @@
+= Availability of Resources in Schools in Relation to Frequency of Conflict in Schools (year)
+Your Name
+2023-11-29
+
+[source,r,cell-code]
+----
+# install.packages("haven")
+library(haven)
+library(tidyverse)
+library(scales)
+library(ggthemes)
+library(forcats)
+
+school_safety <- read_sas("data/pu_ssocs18.sas7bdat")
+----
+
+== Row
+
+[source,r,cell-code]
+----
+incidents_record <- school_safety |>
+  summarise(incidents_record_sum = sum(INCID18))
+
+list(
+  icon = "trash",
+  color = "danger",
+  value = incidents_record
+)
+----
+
+....
+$icon
+[1] "trash"
+
+$color
+[1] "danger"
+
+$value
+# A tibble: 1 × 1
+  incidents_record_sum
+                 <dbl>
+1                77881
+....
+
+== Row
