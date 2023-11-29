@@ -23,7 +23,27 @@ school_safety <- read_sas("data/pu_ssocs18.sas7bdat")
 
 ```
 
-## Row {height="70%"}
+```{r}
+#| label: filter-data
+
+# filter the data
+school_safety <- school_safety |>
+  select(INCID18, # number of total incidents
+         INCPOL18,# number of total incident sreported to the police
+         C0183, # Social emotional learning
+         C0181, # Individual mentoring/tutoring/coaching by adults
+         C0179, # Student involvement in restorative circles
+         C0186, # Promote sense of community/social integration
+         C0204:C0218, # Community Involvement
+         C0602, # Threat assessment team formal meetings
+         C0669, # Treatment at school by school-employed or contracted mental health professional
+         C0266:C0277, # Teacher training
+         )
+    # this code chunk just might be helpful later on
+    #contains("pred"), genre, percentile, runtime, gross)
+```
+
+## Row {width="70%"}
 
 ```{r}
 #| content: valuebox
@@ -40,6 +60,7 @@ list(
 )
 
 ```
+
 
 ## Row {.tabset}
 

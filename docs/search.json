@@ -256,7 +256,7 @@
     "href": "index.html",
     "title": "Availability of Resources in Schools in Relation to Frequency of Conflict in Schools (year)",
     "section": "",
-    "text": "# install.packages(\"haven\")\nlibrary(haven)\nlibrary(tidyverse)\nlibrary(scales)\nlibrary(ggthemes)\nlibrary(forcats)\n\nschool_safety &lt;- read_sas(\"data/pu_ssocs18.sas7bdat\")"
+    "text": "# install.packages(\"haven\")\nlibrary(haven)\nlibrary(tidyverse)\nlibrary(scales)\nlibrary(ggthemes)\nlibrary(forcats)\n\nschool_safety &lt;- read_sas(\"data/pu_ssocs18.sas7bdat\")\n\n\ntheme_set(theme_minimal(base_size = 16))\n\nData Import and Filtration\n\n# filter the data\nschool_safety &lt;- school_safety |&gt;\n  select(INCID18, # number of total incidents\n         INCPOL18,# number of total incident sreported to the police\n         C0183, # Social emotional learning\n         C0181, # Individual mentoring/tutoring/coaching by adults\n         C0179, # Student involvement in restorative circles\n         C0186, # Promote sense of community/social integration\n         C0204:C0218, # Community Involvement\n         C0602, # Threat assessment team formal meetings\n         C0669, # Treatment at school by school-employed or contracted mental health professional\n         C0266:C0277, # Teacher training\n         )\n    # this code chunk just might be helpful later on\n    #contains(\"pred\"), genre, percentile, runtime, gross)\n\n\nggplot(school_safety, aes(x = as.factor(C0602), y = INCID18, fill = as.factor(C0181))) + \n  # geom_point(alpha = 0.5) + \n  geom_col()"
   },
   {
     "objectID": "project-2-data-diggers.html",
@@ -284,7 +284,7 @@
     "href": "data-dashboard.html",
     "title": "Availability of Resources in Schools in Relation to Frequency of Conflict in Schools (year)",
     "section": "",
-    "text": "# install.packages(\"haven\")\nlibrary(haven)\nlibrary(tidyverse)\nlibrary(scales)\nlibrary(ggthemes)\nlibrary(forcats)\n\nschool_safety &lt;- read_sas(\"data/pu_ssocs18.sas7bdat\")"
+    "text": "# install.packages(\"haven\")\nlibrary(haven)\nlibrary(tidyverse)\nlibrary(scales)\nlibrary(ggthemes)\nlibrary(forcats)\n\nschool_safety &lt;- read_sas(\"data/pu_ssocs18.sas7bdat\")\n# filter the data\nschool_safety &lt;- school_safety |&gt;\n  select(INCID18, # number of total incidents\n         INCPOL18,# number of total incident sreported to the police\n         C0183, # Social emotional learning\n         C0181, # Individual mentoring/tutoring/coaching by adults\n         C0179, # Student involvement in restorative circles\n         C0186, # Promote sense of community/social integration\n         C0204:C0218, # Community Involvement\n         C0602, # Threat assessment team formal meetings\n         C0669, # Treatment at school by school-employed or contracted mental health professional\n         C0266:C0277, # Teacher training\n         )\n    # this code chunk just might be helpful later on\n    #contains(\"pred\"), genre, percentile, runtime, gross)"
   },
   {
     "objectID": "data-dashboard.html#row",
@@ -292,5 +292,12 @@
     "title": "Availability of Resources in Schools in Relation to Frequency of Conflict in Schools (year)",
     "section": "Row",
     "text": "Row\n\nincidents_record &lt;- school_safety |&gt;\n  summarise(incidents_record_sum = sum(INCID18)) |&gt;\n  pull(incidents_record_sum)\n\nlist(\n  icon = \"home\",\n  color = \"danger\",\n  value = incidents_record\n)\n\n$icon\n[1] \"home\"\n\n$color\n[1] \"danger\"\n\n$value\n[1] 77881"
+  },
+  {
+    "objectID": "data-dashboard.html#column",
+    "href": "data-dashboard.html#column",
+    "title": "Availability of Resources in Schools in Relation to Frequency of Conflict in Schools (year)",
+    "section": "Column",
+    "text": "Column\n\nincidents_record &lt;- school_safety |&gt;\n  summarise(incidents_record_sum = sum(INCID18)) |&gt;\n  pull(incidents_record_sum)\n\nlist(\n  icon = \"home\",\n  color = \"danger\",\n  value = incidents_record\n)\n\n$icon\n[1] \"home\"\n\n$color\n[1] \"danger\"\n\n$value\n[1] 77881"
   }
 ]
