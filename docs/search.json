@@ -1,80 +1,31 @@
 [
   {
-    "objectID": "proposal.html",
-    "href": "proposal.html",
-    "title": "School Safety",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Availability of Resources in Schools in Relation to Frequency of Conflict in Schools (year)",
     "section": "",
-    "text": "# install.packages(\"haven\")\nlibrary(haven)\nlibrary(tidyverse)\nlibrary(scales)\n\nschool_safety &lt;- read_sas(\"data/pu_ssocs18.sas7bdat\")"
-  },
-  {
-    "objectID": "proposal.html#week-1",
-    "href": "proposal.html#week-1",
-    "title": "School Safety",
-    "section": "Week 1",
-    "text": "Week 1"
-  },
-  {
-    "objectID": "proposal.html#week-2",
-    "href": "proposal.html#week-2",
-    "title": "School Safety",
-    "section": "Week 2",
-    "text": "Week 2"
-  },
-  {
-    "objectID": "proposal.html#week-3",
-    "href": "proposal.html#week-3",
-    "title": "School Safety",
-    "section": "Week 3",
-    "text": "Week 3"
-  },
-  {
-    "objectID": "proposal.html#week-4",
-    "href": "proposal.html#week-4",
-    "title": "School Safety",
-    "section": "Week 4",
-    "text": "Week 4"
-  },
-  {
-    "objectID": "proposal.html#week-5",
-    "href": "proposal.html#week-5",
-    "title": "School Safety",
-    "section": "Week 5",
-    "text": "Week 5"
-  },
-  {
-    "objectID": "proposal.html#week-6",
-    "href": "proposal.html#week-6",
-    "title": "School Safety",
-    "section": "Week 6",
-    "text": "Week 6"
-  },
-  {
-    "objectID": "proposal.html#week-7",
-    "href": "proposal.html#week-7",
-    "title": "School Safety",
-    "section": "Week 7",
-    "text": "Week 7"
+    "text": "# install.packages(\"haven\")\nlibrary(haven)\nlibrary(tidyverse)\nlibrary(scales)\nlibrary(ggthemes)\nlibrary(forcats)\n\nschool_safety &lt;- read_sas(\"data/pu_ssocs18.sas7bdat\")\n\n\ntheme_set(theme_minimal(base_size = 16))\n\nData Import and Filtration\n\n# filter the data\nschool_safety &lt;- school_safety |&gt;\n  select(INCID18, # number of total incidents\n         INCPOL18,# number of total incident sreported to the police\n         C0183, # Social emotional learning\n         C0181, # Individual mentoring/tutoring/coaching by adults\n         C0179, # Student involvement in restorative circles\n         C0186, # Promote sense of community/social integration\n         C0204:C0218, # Community Involvement\n         C0602, # Threat assessment team formal meetings\n         C0669, # Treatment at school by school-employed or contracted mental health professional\n         C0266:C0277, # Teacher training\n         )\n    # this code chunk just might be helpful later on\n    #contains(\"pred\"), genre, percentile, runtime, gross)\n\n\nggplot(school_safety, aes(x = as.factor(C0602), y = INCID18, fill = as.factor(C0181))) + \n  # geom_point(alpha = 0.5) + \n  geom_col()"
   },
   {
     "objectID": "presentation.html#quarto",
     "href": "presentation.html#quarto",
     "title": "Project title",
-    "section": "",
-    "text": "The presentation is created using the Quarto CLI\n## sets the start of a new slide"
+    "section": "Quarto",
+    "text": "Quarto\n\nThe presentation is created using the Quarto CLI\n## sets the start of a new slide"
   },
   {
     "objectID": "presentation.html#layouts",
     "href": "presentation.html#layouts",
     "title": "Project title",
-    "section": "",
-    "text": "You can use plain text\n\nor bullet points\n\n\n\nor text in two columns \\(^*\\)\n\n\nlike\nthis\n\n\n\n\n\n\n\n[*] And add footnotes"
+    "section": "Layouts",
+    "text": "Layouts\nYou can use plain text\n\nor bullet points\n\n\n\nor text in two columns \\(^*\\)\n\n\nlike\nthis\n\n\n\n\n\n\n[*] And add footnotes"
   },
   {
     "objectID": "presentation.html#code",
     "href": "presentation.html#code",
     "title": "Project title",
-    "section": "",
-    "text": "# A tibble: 2 × 5\n  term        estimate std.error statistic  p.value\n  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;\n1 (Intercept)   -17.6      6.76      -2.60 1.23e- 2\n2 speed           3.93     0.416      9.46 1.49e-12\n\n\n# A tibble: 1 × 12\n  r.squared adj.r.squared sigma statistic  p.value    df logLik   AIC   BIC\n      &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;\n1     0.651         0.644  15.4      89.6 1.49e-12     1  -207.  419.  425.\n# ℹ 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;"
+    "section": "Code",
+    "text": "Code\n\n\n# A tibble: 2 × 5\n  term        estimate std.error statistic  p.value\n  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;\n1 (Intercept)   -17.6      6.76      -2.60 1.23e- 2\n2 speed           3.93     0.416      9.46 1.49e-12\n\n\n# A tibble: 1 × 12\n  r.squared adj.r.squared sigma statistic  p.value    df logLik   AIC   BIC\n      &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;\n1     0.651         0.644  15.4      89.6 1.49e-12     1  -207.  419.  425.\n# ℹ 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;"
   },
   {
     "objectID": "presentation.html#plots",
@@ -87,8 +38,8 @@
     "objectID": "presentation.html#plot-and-text",
     "href": "presentation.html#plot-and-text",
     "title": "Project title",
-    "section": "",
-    "text": "Some text\ngoes here"
+    "section": "Plot and text",
+    "text": "Plot and text\n\n\n\nSome text\ngoes here"
   },
   {
     "objectID": "presentation.html#tables",
@@ -102,7 +53,7 @@
     "href": "presentation.html#images",
     "title": "Project title",
     "section": "Images",
-    "text": "Images\n\n\n\nImage credit: Danielle Navarro, Percolate."
+    "text": "Images\n\nImage credit: Danielle Navarro, Percolate."
   },
   {
     "objectID": "presentation.html#math-expressions",
@@ -119,18 +70,18 @@
     "text": "Feeling adventurous?\n\nYou are welcomed to use the default styling of the slides. In fact, that’s what I expect majority of you will do. You will differentiate yourself with the content of your presentation.\nBut some of you might want to play around with slide styling. Some solutions for this can be found at https://quarto.org/docs/presentations/revealjs."
   },
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
+    "objectID": "proposal.html",
+    "href": "proposal.html",
+    "title": "School Safety",
     "section": "",
-    "text": "This project was developed by Data Diggers For STA 113FS: Visualizing Data at Duke University. The team is comprised of the following team members.\n\nTeam member 1: Amaia Clayton\nTeam member 2: Sarah Tran\nTeam member 3: Amaris Man\nTeam member 4: Mili Shah"
+    "text": "# install.packages(\"haven\")\nlibrary(haven)\nlibrary(tidyverse)\nlibrary(scales)\n\nschool_safety &lt;- read_sas(\"data/pu_ssocs18.sas7bdat\")"
   },
   {
-    "objectID": "presentation.html",
-    "href": "presentation.html",
-    "title": "Project title",
-    "section": "",
-    "text": "The presentation is created using the Quarto CLI\n## sets the start of a new slide\n\n\n\n\nYou can use plain text\n\nor bullet points\n\n\n\nor text in two columns \\(^*\\)\n\n\nlike\nthis\n\n\n\n\n\n\n\n[*] And add footnotes\n\n\n\n\n\n\n# A tibble: 2 × 5\n  term        estimate std.error statistic  p.value\n  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;\n1 (Intercept)   -17.6      6.76      -2.60 1.23e- 2\n2 speed           3.93     0.416      9.46 1.49e-12\n\n\n# A tibble: 1 × 12\n  r.squared adj.r.squared sigma statistic  p.value    df logLik   AIC   BIC\n      &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;\n1     0.651         0.644  15.4      89.6 1.49e-12     1  -207.  419.  425.\n# ℹ 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSome text\ngoes here"
+    "objectID": "proposal.html#goals",
+    "href": "proposal.html#goals",
+    "title": "School Safety",
+    "section": "Goals",
+    "text": "Goals\nThis project intends to analyze issues of social justice in schools by exploring how specific resources in a school can influence the frequency of conflict, measured through the amount of “incidents” at a school. In the dataset, the “incident” variables are “counts of a variety of recorded incidents at…schools, such as rape (or attempted rape), robbery, physical attacks or fights, and possession of a firearm or explosive device. In addition to being asked to report the number of recorded incidents, respondents were asked to report the number of those incidents reported to the police,” (NCES).\nThis pressing issue highlights topics from our focus courses, such as the impact of social justice in education and the need for proper school resources to better support students of different backgrounds. We will analyze this issue through a data dashboard, followed by proposals to mitigate the impacts of the trends seen through the visualization."
   },
   {
     "objectID": "proposal.html#dataset",
@@ -168,83 +119,6 @@
     "text": "Weekly Plan\n\nWeek 1 (week of October 24th)\n\nAll Members: Find a topic from our FOCUS classes to analyze. Search for data and develop a research question\n\n\n\nWeek 2 (week of October 31)\n\nAmaia: Find dataset and write dataset overview. Create a repository structure.\nAmaris and Sarah: Draft the research question and purpose statement in the proposal document.\nMili:  Research different data visualizations to make and write an overview of the goal in the proposal. Find methods to incorporate a new element into the project – data dictionary?\n\n\n\nWeek 3 (week of November 7)\n\nAll members: Finalize and finish the project proposal. Edit the parts you did not write.\nAmaia: Finish loading the dataset. Make sure it is loaded in data folder. Create data dictionary. \nAmaris and Sarah: Clean the dataset and filter it to only the variables that will be used. Create a new dataframe that will be used for the project and load it into data folder. Make data dictionary.\nMili: Start learning how to make data dashboard. Finalize visualizations to put on data dashboard.\n\n\n\nWeek 4 (week of November 14)\n\nMili: Start on data dashboard.\nAmaia: Filter out the variables from the dataset that we are going to use.\nSarah and Amaris: Create data visualizations that we can eventually add to the data dashboard.\n\n\n\nWeek 5 (week of November 21)\n\nMili: Finalize the layout for data dashboard.\nSarah: Start analysis and write-up for finished plots.\nAmaia: Research the history behind trends shown in the plots.\nAmaris: Begin constructing and structuring the slide show presentation.\n\n\n\nWeek 6 (week of November 28)\n\nAmaia and Amaris: Continue researching and writing about the findings of the plots.\nMili and Sarah: Polish and finalize the slide show for the peer review. Make sure to include takeaways and applications from the findings.\n\n\n\nWeek 7 (week of December 5)\n\nAmaris and Sarah: Correct issues brought up in the peer review on repo.\nAmaia and Mili: Edit the slideshow based on the issues.\nEveryone: Practice the presentation."
   },
   {
-    "objectID": "proposal.html#goals",
-    "href": "proposal.html#goals",
-    "title": "School Safety",
-    "section": "Goals",
-    "text": "Goals\nThis project intends to analyze issues of social justice in schools by exploring how specific resources in a school can influence the frequency of conflict, measured through the amount of “incidents” at a school. In the dataset, the “incident” variables are “counts of a variety of recorded incidents at…schools, such as rape (or attempted rape), robbery, physical attacks or fights, and possession of a firearm or explosive device. In addition to being asked to report the number of recorded incidents, respondents were asked to report the number of those incidents reported to the police,” (NCES).\nThis pressing issue highlights topics from our focus courses, such as the impact of social justice in education and the need for proper school resources to better support students of different backgrounds. We will analyze this issue through a data dashboard, followed by proposals to mitigate the impacts of the trends seen through the visualization."
-  },
-  {
-    "objectID": "about_files/about.html",
-    "href": "about_files/about.html",
-    "title": "About",
-    "section": "",
-    "text": "This project was developed by Data Diggers For STA 113FS: Visualizing Data at Duke University. The team is comprised of the following team members.\n\nTeam member 1: Amaia Clayton, freshman studying Public Policy and Spanish\nTeam member 2: Sarah Tran, freshman studying Computer Science\nTeam member 3: Amaris Man, freshman studying Neuroscience\nTeam member 4: Mili Shah, freshman studying Public Policy and Computer Science"
-  },
-  {
-    "objectID": "presentation and write up/presentation.html",
-    "href": "presentation and write up/presentation.html",
-    "title": "Project title",
-    "section": "",
-    "text": "The presentation is created using the Quarto CLI\n## sets the start of a new slide\n\n\n\n\nYou can use plain text\n\nor bullet points\n\n\n\nor text in two columns \\(^*\\)\n\n\nlike\nthis\n\n\n\n\n\n\n\n[*] And add footnotes\n\n\n\n\n\n\n# A tibble: 2 × 5\n  term        estimate std.error statistic  p.value\n  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;\n1 (Intercept)   -17.6      6.76      -2.60 1.23e- 2\n2 speed           3.93     0.416      9.46 1.49e-12\n\n\n# A tibble: 1 × 12\n  r.squared adj.r.squared sigma statistic  p.value    df logLik   AIC   BIC\n      &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;\n1     0.651         0.644  15.4      89.6 1.49e-12     1  -207.  419.  425.\n# ℹ 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSome text\ngoes here"
-  },
-  {
-    "objectID": "presentation and write up/presentation.html#quarto",
-    "href": "presentation and write up/presentation.html#quarto",
-    "title": "Project title",
-    "section": "",
-    "text": "The presentation is created using the Quarto CLI\n## sets the start of a new slide"
-  },
-  {
-    "objectID": "presentation and write up/presentation.html#layouts",
-    "href": "presentation and write up/presentation.html#layouts",
-    "title": "Project title",
-    "section": "",
-    "text": "You can use plain text\n\nor bullet points\n\n\n\nor text in two columns \\(^*\\)\n\n\nlike\nthis\n\n\n\n\n\n\n\n[*] And add footnotes"
-  },
-  {
-    "objectID": "presentation and write up/presentation.html#code",
-    "href": "presentation and write up/presentation.html#code",
-    "title": "Project title",
-    "section": "",
-    "text": "# A tibble: 2 × 5\n  term        estimate std.error statistic  p.value\n  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;\n1 (Intercept)   -17.6      6.76      -2.60 1.23e- 2\n2 speed           3.93     0.416      9.46 1.49e-12\n\n\n# A tibble: 1 × 12\n  r.squared adj.r.squared sigma statistic  p.value    df logLik   AIC   BIC\n      &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;\n1     0.651         0.644  15.4      89.6 1.49e-12     1  -207.  419.  425.\n# ℹ 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;"
-  },
-  {
-    "objectID": "presentation and write up/presentation.html#plot-and-text",
-    "href": "presentation and write up/presentation.html#plot-and-text",
-    "title": "Project title",
-    "section": "",
-    "text": "Some text\ngoes here"
-  },
-  {
-    "objectID": "presentation and write up/presentation.html#tables",
-    "href": "presentation and write up/presentation.html#tables",
-    "title": "Project title",
-    "section": "Tables",
-    "text": "Tables\nIf you want to generate a table, make sure it is in the HTML format (instead of Markdown or other formats), e.g.,\n\n\n\n\n\n\n  \n    \n    \n      species\n      island\n      bill_length_mm\n      bill_depth_mm\n      flipper_length_mm\n      body_mass_g\n      sex\n      year\n    \n  \n  \n    Adelie\nTorgersen\n39.1\n18.7\n181\n3750\nmale\n2007\n    Adelie\nTorgersen\n39.5\n17.4\n186\n3800\nfemale\n2007\n    Adelie\nTorgersen\n40.3\n18.0\n195\n3250\nfemale\n2007\n    Adelie\nTorgersen\nNA\nNA\nNA\nNA\nNA\n2007\n    Adelie\nTorgersen\n36.7\n19.3\n193\n3450\nfemale\n2007\n    Adelie\nTorgersen\n39.3\n20.6\n190\n3650\nmale\n2007"
-  },
-  {
-    "objectID": "presentation and write up/presentation.html#images",
-    "href": "presentation and write up/presentation.html#images",
-    "title": "Project title",
-    "section": "Images",
-    "text": "Images\n\n\n\nImage credit: Danielle Navarro, Percolate."
-  },
-  {
-    "objectID": "presentation and write up/presentation.html#math-expressions",
-    "href": "presentation and write up/presentation.html#math-expressions",
-    "title": "Project title",
-    "section": "Math Expressions",
-    "text": "Math Expressions\nYou can write LaTeX math expressions inside a pair of dollar signs, e.g. $+$ renders \\(\\alpha+\\beta\\). You can use the display style with double dollar signs:\n$$\\bar{X}=\\frac{1}{n}\\sum_{i=1}^nX_i$$\n\\[\\bar{X}=\\frac{1}{n}\\sum_{i=1}^nX_i\\]\nLimitations:\n\nThe source code of a LaTeX math expression must be in one line, unless it is inside a pair of double dollar signs, in which case the starting $$ must appear in the very beginning of a line, followed immediately by a non-space character, and the ending $$ must be at the end of a line, led by a non-space character;\nThere should not be spaces after the opening $ or before the closing $."
-  },
-  {
-    "objectID": "presentation and write up/presentation.html#feeling-adventurous",
-    "href": "presentation and write up/presentation.html#feeling-adventurous",
-    "title": "Project title",
-    "section": "Feeling adventurous?",
-    "text": "Feeling adventurous?\n\nYou are welcomed to use the default styling of the slides. In fact, that’s what I expect majority of you will do. You will differentiate yourself with the content of your presentation.\nBut some of you might want to play around with slide styling. Some solutions for this can be found at https://quarto.org/docs/presentations/revealjs."
-  },
-  {
     "objectID": "proposal.html#organization",
     "href": "proposal.html#organization",
     "title": "School Safety",
@@ -252,32 +126,11 @@
     "text": "Organization\nThis repo will be organized into three main folders: data, images, and about_files. In the data folder, we have loaded our dataset and will update it with our data dictionary once we filter the dataset to the final one that we will use in the data analysis. In the about_files folder, we have a document stating the authors of this project as well as a short description. The images folder is empty now, but we plan to put the images of the plots we create in that folder. The final proposal file, presentation pdf, write up, and index file will not be placed into folders to allow for clear rendering."
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Availability of Resources in Schools in Relation to Frequency of Conflict in Schools (year)",
+    "objectID": "about_files/about.html",
+    "href": "about_files/about.html",
+    "title": "About",
     "section": "",
-    "text": "# install.packages(\"haven\")\nlibrary(haven)\nlibrary(tidyverse)\nlibrary(scales)\nlibrary(ggthemes)\nlibrary(forcats)\n\nschool_safety &lt;- read_sas(\"data/pu_ssocs18.sas7bdat\")\n\n\ntheme_set(theme_minimal(base_size = 16))\n\nData Import and Filtration\n\n# filter the data\nschool_safety &lt;- school_safety |&gt;\n  select(INCID18, # number of total incidents\n         INCPOL18,# number of total incident sreported to the police\n         C0183, # Social emotional learning\n         C0181, # Individual mentoring/tutoring/coaching by adults\n         C0179, # Student involvement in restorative circles\n         C0186, # Promote sense of community/social integration\n         C0204:C0218, # Community Involvement\n         C0602, # Threat assessment team formal meetings\n         C0669, # Treatment at school by school-employed or contracted mental health professional\n         C0266:C0277, # Teacher training\n         )\n    # this code chunk just might be helpful later on\n    #contains(\"pred\"), genre, percentile, runtime, gross)\n\n\nggplot(school_safety, aes(x = as.factor(C0602), y = INCID18, fill = as.factor(C0181))) + \n  # geom_point(alpha = 0.5) + \n  geom_col()"
-  },
-  {
-    "objectID": "project-2-data-diggers.html",
-    "href": "project-2-data-diggers.html",
-    "title": "Project title",
-    "section": "",
-    "text": "library(haven)\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.3     ✔ readr     2.1.4\n✔ forcats   1.0.0     ✔ stringr   1.5.0\n✔ ggplot2   3.4.3     ✔ tibble    3.2.1\n✔ lubridate 1.9.2     ✔ tidyr     1.3.0\n✔ purrr     1.0.2     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nlibrary(scales)\n\n\nAttaching package: 'scales'\n\nThe following object is masked from 'package:purrr':\n\n    discard\n\nThe following object is masked from 'package:readr':\n\n    col_factor\n\n\n\ntheme_set(theme_minimal(base_size = 16))\n\nData Import and Filtration\n\n# import the data\nschool_safety &lt;- read_sas(\"data/pu_ssocs18.sas7bdat\")\n\n# filter the data\n\nschool_safety_2 &lt;- school_safety |&gt;\n  select(INCID18, # number of total incidents\n         INCPOL18,# number of total incident sreported to the police\n         C0183, # Social emotional learning\n         C0181, # Individual mentoring/tutoring/coaching by adults\n         C0179, # Student involvement in restorative circles\n         C0186, # Promote sense of community/social integration\n         C0204:C0218, # Community Involvement\n         C0602, # Threat assessment team formal meetings\n         C0669, # Treatment at school by school-employed or contracted mental health professional\n         C0266:C0277, # Teacher training\n         )\n    # this code chunk just might be helpful later on\n    #contains(\"pred\"), genre, percentile, runtime, gross)\n\n\nggplot(school_safety_2, aes(x = as.factor(C0602), y = INCID18, fill = as.factor(C0181))) + \n  # geom_point(alpha = 0.5) + \n  geom_col()"
-  },
-  {
-    "objectID": "project-2-data-diggers.html#install-the-libraries",
-    "href": "project-2-data-diggers.html#install-the-libraries",
-    "title": "Project title",
-    "section": "",
-    "text": "library(haven)\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.3     ✔ readr     2.1.4\n✔ forcats   1.0.0     ✔ stringr   1.5.0\n✔ ggplot2   3.4.3     ✔ tibble    3.2.1\n✔ lubridate 1.9.2     ✔ tidyr     1.3.0\n✔ purrr     1.0.2     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n\nlibrary(scales)\n\n\nAttaching package: 'scales'\n\nThe following object is masked from 'package:purrr':\n\n    discard\n\nThe following object is masked from 'package:readr':\n\n    col_factor\n\n\n\ntheme_set(theme_minimal(base_size = 16))\n\nData Import and Filtration\n\n# import the data\nschool_safety &lt;- read_sas(\"data/pu_ssocs18.sas7bdat\")\n\n# filter the data\n\nschool_safety_2 &lt;- school_safety |&gt;\n  select(INCID18, # number of total incidents\n         INCPOL18,# number of total incident sreported to the police\n         C0183, # Social emotional learning\n         C0181, # Individual mentoring/tutoring/coaching by adults\n         C0179, # Student involvement in restorative circles\n         C0186, # Promote sense of community/social integration\n         C0204:C0218, # Community Involvement\n         C0602, # Threat assessment team formal meetings\n         C0669, # Treatment at school by school-employed or contracted mental health professional\n         C0266:C0277, # Teacher training\n         )\n    # this code chunk just might be helpful later on\n    #contains(\"pred\"), genre, percentile, runtime, gross)\n\n\nggplot(school_safety_2, aes(x = as.factor(C0602), y = INCID18, fill = as.factor(C0181))) + \n  # geom_point(alpha = 0.5) + \n  geom_col()"
-  },
-  {
-    "objectID": "data-dashboard.html#row-1",
-    "href": "data-dashboard.html#row-1",
-    "title": "Availability of Resources in Schools in Relation to Frequency of Conflict in Schools (year)",
-    "section": "Row",
-    "text": "Row"
+    "text": "This project was developed by Data Diggers For STA 113FS: Visualizing Data at Duke University. The team is comprised of the following team members.\n\nTeam member 1: Amaia Clayton, freshman studying Public Policy and Spanish\nTeam member 2: Sarah Tran, freshman studying Computer Science\nTeam member 3: Amaris Man, freshman studying Neuroscience\nTeam member 4: Mili Shah, freshman studying Public Policy and Computer Science"
   },
   {
     "objectID": "data-dashboard.html",
@@ -294,10 +147,10 @@
     "text": "Row\n\nincidents_record &lt;- school_safety |&gt;\n  summarise(incidents_record_sum = sum(INCID18)) |&gt;\n  pull(incidents_record_sum)\n\nlist(\n  icon = \"home\",\n  color = \"danger\",\n  value = incidents_record\n)\n\n$icon\n[1] \"home\"\n\n$color\n[1] \"danger\"\n\n$value\n[1] 77881"
   },
   {
-    "objectID": "data-dashboard.html#column",
-    "href": "data-dashboard.html#column",
+    "objectID": "data-dashboard.html#row-1",
+    "href": "data-dashboard.html#row-1",
     "title": "Availability of Resources in Schools in Relation to Frequency of Conflict in Schools (year)",
-    "section": "Column",
-    "text": "Column\n\nincidents_record &lt;- school_safety |&gt;\n  summarise(incidents_record_sum = sum(INCID18)) |&gt;\n  pull(incidents_record_sum)\n\nlist(\n  icon = \"home\",\n  color = \"danger\",\n  value = incidents_record\n)\n\n$icon\n[1] \"home\"\n\n$color\n[1] \"danger\"\n\n$value\n[1] 77881"
+    "section": "Row",
+    "text": "Row"
   }
 ]

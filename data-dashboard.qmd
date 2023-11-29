@@ -43,7 +43,7 @@ school_safety <- school_safety |>
     #contains("pred"), genre, percentile, runtime, gross)
 ```
 
-## Row {width="70%"}
+## Row {height="70%"}
 
 ```{r}
 #| content: valuebox
@@ -60,7 +60,6 @@ list(
 )
 
 ```
-
 
 ## Row {.tabset}
 
