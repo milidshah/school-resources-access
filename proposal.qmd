@@ -50,9 +50,9 @@ The dataset we are using is the `school_safety` dataset from the United States D
 
 10. Teacher training (97-109)
 
-These each can be combined to assess school resources (one factor we are observing in our research question). We will also use variables 186, incidents, and 187, incidents reported to police, to assess frequency of conflict.
+These each can be combined to assess school resources (one factor we are observing in our research question). We will also use variables 186 (incidents), and 187 (incidents reported to police) to assess frequency of conflict.
 
-Finally, we will use a school size variable (202) and an urbanicity variable (200) to further specify and focus our analysis.
+Finally, we will use a school size variable (202) and an urban city variable (200) to further specify and focus our analysis.
 
 ## Question
 

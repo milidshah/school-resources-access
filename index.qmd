@@ -46,7 +46,6 @@ school_safety <- school_safety |>
     #contains("pred"), genre, percentile, runtime, gross)
 ```
 
-
 ```{r}
 #| label: random test graph
 
