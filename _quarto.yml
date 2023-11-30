@@ -6,7 +6,7 @@ website:
   title: Data Diggers
   navbar: 
     left:
-      - href: index.qmd
+      - href: data-dashboard.qmd
         text: Project
       - href: presentation.qmd
         text: Presentation
