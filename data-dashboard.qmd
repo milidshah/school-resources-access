@@ -47,44 +47,20 @@ school_safety <- school_safety |>
     #contains("pred"), genre, percentile, runtime, gross)
 ```
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 7286602bde810468aabfc5e9e283c758d0f7e483
 ## Row {height="20%"}
 
 ```{r}
 #| content: valuebox
 #| title: "Total Incidents Recorded"
 
- list(
-  value = 90,
-  subtitle = "Subtitle",
-  color = "red"
-)
+
 incidents_record <- school_safety |>
-  summarize(incidents_record_sum = sum(INCID18)) 
+  summarise(incidents_record_sum = sum(INCID18)) 
 
-list(
-  icon = "home",
-  color = "danger",
-  value = incidents_record
-)
-
-```
-
-
-```{r}
-#| content: valuebox
-#| title: "Total Incidents Reported to the Police"
-
-incidents_record_pol <- school_safety |>
-  summarize(incidents_record_pol_sum = sum(INCPOL18)) 
-
-list(
-  icon = "home",
-  color = "danger",
-  value = incidents_record
+ valueBox(
+  color = "red",
+  value = incidents_record,
+  subtitle = "sub"
 )
 
 ```
