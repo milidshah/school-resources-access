@@ -2,10 +2,7 @@
 title: "Availability of Resources in Schools in Relation to Frequency of Conflict in Schools (year)"
 author: "The Data Diggers"
 date: "2023-11-29"
-output:
-  quarto::quarto_dashboard:
-    title: "Availability of Resources in Schools in Relation to Frequency of Conflict in Schools (year)"
-    layout: grid
+format: dashboard
 ---
 
 #  {.side}
@@ -60,13 +57,11 @@ school_safety <- school_safety |>
 #| content: valuebox
 #| title: "Total Incidents Recorded"
 
-<<<<<<< HEAD
  list(
   value = 90,
   subtitle = "Subtitle",
   color = "red"
 )
-=======
 incidents_record <- school_safety |>
   summarize(incidents_record_sum = sum(INCID18)) 
 
@@ -96,6 +91,17 @@ list(
 
 
 ## Row {height="70%"}
+
+```{r}
+#| content: valuebox
+#| title: "Total Incidents Recorded"
+
+ valueBox(
+  value = 90,
+  subtitle = "Subtitle",
+  color = "red"
+)
+```
 
 ```{r}
 #| title: Chart 1
@@ -134,9 +140,19 @@ school_safety |>
 
 ```{r}
 #| title: Chart 2
->>>>>>> 7286602bde810468aabfc5e9e283c758d0f7e483
+#7286602bde810468aabfc5e9e283c758d0f7e483
 ```
 
+```{r}
+#| content: valuebox
+#| title: "Total Incidents Recorded"
+
+ valueBox(
+  value = 90,
+  subtitle = "Subtitle",
+  color = "red"
+)
+```
 ```{r}
 #| content: valuebox
 #| title: "Total Incidents Recorded"
