@@ -5,7 +5,7 @@
 |SCHID            |character  | Unique school identifier |
 |INCID18          |integer    | Total number of incidents reported |
 |INCPOL18         |integer    | Total number of incidents reported to police |
-|FR_URBAN         |intege     | Urbanicity - Based on urban-centric location of school |
+|FR_URBAN         |integer    | Urbanicity - Based on urban-centric location of school |
 |FR_SIZE          |integer    | Size of school |
 |C0183            |logical    | Social emotional learning training for students |
 |C0181            |logical    | Individual mentoring/tutoring/coaching by adults |

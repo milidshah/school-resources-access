@@ -6,14 +6,18 @@ website:
   title: Data Diggers
   navbar: 
     left:
-      - href: data-dashboard.qmd
+      - href: index.qmd
+      - href: proposal.qmd
+        text: Proposal    
+      - href: project.qmd
         text: Project
       - href: presentation.qmd
         text: Presentation
-      - href: proposal.qmd
-        text: Proposal
       - href: about.qmd
         text: About
     right:
       - icon: github
         href: https://github.com/sta113-f23/project-2-data-diggers
+format: 
+  html: 
+    theme: lux
