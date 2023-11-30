@@ -5,8 +5,6 @@ date: "2023-11-29"
 format: dashboard
 ---
 
-#  {.side}
-
 ```{r}
 #| label: load-packages-data
 #| message: FALSE
@@ -30,21 +28,45 @@ school_safety <- read_sas("data/pu_ssocs18.sas7bdat")
 school_safety <- school_safety |>
   select(
     SCHID, # Unique school identifier
-    INCID18, # Number of total incidents
-    INCPOL18,# Number of total incident reported to the police
-    C0183, # Social emotional learning
+    INCID18, # Total number of incidents recorded
+    INCPOL18, # Total number of incidents reported to police
+    FR_URBAN, # Urbanicity - Based on urban-centric location of school
+    FR_SIZE, # Size of school
+    C0183, # Social emotional learning training for students
     C0181, # Individual mentoring/tutoring/coaching by adults
     C0179, # Student involvement in restorative circles
     C0186, # Promote sense of community/social integration
-    C0602, # Threat assessment team formal meetings
-    C0669, # Treatment at school by school-employed or contracted mental health professional
-    C0271, # Teacher training - intervention and referral strategies
     C0604, # LGBTQ acceptance group
     C0606, # Disability acceptance group
-    C0608 # Cultural diversity acceptance group 
+    C0608, # Cultural diversity acceptance group 
+    C0190, # Formal process to obtain parental input
+    C0192, # Provide training or assistance to parents
+    C0204, # Community involvement - parent groups
+    C0206, # Community involvement - social services
+    C0208, # Community involvement - juvenile justice
+    C0210, # Community involvement - law enforcement
+    C0212, # Community involvement - mental health
+    C0214, # Community involvement - civic organizations
+    C0216, # Community involvement - businesses
+    C0218, # Community involvement - religious organizations
+    C0266, # Teacher training - classroom management
+    C0268, # Teacher training - discipline policies related to violence
+    C0265, # Teacher training - discipline policies related to cyberbullying
+    C0267, # Teacher training - discipline policies related to bullying
+    C0269, # Teacher training - alcohol/drug discipline policy
+    C0270, # Teacher training - safety procedures
+    C0272, # Teacher training - early warning signs for violent behavior
+    C0278, # Teacher training - signs of self-harm or suicidal tendencies
+    C0271, # Teacher training - intervention and referral strategies
+    C0273, # Teacher training - recognize bullying behavior
+    C0274, # Teacher training - student alcohol/drug abuse
+    C0276, # Teacher training - positive behavioral intervention
+    C0277, # Teacher training - crisis prevention and intervention
   )
+
     # this code chunk just might be helpful later on
     #contains("pred"), genre, percentile, runtime, gross)
+    # C0602, # Threat assessment team formal meetings C0669, # Treatment at school by school-employed or contracted mental health professional
 ```
 
 ## Row {height="20%"}
@@ -64,7 +86,6 @@ incidents_record <- school_safety |>
 )
 
 ```
-
 
 ## Row {height="70%"}
 
@@ -104,9 +125,42 @@ incidents_record <- school_safety |>
   #)
  # )
 
+#school_safety |>
+ # mutate(resources = if_else(
+  #  C0183 == 1, 1, 0,
+  # C0181 == 1, 1, 0,
+  # C0179 == 1, 1, 0,
+  # C0186 == 1, 1, 0, 
+ #    C0604 == 1, 1, 0,
+   #  C0606 == 1, 1, 0,
+   #  C0608 == 1, 1, 0,
+ #    C0190 == 1, 1, 0,
+ #    C0192 == 1, 1, 0,
+ #    C0204 == 1, 1, 0,
+ #    C0206 == 1, 1, 0,
+ #    C0208 == 1, 1, 0,
+ #    C0210 == 1, 1, 0,
+ #    C0212 == 1, 1, 0,
+ #    C0214 == 1, 1, 0,
+ #    C0216 == 1, 1, 0,
+ #    C0218 == 1, 1, 0,
+ #    C0266 == 1, 1, 0,
+ #    C0268 == 1, 1, 0,
+ #    C0265 == 1, 1, 0,
+ #    C0267 == 1, 1, 0,
+ #    C0269 == 1, 1, 0,
+   #  C0270 == 1, 1, 0,
+   #  C0272 == 1, 1, 0,
+   #  C0278 == 1, 1, 0,
+   #  C0271 == 1, 1, 0,
+ #    C0273 == 1, 1, 0,
+ #    C0274 == 1, 1, 0,
+ #    C0276 == 1, 1, 0,
+ #    C0277 == 1, 1, 0,
+ #  ))
+
 school_safety |>
   ggplot(aes(y = INCID18))
-
 
 
 
@@ -129,6 +183,7 @@ school_safety |>
   color = "red"
 )
 ```
+
 ```{r}
 #| content: valuebox
 #| title: "Total Incidents Recorded"
