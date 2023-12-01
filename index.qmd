@@ -101,22 +101,42 @@ incidents_record <- school_safety |>
 #| title: Chart 1
 
 school_safety <- school_safety |>
-   mutate(
-     C0183 = if_else(C0183 == 1, 1, 0),
-     C0181 = if_else(C0181 == 1, 1, 0),
-     C0179 = if_else(C0179 == 1, 1, 0),
-     C0186 = if_else(C0186 == 1, 1, 0),
-     C0610 = if_else(C0186 == 1, 1, 0)
-   )
-
-school_safety <- school_safety |>
-  mutate(resource_sum = C0183 + C0181 + C0179 + C0186)
-
-school_safety$C0183 <- as.logical(as.integer(school_safety$C0183))
-school_safety$C0181 <- as.logical(as.integer(school_safety$C0181))
-school_safety$C0179 <- as.logical(as.integer(school_safety$C0179))
-school_safety$C0186 <- as.logical(as.integer(school_safety$C0186))
-school_safety$C0610 <- as.logical(as.integer(school_safety$C0610))
+  mutate(
+  C0183 = if_else(C0183 == 1, 1, 0), 
+  C0181 = if_else(C0181 == 1, 1, 0),
+  C0179 = if_else(C0179 == 1, 1, 0),
+  C0186 = if_else(C0186 == 1, 1, 0),
+  C0604 = if_else(C0604 == 1, 1, 0),
+  C0606 = if_else(C0606 == 1, 1, 0),
+  C0608 = if_else(C0608 == 1, 1, 0),
+  C0190 = if_else(C0190 == 1, 1, 0),
+  C0192 = if_else(C0192 == 1, 1, 0),
+  C0204 = if_else(C0204 == 1, 1, 0),
+  C0206 = if_else(C0206 == 1, 1, 0),
+  C0208 = if_else(C0208 == 1, 1, 0),
+  C0210 = if_else(C0210 == 1, 1, 0),
+  C0212 = if_else(C0212 == 1, 1, 0),
+  C0214 = if_else(C0214 == 1, 1, 0),
+  C0216 = if_else(C0216 == 1, 1, 0),
+  C0218 = if_else(C0218 == 1, 1, 0),
+  C0266 = if_else(C0266 == 1, 1, 0),
+  C0268 = if_else(C0268 == 1, 1, 0),
+  C0265 = if_else(C0265 == 1, 1, 0),
+  C0267 = if_else(C0267 == 1, 1, 0),
+  C0269 = if_else(C0269 == 1, 1, 0),
+  C0270 = if_else(C0270 == 1, 1, 0),
+  C0272 = if_else(C0272 == 1, 1, 0),
+  C0278 = if_else(C0278 == 1, 1, 0),
+  C0271 = if_else(C0271 == 1, 1, 0),
+  C0273 = if_else(C0273 == 1, 1, 0),
+  C0274 = if_else(C0274 == 1, 1, 0),
+  C0276 = if_else(C0276 == 1, 1, 0),
+  C0277 = if_else(C0277 == 1, 1, 0)
+  ) |>
+  group_by(SCHID)|> 
+  mutate(
+    resource = C0183 + C0181 + C0179 + C0186 + C0604 + C0606 + C0608 + C0190 + C0192 + C0204 + C0206 + C0208 + C0210 + C0212 + C0214 + C0216 + C0218 + C0266 + C0268 + C0265 + C0267 + C0269 + C0270 + C0272 + C0278 + C0271 + C0273 + C0274 + C0276 + C0277
+    )
 
 
 
