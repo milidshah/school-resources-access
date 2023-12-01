@@ -131,13 +131,19 @@ school_safety <- school_safety |>
   C0273 = if_else(C0273 == 1, 1, 0),
   C0274 = if_else(C0274 == 1, 1, 0),
   C0276 = if_else(C0276 == 1, 1, 0),
-  C0277 = if_else(C0277 == 1, 1, 0)
+  C0277 = if_else(C0277 == 1, 1, 0),
+  C0610 = if_else(C0610 == 1, 1, 0)
   ) |>
   group_by(SCHID)|> 
   mutate(
     resource = C0183 + C0181 + C0179 + C0186 + C0604 + C0606 + C0608 + C0190 + C0192 + C0204 + C0206 + C0208 + C0210 + C0212 + C0214 + C0216 + C0218 + C0266 + C0268 + C0265 + C0267 + C0269 + C0270 + C0272 + C0278 + C0271 + C0273 + C0274 + C0276 + C0277
     )
 
+school_safety$C0183 <- as.logical(as.integer(school_safety$C0183))
+school_safety$C0181 <- as.logical(as.integer(school_safety$C0181))
+school_safety$C0179 <- as.logical(as.integer(school_safety$C0179))
+school_safety$C0186 <- as.logical(as.integer(school_safety$C0186))
+school_safety$C0610 <- as.logical(as.integer(school_safety$C0610))
 
 
 ```
