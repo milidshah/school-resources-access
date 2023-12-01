@@ -18,9 +18,7 @@ library(ggthemes)
 library(forcats)
 
 school_safety <- read_sas("data/pu_ssocs18.sas7bdat")
-theme_set(theme_minimal(base_size = 24, base_family = "Atkinson Hyperlegible"))
-
-
+theme_set(theme_minimal(base_family = "Atkinson Hyperlegible"))
 ```
 
 ```{r}
@@ -30,7 +28,6 @@ theme_set(theme_minimal(base_size = 24, base_family = "Atkinson Hyperlegible"))
 school_safety <- school_safety |>
   select(
     SCHID, # Unique school identifier
-    INCID18, # Total number of incidents recorded
     INCPOL18, # Total number of incidents reported to police
     FR_URBAN, # Urbanicity - Based on urban-centric location of school
     FR_SIZE, # Size of school
@@ -64,21 +61,20 @@ school_safety <- school_safety |>
     C0274, # Teacher training - student alcohol/drug abuse
     C0276, # Teacher training - positive behavioral intervention
     C0277, # Teacher training - crisis prevention and intervention
+    C0610 # Sworn law enforcement officers at school
   )
 
-    # this code chunk just might be helpful later on
-    #contains("pred"), genre, percentile, runtime, gross)
 ```
 
 ## Row {height="20%"}
 
 ```{r}
 #| content: valuebox
-#| title: "Total Incidents Recorded"
+#| title: "Total Incidents Reported to Police"
 
 
 incidents_record <- school_safety |>
-  summarise(incidents_record_sum = sum(INCID18)) 
+  summarise(incidents_record_sum = sum(INCPOL18)) 
 
  valueBox(
   color = "red",
@@ -104,20 +100,24 @@ incidents_record <- school_safety |>
 ```{r}
 #| title: Chart 1
 
-
-# i want to have a scatterplot so there is a point at the incidents recorded in a school and the number of resources a school has. to do this i would need to filter school safety to create a new variable (mutate) that will calulcate whether a school has educational resources (+1) with the case when function. if 
-
-school_safety |>
+school_safety <- school_safety |>
    mutate(
      C0183 = if_else(C0183 == 1, 1, 0),
      C0181 = if_else(C0181 == 1, 1, 0),
      C0179 = if_else(C0179 == 1, 1, 0),
-     C0186 = if_else(C0186 == 1, 1, 0)
+     C0186 = if_else(C0186 == 1, 1, 0),
+     C0610 = if_else(C0186 == 1, 1, 0)
    )
 
-school_safety |>
+school_safety <- school_safety |>
   mutate(resource_sum = C0183 + C0181 + C0179 + C0186)
- 
+
+school_safety$C0183 <- as.logical(as.integer(school_safety$C0183))
+school_safety$C0181 <- as.logical(as.integer(school_safety$C0181))
+school_safety$C0179 <- as.logical(as.integer(school_safety$C0179))
+school_safety$C0186 <- as.logical(as.integer(school_safety$C0186))
+school_safety$C0610 <- as.logical(as.integer(school_safety$C0610))
+
 
 
 ```
@@ -149,4 +149,16 @@ school_safety |>
   subtitle = "Subtitle",
   color = "red"
 )
+```
+
+# Law enforcement graph
+
+```{r}
+#| label: law-enforcement-graph
+
+school_safety |>
+  ggplot(aes(x = C0610, y = INCPOL18)) +
+  geom_col() +
+  labs(title = "Does the presence of law enforcement officers in the school impact the number of incidents reported to police?", x = "Presence of Law Enforcement Officers", y = "Incidents Reported to Police")
+  
 ```

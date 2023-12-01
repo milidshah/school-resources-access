@@ -37,3 +37,4 @@
 |C0274            |logical    | Teacher training - student alcohol/drug abuse |
 |C0276            |logical    | Teacher training - positive behavioral intervention |
 |C0277            |logical    | Teacher training - crisis prevention and intervention |
+|C0610            |logical    | Sworn law enforcement officers at school |
