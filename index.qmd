@@ -18,6 +18,8 @@ library(ggthemes)
 library(forcats)
 
 school_safety <- read_sas("data/pu_ssocs18.sas7bdat")
+theme_set(theme_minimal(base_size = 24, base_family = "Atkinson Hyperlegible"))
+
 
 ```
 
