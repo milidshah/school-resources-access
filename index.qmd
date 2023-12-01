@@ -188,3 +188,16 @@ school_safety |>
   labs(title = "Does the presence of law enforcement officers in the school impact the number of incidents reported to police?", x = "Presence of Law Enforcement Officers", y = "Incidents Reported to Police")
   
 ```
+
+# Scatter Plot graph
+
+```{r}
+school_safety |>
+  ggplot(aes(x = resource, y = INCPOL18)) +
+  geom_point() +
+  labs(
+    title = "Effect of School Resources on Incidents Reported to Police", 
+    x = "Amount of School Resources (out of 30)",
+    y = "Total Number of Incidents Reported to the Police"
+  )
+```
