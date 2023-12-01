@@ -107,62 +107,17 @@ incidents_record <- school_safety |>
 
 # i want to have a scatterplot so there is a point at the incidents recorded in a school and the number of resources a school has. to do this i would need to filter school safety to create a new variable (mutate) that will calulcate whether a school has educational resources (+1) with the case when function. if 
 
-# C0602 threat assmt team. -1 if skip q (assign 0pts). 1 is at least weekly, 2 is at least monthly, 3 is on occassion (each assign 1 pt). 4 is never (assign 0 pts)
-
-#C0669 Treatment at school by school-employed or contracted mental health professional. -1 if skp (0pt). 1 if yes (1 pt). 2 is no (0 pt)
-
-#school_safety |>
- # mutate(resources = case_when(
-    # C0183 == 1 ~ 1,
-  #  C0181 == 1 ~ resources + 1,
-  #  C0179 == 1 ~ resources + 1,
-   # C0186 == 1 ~ resources + 1,
-    #C0602 %in% c(1, 2, 3) ~ resources + 1,
-    #C0669 == 1 ~ resources + 1,
-    #C0271 == 1 ~ resources + 1,
-    #C0604 == 1 ~ resources + 1,
-    #C0606 == 1 ~ resources + 1,
-    #C0608 == 1 ~ resources + 1,
-  #)
- # )
-
-#school_safety |>
- # mutate(resources = if_else(
-  #  C0183 == 1, 1, 0,
-  # C0181 == 1, 1, 0,
-  # C0179 == 1, 1, 0,
-  # C0186 == 1, 1, 0, 
- #    C0604 == 1, 1, 0,
-   #  C0606 == 1, 1, 0,
-   #  C0608 == 1, 1, 0,
- #    C0190 == 1, 1, 0,
- #    C0192 == 1, 1, 0,
- #    C0204 == 1, 1, 0,
- #    C0206 == 1, 1, 0,
- #    C0208 == 1, 1, 0,
- #    C0210 == 1, 1, 0,
- #    C0212 == 1, 1, 0,
- #    C0214 == 1, 1, 0,
- #    C0216 == 1, 1, 0,
- #    C0218 == 1, 1, 0,
- #    C0266 == 1, 1, 0,
- #    C0268 == 1, 1, 0,
- #    C0265 == 1, 1, 0,
- #    C0267 == 1, 1, 0,
- #    C0269 == 1, 1, 0,
-   #  C0270 == 1, 1, 0,
-   #  C0272 == 1, 1, 0,
-   #  C0278 == 1, 1, 0,
-   #  C0271 == 1, 1, 0,
- #    C0273 == 1, 1, 0,
- #    C0274 == 1, 1, 0,
- #    C0276 == 1, 1, 0,
- #    C0277 == 1, 1, 0,
- #  ))
+school_safety |>
+   mutate(
+     C0183 = if_else(C0183 == 1, 1, 0),
+     C0181 = if_else(C0181 == 1, 1, 0),
+     C0179 = if_else(C0179 == 1, 1, 0),
+     C0186 = if_else(C0186 == 1, 1, 0)
+   )
 
 school_safety |>
-  ggplot(aes(y = INCID18))
-
+  mutate(resource_sum = C0183 + C0181 + C0179 + C0186)
+ 
 
 
 ```
