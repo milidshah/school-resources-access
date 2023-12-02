@@ -64,78 +64,15 @@ school_safety <- school_safety |>
     C0277, # Teacher training - crisis prevention and intervention
     C0610, # Sworn law enforcement officers at school
   )
-school_safety <- school_safety |>
-  mutate(
-  C0183 = if_else(C0183 == 1, 1, 0), 
-  C0181 = if_else(C0181 == 1, 1, 0),
-  C0179 = if_else(C0179 == 1, 1, 0),
-  C0186 = if_else(C0186 == 1, 1, 0),
-  C0604 = if_else(C0604 == 1, 1, 0),
-  C0606 = if_else(C0606 == 1, 1, 0),
-  C0608 = if_else(C0608 == 1, 1, 0),
-  C0190 = if_else(C0190 == 1, 1, 0),
-  C0192 = if_else(C0192 == 1, 1, 0),
-  C0204 = if_else(C0204 == 1, 1, 0),
-  C0206 = if_else(C0206 == 1, 1, 0),
-  C0208 = if_else(C0208 == 1, 1, 0),
-  C0210 = if_else(C0210 == 1, 1, 0),
-  C0212 = if_else(C0212 == 1, 1, 0),
-  C0214 = if_else(C0214 == 1, 1, 0),
-  C0216 = if_else(C0216 == 1, 1, 0),
-  C0218 = if_else(C0218 == 1, 1, 0),
-  C0266 = if_else(C0266 == 1, 1, 0),
-  C0268 = if_else(C0268 == 1, 1, 0),
-  C0265 = if_else(C0265 == 1, 1, 0),
-  C0267 = if_else(C0267 == 1, 1, 0),
-  C0269 = if_else(C0269 == 1, 1, 0),
-  C0270 = if_else(C0270 == 1, 1, 0),
-  C0272 = if_else(C0272 == 1, 1, 0),
-  C0278 = if_else(C0278 == 1, 1, 0),
-  C0271 = if_else(C0271 == 1, 1, 0),
-  C0273 = if_else(C0273 == 1, 1, 0),
-  C0274 = if_else(C0274 == 1, 1, 0),
-  C0276 = if_else(C0276 == 1, 1, 0),
-  C0277 = if_else(C0277 == 1, 1, 0),
-  C0610 = if_else(C0610 == 1, 1, 0)
-  ) |>
-  group_by(SCHID)|> 
-  mutate(resource_sum = C0183 + C0181 + C0179 + C0186 + C0604 + C0606 + C0608 + C0190 + C0192 + 
-           C0204 + C0206 + C0208 + C0210 + C0212 + C0214 + C0216 + C0218 + C0266 + C0268 +
-           C0265 + C0267 + C0269 + C0270 + C0272 + C0278 + C0271 + C0273 + C0274 + C0276 +
-           C0277
-    )
 
-school_safety$C0183 <- as.logical(as.integer(school_safety$C0183))
-school_safety$C0181 <- as.logical(as.integer(school_safety$C0181))
-school_safety$C0179 <- as.logical(as.integer(school_safety$C0179))
-school_safety$C0186 <- as.logical(as.integer(school_safety$C0186))
-school_safety$C0604 <- as.logical(as.integer(school_safety$C0604))
-school_safety$C0606 <- as.logical(as.integer(school_safety$C0606))
-school_safety$C0608 <- as.logical(as.integer(school_safety$C0608))
-school_safety$C0190 <- as.logical(as.integer(school_safety$C0190))
-school_safety$C0192 <- as.logical(as.integer(school_safety$C0192))
-school_safety$C0204 <- as.logical(as.integer(school_safety$C0204))
-school_safety$C0206 <- as.logical(as.integer(school_safety$C0206))
-school_safety$C0208 <- as.logical(as.integer(school_safety$C0208))
-school_safety$C0210 <- as.logical(as.integer(school_safety$C0210))
-school_safety$C0212 <- as.logical(as.integer(school_safety$C0212))
-school_safety$C0214 <- as.logical(as.integer(school_safety$C0214))
-school_safety$C0216 <- as.logical(as.integer(school_safety$C0216))
-school_safety$C0218 <- as.logical(as.integer(school_safety$C0218))
-school_safety$C0266 <- as.logical(as.integer(school_safety$C0266))
-school_safety$C0268 <- as.logical(as.integer(school_safety$C0268))
-school_safety$C0265 <- as.logical(as.integer(school_safety$C0265))
-school_safety$C0267 <- as.logical(as.integer(school_safety$C0267))
-school_safety$C0269 <- as.logical(as.integer(school_safety$C0269))
-school_safety$C0270 <- as.logical(as.integer(school_safety$C0270))
-school_safety$C0272 <- as.logical(as.integer(school_safety$C0272))
-school_safety$C0278 <- as.logical(as.integer(school_safety$C0278))
-school_safety$C0271 <- as.logical(as.integer(school_safety$C0271))
-school_safety$C0273 <- as.logical(as.integer(school_safety$C0273))
-school_safety$C0274 <- as.logical(as.integer(school_safety$C0274))
-school_safety$C0276 <- as.logical(as.integer(school_safety$C0276))
-school_safety$C0277 <- as.logical(as.integer(school_safety$C0277))
-school_safety$C0610 <- as.logical(as.integer(school_safety$C0610))
+
+school_safety <- school_safety |>
+  mutate_at(vars(starts_with("C")), ~ str_replace(., "2", "0")) |>
+  mutate(across(starts_with("C"), as.numeric)) |>
+  mutate(resource_sum = rowSums(across(starts_with("C")))) |>
+  mutate(resource_sum = as.factor(resource_sum)) |>
+  mutate(across(starts_with("C"), as.logical))
+
 
 
 ```
@@ -244,8 +181,12 @@ school_safety |>
 school_safety |>
 ggplot(aes(x = FR_SIZE , y = FR_URBAN, fill = INCPOL18)) +
 geom_tile(width = .95, height = 0.95) +
-scale_fill_viridis_c(option = "B", begin = 0.15, end = 0.9) 
+scale_fill_distiller(palette = "RdPu") 
+
+
+
 ```
+
 
 ```{r}
 #| label: Bar graph comparing incidents in the school
