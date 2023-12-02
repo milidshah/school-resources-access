@@ -17,7 +17,7 @@ library(ggthemes)
 library(forcats)
 
 school_safety <- read_sas("data/pu_ssocs18.sas7bdat")
-theme_set(theme_minimal(base_size = 24, base_family = "Atkinson Hyperlegible"))
+theme_set(theme_minimal( base_family = "Atkinson Hyperlegible"))
 
 ```
 
@@ -60,8 +60,10 @@ school_safety <- school_safety |>
     C0273, # Teacher training - recognize bullying behavior
     C0274, # Teacher training - student alcohol/drug abuse
     C0276, # Teacher training - positive behavioral intervention
-    C0277, # Teacher training - crisis prevention and intervention
-    C0610 # Sworn law enforcement officers at school
+    C0277,
+    C0376,# Teacher training - crisis prevention and intervention
+    C0610, # Sworn law enforcement officers at school
+    C0676
   )
 
 ```
@@ -196,6 +198,18 @@ school_safety |>
     y = "Total Number of Incidents Reported to the Police"
   )
 ```
+```{r}
+#| label: geom tile
+school_safety |>
+  ggplot(aes(x = FR_URBAN, y = C0376, fill = INCPOL18)) +
+  geom_tile(width = .95, height = 0.95) +
+  scale_fill_viridis_c(option = "B", begin = 0.1, end = 0.9) +
+  labs(
+    title = "Effect of School Resources on Incidents Reported to Police", 
+    x = "Amount of School Resources (out of 30)",
+    y = "Total Number of Incidents Reported to the Police"
+  )
+```
 # City
 ## Row {height="15%"}
 
@@ -226,11 +240,13 @@ school_safety |>
 ```{r}
 #| label: law-
 
+school_safety <- school_safety |>
+  filter(FR_URBAN == 1)
+
 school_safety |>
-  ggplot(aes(x = C0610, y = INCPOL18)) +
-  geom_col() +
-  labs(title = "Does the presence of law enforcement officers in the school impact the number of incidents reported to police?", x = "Presence of Law Enforcement Officers", y = "Incidents Reported to Police")
-  
+  ggplot(aes(x = FR_URBAN, y = C0376, fill = INCPOL18)) +
+  geom_tile(width = .95, height = 0.95) +
+  scale_fill_viridis_c(option = "B", begin = 0.1, end = 0.9)
 ```
 
 
