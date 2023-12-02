@@ -172,9 +172,11 @@ In the staff breakdown in the unit was as follows:
 
 ------------------------------------------------------------------------
 
-# All
+# All {orientation="columns"}
 
-## Row {height="15%"}
+
+## Column
+### Row {height="10%"}
 
 ```{r}
 #| content: valuebox
@@ -209,29 +211,40 @@ In the staff breakdown in the unit was as follows:
    )
 ```
 
-## Row {.tabset}
+### Row
+```{r}
+#| label: scatter plot resources v. incidents all schools
+
+# all schools
+school_safety |>
+  ggplot(aes(x = resource_sum, y = OUTSUS18)) +
+  geom_jitter() +
+  labs(
+    title = "Effect of School Resources on Incidents Reported to Police", 
+    x = "Amount of School Resources (out of 30)",
+    y = "Total Number of Incidents Reported to the Police"
+  ) 
+
+```
+
+## Column {.tabset}
 
 ```{r}
 #| label: law-enforcement-graph
 #| title: chart
 
-school_safety |>
-  ggplot(aes(x = C0610, y = INCPOL18)) +
-  geom_col() +
-  labs(title = "Does the presence of law enforcement officers in the school impact the number of incidents reported to police?", x = "Presence of Law Enforcement Officers", y = "Incidents Reported to Police")
+# school_safety |>
+#   ggplot(aes(x = C0610, y = INCPOL18)) +
+#   geom_col() +
+#   labs(title = "Does the presence of law enforcement officers in the school impact the number of incidents reported to police?", x = "Presence of Law Enforcement Officers", y = "Incidents Reported to Police")
 ```
 
 ```{r}
 #| label: geom tile
-# school_safety |>
-  #ggplot(aes(x = FR_URBAN, y = C0376, fill = INCPOL18)) +
-  #geom_tile(width = .95, height = 0.95) +
-  #scale_fill_viridis_c(option = "B", begin = 0.1, end = 0.9) +
-  #labs(
-   # title = "Effect of School Resources on Incidents Reported to Police", 
-    #x = "Amount of School Resources (out of 30)",
-    #y = "Total Number of Incidents Reported to the Police"
-#  )
+school_safety |>
+ggplot(aes(x = FR_SIZE , y = FR_URBAN, fill = INCPOL18)) +
+geom_tile(width = .95, height = 0.95) +
+scale_fill_viridis_c(option = "B", begin = 0.15, end = 0.9) 
 ```
 
 ```{r}
@@ -246,6 +259,8 @@ schoolsaf |>
   ggplot(aes(x = FR_URBAN, y = average_incidents_per_school)) + 
   geom_col()
 ```
+
+
 
 # City
 
@@ -306,6 +321,78 @@ total_schools <- nrow(school_safety_city)
 ```{r}
 #| label: law-
 
+school_safety |>
+  filter(FR_URBAN == 1) |>
+  ggplot(aes(x = resource_sum, y = INCPOL18)) +
+  geom_point() +
+  labs(
+    title = "Effect of School Resources on Incidents Reported to Police \n in Urban Schools", 
+    x = "Amount of School Resources (out of 30)",
+    y = "Total Number of Incidents Reported to the Police"
+  ) 
+
+  
+```
+
+# Suburban
+
+```{r}
+#| label: filter data for only schools in suburb
+
+school_safety_suburban <- school_safety |>
+  filter(FR_URBAN == 2)
+```
+
+```{r}
+#| label: Calculating value box values for suburb
+
+average_incidents <- round(mean(school_safety_suburban$INCPOL18), digits = 1)
+
+average_resource_score <- round(mean(school_safety_suburban$resource_sum), digits = 1)
+
+total_schools <- nrow(school_safety_suburban)
+```
+
+## Row {height="15%"}
+
+```{r}
+#| content: valuebox
+#| title: Average Incidents in Suburb
+
+ list(
+   icon = "rocket",
+   color = "red",
+   value = average_incidents
+   )
+```
+
+```{r}
+#| content: valuebox
+#| title: Average Resource Score in suburb
+
+ list(
+   icon = "rocket",
+   color = "red",
+   value = average_resource_score
+   )
+```
+
+```{r}
+#| content: valuebox
+#| title: Schools in Suburb
+
+ list(
+   icon = "rocket",
+   color = "red",
+   value = total_schools
+   )
+```
+
+## Row {.tabset}
+
+```{r}
+#| label: law-..
+
 #school_safety <- school_safety |>
  # filter(FR_URBAN == 1)
 
@@ -315,11 +402,140 @@ total_schools <- nrow(school_safety_city)
  # scale_fill_viridis_c(option = "B", begin = 0.1, end = 0.9)
 ```
 
+# Town
+
 ```{r}
-#| label: idk
+#| label: filter data for only schools in town
 
+school_safety_town <- school_safety |>
+  filter(FR_URBAN == 3)
+```
 
-  
+```{r}
+#| label: Calculating value box values for Town schools
+
+average_incidents <- round(mean(school_safety_town$INCPOL18), digits = 1)
+
+average_resource_score <- round(mean(school_safety_town$resource_sum), digits = 1)
+
+total_schools <- nrow(school_safety_town)
+```
+
+## Row {height="15%"}
+
+```{r}
+#| content: valuebox
+#| title: Average Incidents in Town
+
+ list(
+   icon = "rocket",
+   color = "red",
+   value = average_incidents
+   )
+```
+
+```{r}
+#| content: valuebox
+#| title: Average Resource Score in Town
+
+ list(
+   icon = "rocket",
+   color = "red",
+   value = average_resource_score
+   )
+```
+
+```{r}
+#| content: valuebox
+#| title: Schools in Town
+
+ list(
+   icon = "rocket",
+   color = "red",
+   value = total_schools
+   )
+```
+
+## Row {.tabset}
+
+```{r}
+#| label: law- town
+
+#school_safety <- school_safety |>
+ # filter(FR_URBAN == 1)
+
+#school_safety |>
+ # ggplot(aes(x = FR_URBAN, y = C0376, fill = INCPOL18)) +
+ # geom_tile(width = .95, height = 0.95) +
+ # scale_fill_viridis_c(option = "B", begin = 0.1, end = 0.9)
+```
+
+# Rural
+
+```{r}
+#| label: filter data for only schools in rural schools
+
+school_safety_rural <- school_safety |>
+  filter(FR_URBAN == 4)
+```
+
+```{r}
+#| label: Calculating value box values for rural schools
+
+average_incidents <- round(mean(school_safety_rural$INCPOL18), digits = 1)
+
+average_resource_score <- round(mean(school_safety_rural$resource_sum), digits = 1)
+
+total_schools <- nrow(school_safety_rural)
+```
+
+## Row {height="15%"}
+
+```{r}
+#| content: valuebox
+#| title: Average Incidents in rural schools
+
+ list(
+   icon = "rocket",
+   color = "red",
+   value = average_incidents
+   )
+```
+
+```{r}
+#| content: valuebox
+#| title: Average Resource Score in rural schools
+
+ list(
+   icon = "rocket",
+   color = "red",
+   value = average_resource_score
+   )
+```
+
+```{r}
+#| content: valuebox
+#| title: Schools in rural schools
+
+ list(
+   icon = "rocket",
+   color = "red",
+   value = total_schools
+   )
+```
+
+## Row {.tabset}
+
+```{r}
+#| label: law- rural
+
+#school_safety <- school_safety |>
+ # filter(FR_URBAN == 1)
+
+#school_safety |>
+ # ggplot(aes(x = FR_URBAN, y = C0376, fill = INCPOL18)) +
+ # geom_tile(width = .95, height = 0.95) +
+ # scale_fill_viridis_c(option = "B", begin = 0.1, end = 0.9)
 ```
 
 # Mili plots
@@ -395,16 +611,6 @@ school_safety |>
 ```{r}
 #| label: resource-suspensions-plot
 
-# all schools
-school_safety |>
-  ggplot(aes(x = resource_sum, y = OUTSUS18)) +
-  geom_jitter() +
-  labs(
-    title = "Effect of School Resources on Incidents Reported to Police", 
-    x = "Amount of School Resources (out of 30)",
-    y = "Total Number of Incidents Reported to the Police"
-  ) + 
-  geom_smooth(method = "lm")
 
 # City (1)
 school_safety |>
