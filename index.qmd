@@ -15,7 +15,7 @@ library(ggthemes)
 library(forcats)
 
 school_safety <- read_sas("data/pu_ssocs18.sas7bdat")
-theme_set(theme_minimal(base_family = "Atkinson Hyperlegible"))
+theme_set(theme_minimal(base_size = 20,base_family = "Atkinson Hyperlegible"))
 
 ```
 
@@ -64,69 +64,6 @@ school_safety <- school_safety |>
     C0277, # Teacher training - crisis prevention and intervention
     C0610, # Sworn law enforcement officers at school
   )
-
-```
-
-```{r}
-#| label: Total Incidents Reported to Police
-
-
-incidents_record <- school_safety |>
-  summarise(incidents_record_sum = sum(INCPOL18)) 
-
-```
-
-#  {.sidebar}
-
-This dashboard displays statistics for:
-
-|              |                     |
-|--------------|---------------------|
-| **Hospital** | Grey Sloan Memorial |
-| **Unit**     | Labor and Delivery  |
-| **Month**    | 5                   |
-
-------------------------------------------------------------------------
-
-In the staff breakdown in the unit was as follows:
-
-|                          |     |
-|--------------------------|-----|
-| **Attending physicians** | 14  |
-| **Residents**            | 21  |
-| **Nurses**               | 12  |
-
-------------------------------------------------------------------------
-
-# All
-
-## Row {height="15%"}
-
-```{r}
-#| content: valuebox
-#| title: valuebox
-
- list(
-   icon = "rocket",
-   color = "red",
-   value = 5
-   )
-```
-
-```{r}
-#| content: valuebox
-#| title: valuebox
-
- list(
-   icon = "rocket",
-   color = "red",
-   value = 5
-   )
-```
-
-```{r}
-#| label: Chart 1
-
 school_safety <- school_safety |>
   mutate(
   C0183 = if_else(C0183 == 1, 1, 0), 
@@ -201,7 +138,75 @@ school_safety$C0277 <- as.logical(as.integer(school_safety$C0277))
 school_safety$C0610 <- as.logical(as.integer(school_safety$C0610))
 
 
+```
 
+```{r}
+#| label: Average Incidents Reported to Police
+
+average_incidents <- round(mean(school_safety$INCPOL18), digits = 1)
+
+average_resource_score <- round(mean(school_safety$resource_sum), digits = 1)
+
+total_schools <- nrow(school_safety)
+```
+
+#  {.sidebar}
+
+This dashboard displays statistics for:
+
+|              |                     |
+|--------------|---------------------|
+| **Hospital** | Grey Sloan Memorial |
+| **Unit**     | Labor and Delivery  |
+| **Month**    | 5                   |
+
+------------------------------------------------------------------------
+
+In the staff breakdown in the unit was as follows:
+
+|                          |     |
+|--------------------------|-----|
+| **Attending physicians** | 14  |
+| **Residents**            | 21  |
+| **Nurses**               | 12  |
+
+------------------------------------------------------------------------
+
+# All
+
+## Row {height="15%"}
+
+```{r}
+#| content: valuebox
+#| title: Average Incidents
+
+ list(
+   icon = "rocket",
+   color = "red",
+   value = average_incidents
+   )
+```
+
+```{r}
+#| content: valuebox
+#| title: Average Resource Score
+
+ list(
+   icon = "rocket",
+   color = "red",
+   value = average_resource_score
+   )
+```
+
+```{r}
+#| content: valuebox
+#| title: Schools
+
+ list(
+   icon = "rocket",
+   color = "red",
+   value = total_schools
+   )
 ```
 
 ## Row {.tabset}
@@ -268,6 +273,7 @@ school_safety |>
  # geom_tile(width = .95, height = 0.95) +
  # scale_fill_viridis_c(option = "B", begin = 0.1, end = 0.9)
 ```
+
 ```{r}
 #| label: idk
 
@@ -282,6 +288,7 @@ schoolsaf |>
 ```
 
 # Mili plots
+
 ## Row {.tabset}
 
 ```{r}
