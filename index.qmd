@@ -4,7 +4,7 @@ format: dashboard
 ---
 
 ```{r}
-#| label: load-packages-data
+#| label: load-packages-data-
 #| message: FALSE
 
 library(shinydashboard)
@@ -72,7 +72,6 @@ school_safety <- school_safety |>
   mutate_at(vars(starts_with("C")), ~ str_replace(., "2", "0")) |>
   mutate(across(starts_with("C"), as.numeric)) |>
   mutate(resource_sum = rowSums(across(starts_with("C")))) |>
-  mutate(resource_sum = as.factor(resource_sum)) |>
   arrange(resource_sum) |>
   mutate(across(starts_with("C"), as.logical))
 
@@ -81,7 +80,52 @@ school_safety <- school_safety |>
 ```
 
 ```{r}
-#| label: Average Incidents Reported to Police
+#| label: linear_regressions_for_each_resource
+name <- c("C0183", "C0181" ,  "C0179" ,  "C0186" ,  "C0604" ,  "C0606" ,  "C0608" ,  "C0190" ,  "C0192" , "C0204",
+          "C0206" ,  "C0208" ,  "C0210" ,  "C0212" ,  "C0214" ,  "C0216" ,  "C0218" ,  "C0266" , "C0268" , "C0265",
+          "C0267" ,  "C0269" ,  "C0270" ,  "C0272" ,  "C0278" ,  "C0271" ,  "C0273" ,  "C0274" ,  "C0276" ,
+          "C0277")
+
+# fits a model to each of the variables
+resources_fit <- linear_reg() |>
+  fit(INCPOL18 ~ C0183 + C0181 + C0179 + C0186 + C0604 + C0606 + C0608 + C0190 + C0192 + 
+           C0204 + C0206 + C0208 + C0210 + C0212 + C0214 + C0216 + C0218 + C0266 + C0268 +
+           C0265 + C0267 + C0269 + C0270 + C0272 + C0278 + C0271 + C0273 + C0274 + C0276 +
+           C0277, 
+      data = school_safety) 
+
+# calculate each of the r coefficients 
+cor_coefficients <- sapply(name, function(variable) {
+  cor(school_safety[[variable]], school_safety$INCPOL18)
+})
+
+# create a vector to store all the values of the r-squared coefficients
+r_squared_values <- numeric()
+
+# calculate all the r_squared values for every resource
+for (variable in name) {
+  # Fit a simple linear regression model for each predictor variable
+  lm_model <- lm(school_safety$INCPOL18 ~ school_safety[[variable]])
+
+  # Calculate the R-squared value
+  r_squared <- summary(lm_model)$r.squared
+
+  # Append values to the vectors
+  r_squared_values <- c(r_squared_values, r_squared)
+}
+
+# calculate all the slopes for each resource regression
+slopes <- tidy(resources_fit) |>
+  filter(term != "(Intercept)") |>
+  pull(estimate)
+
+# assign all vectors to the resource regression dataframe
+resource_regressions <- data.frame(name = name, slope = slopes, rVAl = cor_coefficients, r_squared_val = r_squared_values)
+
+```
+
+```{r}
+#| label: Calculate the value box values
 
 average_incidents <- round(mean(school_safety$INCPOL18), digits = 1)
 
@@ -144,7 +188,7 @@ This dashboard displays statistics for:
    )
 ```
 
-### Row
+### Row {.tabset}
 
 ```{r}
 #| label: scatter plot resources v. incidents all schools
@@ -160,18 +204,18 @@ school_safety |>
   ) 
 
 ```
-
-## Column {.tabset}
-
 ```{r}
 #| label: law-enforcement-graph
 #| title: chart
 
-# school_safety |>
-#   ggplot(aes(x = C0610, y = INCPOL18)) +
-#   geom_col() +
-#   labs(title = "Does the presence of law enforcement officers in the school impact the number of incidents reported to police?", x = "Presence of Law Enforcement Officers", y = "Incidents Reported to Police")
+school_safety |>
+  ggplot(aes(x = C0610, y = INCPOL18)) +
+  geom_col() +
+  labs(title = "Does the presence of law enforcement officers in the school impact the number of incidents reported to police?", x = "Presence of Law Enforcement Officers", y = "Incidents Reported to Police")
 ```
+## Column {.tabset}
+
+
 
 ```{r}
 #| label: geom tile
@@ -595,61 +639,4 @@ school_safety |>
     y = "Total Number of Incidents Reported to the Police"
   ) +
   geom_smooth(method = "lm")
-```
-
-```{r}
-#| label: linear_regression_1_social_emotional_learning
-
-C0183_fit <- linear_reg() |>
-  fit(INCPOL18 ~ C0183, data = school_safety) 
-
-
-r_squared_C0183_fit <- glance(C0183_fit)$r.squared
-print(r_squared_C0183_fit) 
-```
-
-```{r}
-#| label: linear_regression_2_individual_mentoring
-
-C0181_fit <- linear_reg() |>
-  fit(INCPOL18 ~ C0181, data = school_safety) 
-
-
-r_squared_C0181_fit <- glance(C0181_fit)$r.squared
-print(r_squared_C0181_fit)
-```
-
-```{r}
-#| label: linear_regression_3_student_involvement
-
-C0179_fit <- linear_reg() |>
-  fit(INCPOL18 ~ C0179, data = school_safety) 
-
-
-r_squared_C0179_fit <- glance(C0179_fit)$r.squared
-print(r_squared_C0179_fit)
-```
-
-```{r}
-#| label: linear_regression_4_sense_of_community
-
-C0186_fit <- linear_reg() |>
-  fit(INCPOL18 ~ C0186, data = school_safety) 
-
-
-r_squared_C0186_fit <- glance(C0186_fit)$r.squared
-print(r_squared_C0186_fit)
-```
-
-```{r}
-#| label: linear_regression_5_acceptance_group
-
-
-acceptance_group_fit <- linear_reg() |>
-  fit(INCPOL18 ~ C0604 + C0606 + C0608, data = school_safety) 
-
-
-r_squared_acceptance_group_fit <- glance(acceptance_group_fit)$r.squared
-print(r_squared_acceptance_group_fit)
-
 ```
