@@ -233,6 +233,7 @@ school_safety |>
     #y = "Total Number of Incidents Reported to the Police"
 #  )
 ```
+
 ```{r}
 #| label: Bar graph comparing incidents in the school
 #| title: Total Incidents between Urbanicity
@@ -247,6 +248,7 @@ schoolsaf |>
 ```
 
 # City
+
 ```{r}
 #| label: filter data for only schools in city
 
