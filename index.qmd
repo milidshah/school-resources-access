@@ -1,6 +1,7 @@
 ---
+title: "Availability of Resources in Schools in Relation to Frequency of Conflict in Schools (year)"
+subtitle: "STA 113FS - Project 2"
 author: "The Data Diggers"
-date: "2023-11-29"
 format: dashboard
 ---
 

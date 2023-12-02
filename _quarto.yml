@@ -7,10 +7,11 @@ website:
   navbar: 
     left:
       - href: index.qmd
+        text: Dashboard  
       - href: proposal.qmd
         text: Proposal    
       - href: project.qmd
-        text: Project
+        text: Write Up
       - href: presentation.qmd
         text: Presentation
       - href: about.qmd
