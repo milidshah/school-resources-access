@@ -15,7 +15,7 @@ library(ggthemes)
 library(forcats)
 
 school_safety <- read_sas("data/pu_ssocs18.sas7bdat")
-theme_set(theme_minimal(base_size = 20,base_family = "Atkinson Hyperlegible"))
+theme_set(theme_minimal(base_family = "Atkinson Hyperlegible"))
 
 ```
 
@@ -233,30 +233,69 @@ school_safety |>
     #y = "Total Number of Incidents Reported to the Police"
 #  )
 ```
+```{r}
+#| label: Bar graph comparing incidents in the school
+#| title: Total Incidents between Urbanicity
+
+schoolsaf <- school_safety |>
+  group_by(FR_URBAN) |>
+  summarize(average_incidents_per_school = mean(INCPOL18))
+
+schoolsaf |>
+  ggplot(aes(x = FR_URBAN, y = average_incidents_per_school)) + 
+  geom_col()
+```
 
 # City
+```{r}
+#| label: filter data for only schools in city
+
+school_safety_city <- school_safety |>
+  filter(FR_URBAN == 1)
+```
+
+```{r}
+#| label: Calculating value box values
+
+average_incidents <- round(mean(school_safety_city$INCPOL18), digits = 1)
+
+average_resource_score <- round(mean(school_safety_city$resource_sum), digits = 1)
+
+total_schools <- nrow(school_safety_city)
+```
 
 ## Row {height="15%"}
 
 ```{r}
 #| content: valuebox
-#| title: valuebox
+#| title: Average Incidents
 
  list(
    icon = "rocket",
    color = "red",
-   value = 5
+   value = average_incidents
    )
 ```
 
 ```{r}
 #| content: valuebox
-#| title: valuebox
+#| title: Average Resource Score
 
  list(
    icon = "rocket",
    color = "red",
-   value = 5
+   value = average_resource_score
+   )
+```
+
+```{r}
+#| content: valuebox
+#| title: Schools
+
+ list(
+   icon = "rocket",
+   color = "red",
+   value = total_schools
    )
 ```
 
@@ -277,13 +316,7 @@ school_safety |>
 ```{r}
 #| label: idk
 
-schoolsaf <- school_safety |>
-  group_by(FR_URBAN) |>
-  summarize(average_incidents_per_school = mean(INCPOL18))
 
-schoolsaf |>
-  ggplot(aes(x = FR_URBAN, y = average_incidents_per_school)) + 
-  geom_col()
   
 ```
 
