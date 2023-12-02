@@ -94,21 +94,14 @@ total_schools <- nrow(school_safety)
 
 This dashboard displays statistics for:
 
-|              |                     |
-|--------------|---------------------|
-| **Hospital** | Grey Sloan Memorial |
-| **Unit**     | Labor and Delivery  |
-| **Month**    | 5                   |
-
-------------------------------------------------------------------------
-
-In the staff breakdown in the unit was as follows:
-
-|                          |     |
-|--------------------------|-----|
-| **Attending physicians** | 14  |
-| **Residents**            | 21  |
-| **Nurses**               | 12  |
+|                                          |                         |
+|------------------------------------------|-------------------------|
+| **US Public Schools**                    | `r nrow(school_safety)` |
+| **Public Schools in a City Setting**     | 723                     |
+| **Public Schools in a Suburban Setting** | 1034                    |
+| **Public Schools in a Town Setting**     | 382                     |
+| **Public Schools in a Rural Setting**    | 623                     |
+| **Year of Data**                         | 2017-2018 School Year   |
 
 ------------------------------------------------------------------------
 
@@ -605,7 +598,7 @@ school_safety |>
 ```
 
 ```{r}
-#| label: linear_regression_emotional_support 
+#| label: linear_regression_emotional_support1 
 
 C0183_fit <- linear_reg() |>
   fit(INCPOL18 ~ C0183, data = school_safety) 
@@ -616,7 +609,7 @@ print(r_squared)
 ```
 
 ```{r}
-#| label: linear_regression_emotional_support 
+#| label: linear_regression_emotional_support2
 
 C0181_fit <- linear_reg() |>
   fit(INCPOL18 ~ C0181, data = school_safety) 
@@ -627,12 +620,12 @@ print(r_squared)
 ```
 
 ```{r}
-#| label: linear_regression_emotional_support 
+#| label: linear_regression_emotional_support3 
 
-C0612_fit <- linear_reg() |>
-  fit(INCPOL18 ~ C0612, data = school_safety) 
+C0610_fit <- linear_reg() |>
+  fit(INCPOL18 ~ C0610, data = school_safety) 
 
 
-r_squared <- glance(C0612_fit)$r.squared
+r_squared <- glance(C0610_fit)$r.squared
 print(r_squared)
 ```
