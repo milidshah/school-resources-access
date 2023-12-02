@@ -1,5 +1,4 @@
 ---
-title: "Availability of Resources in Schools in Relation to Frequency of Conflict in Schools (year)"
 author: "The Data Diggers"
 date: "2023-11-29"
 format: dashboard
@@ -18,7 +17,8 @@ library(ggthemes)
 library(forcats)
 
 school_safety <- read_sas("data/pu_ssocs18.sas7bdat")
-theme_set(theme_minimal(base_family = "Atkinson Hyperlegible"))
+theme_set(theme_minimal(base_size = 24, base_family = "Atkinson Hyperlegible"))
+
 ```
 
 ```{r}
@@ -66,39 +66,61 @@ school_safety <- school_safety |>
 
 ```
 
-## Row {height="20%"}
-
 ```{r}
-#| content: valuebox
-#| title: "Total Incidents Reported to Police"
+#| label: Total Incidents Reported to Police
 
 
 incidents_record <- school_safety |>
   summarise(incidents_record_sum = sum(INCPOL18)) 
 
- valueBox(
-  color = "red",
-  value = incidents_record,
-  subtitle = "sub"
-)
-
 ```
+#  {.sidebar}
 
-## Row {height="70%"}
+This dashboard displays statistics for:
+
+|              |                     |
+|--------------|---------------------|
+| **Hospital** | Grey Sloan Memorial |
+| **Unit**     | Labor and Delivery  |
+| **Month**    | 5   |
+
+------------------------------------------------------------------------
+
+In  the staff breakdown in the unit was as follows:
+
+|                          |     |
+|--------------------------|-----|
+| **Attending physicians** |  14 |
+| **Residents**            |  21 |
+| **Nurses**               |  12 |
+
+------------------------------------------------------------------------
+
+# All
+## Row {height="15%"}
 
 ```{r}
 #| content: valuebox
-#| title: "Total Incidents Recorded"
+#| title: valuebox
 
- valueBox(
-  value = 90,
-  subtitle = "Subtitle",
-  color = "red"
-)
+ list(
+   icon = "rocket",
+   color = "red",
+   value = 5
+   )
 ```
-
 ```{r}
-#| title: Chart 1
+#| content: valuebox
+#| title: valuebox
+
+ list(
+   icon = "rocket",
+   color = "red",
+   value = 5
+   )
+```
+```{r}
+#| label: Chart 1
 
 school_safety <- school_safety |>
   mutate(
@@ -150,37 +172,10 @@ school_safety$C0610 <- as.logical(as.integer(school_safety$C0610))
 
 ## Row {.tabset}
 
-```{r}
-#| title: Chart 2
-#7286602bde810468aabfc5e9e283c758d0f7e483
-```
-
-```{r}
-#| content: valuebox
-#| title: "Total Incidents Recorded"
-
- valueBox(
-  value = 90,
-  subtitle = "Subtitle",
-  color = "red"
-)
-```
-
-```{r}
-#| content: valuebox
-#| title: "Total Incidents Recorded"
-
- valueBox(
-  value = 90,
-  subtitle = "Subtitle",
-  color = "red"
-)
-```
-
-# Law enforcement graph
 
 ```{r}
 #| label: law-enforcement-graph
+#| title: chart
 
 school_safety |>
   ggplot(aes(x = C0610, y = INCPOL18)) +
@@ -189,9 +184,9 @@ school_safety |>
   
 ```
 
-# Scatter Plot graph
 
 ```{r}
+#| label: scatter-plot
 school_safety |>
   ggplot(aes(x = resource, y = INCPOL18)) +
   geom_point() +
@@ -201,3 +196,55 @@ school_safety |>
     y = "Total Number of Incidents Reported to the Police"
   )
 ```
+# City
+## Row {height="15%"}
+
+```{r}
+#| content: valuebox
+#| title: valuebox
+
+ list(
+   icon = "rocket",
+   color = "red",
+   value = 5
+   )
+```
+```{r}
+#| content: valuebox
+#| title: valuebox
+
+ list(
+   icon = "rocket",
+   color = "red",
+   value = 5
+   )
+```
+
+## Row {.tabset}
+
+
+```{r}
+#| label: law-
+
+school_safety |>
+  ggplot(aes(x = C0610, y = INCPOL18)) +
+  geom_col() +
+  labs(title = "Does the presence of law enforcement officers in the school impact the number of incidents reported to police?", x = "Presence of Law Enforcement Officers", y = "Incidents Reported to Police")
+  
+```
+
+
+```{r}
+#| label: scatter
+school_safety |>
+  ggplot(aes(x = resource, y = INCPOL18)) +
+  geom_point() +
+  labs(
+    title = "Effect of School Resources on Incidents Reported to Police", 
+    x = "Amount of School Resources (out of 30)",
+    y = "Total Number of Incidents Reported to the Police"
+  )
+```
+# Suburb
+# Ruran
+# Town
