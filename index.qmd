@@ -13,6 +13,8 @@ library(tidyverse)
 library(scales)
 library(ggthemes)
 library(forcats)
+library(tidymodels)
+
 
 school_safety <- read_sas("data/pu_ssocs18.sas7bdat")
 theme_set(theme_minimal(base_family = "Atkinson Hyperlegible"))
@@ -71,6 +73,7 @@ school_safety <- school_safety |>
   mutate(across(starts_with("C"), as.numeric)) |>
   mutate(resource_sum = rowSums(across(starts_with("C")))) |>
   mutate(resource_sum = as.factor(resource_sum)) |>
+  arrange(resource_sum) |>
   mutate(across(starts_with("C"), as.logical))
 
 
@@ -111,8 +114,8 @@ In the staff breakdown in the unit was as follows:
 
 # All {orientation="columns"}
 
-
 ## Column
+
 ### Row {height="10%"}
 
 ```{r}
@@ -149,6 +152,7 @@ In the staff breakdown in the unit was as follows:
 ```
 
 ### Row
+
 ```{r}
 #| label: scatter plot resources v. incidents all schools
 
@@ -187,7 +191,6 @@ scale_fill_distiller(palette = "RdPu")
 
 ```
 
-
 ```{r}
 #| label: Bar graph comparing incidents in the school
 #| title: Total Incidents between Urbanicity
@@ -200,8 +203,6 @@ schoolsaf |>
   ggplot(aes(x = FR_URBAN, y = average_incidents_per_school)) + 
   geom_col()
 ```
-
-
 
 # City
 
@@ -601,4 +602,37 @@ school_safety |>
     y = "Total Number of Incidents Reported to the Police"
   ) +
   geom_smooth(method = "lm")
+```
+
+```{r}
+#| label: linear_regression_emotional_support 
+
+C0183_fit <- linear_reg() |>
+  fit(INCPOL18 ~ C0183, data = school_safety) 
+
+
+r_squared <- glance(C0183_fit)$r.squared
+print(r_squared) 
+```
+
+```{r}
+#| label: linear_regression_emotional_support 
+
+C0181_fit <- linear_reg() |>
+  fit(INCPOL18 ~ C0181, data = school_safety) 
+
+
+r_squared <- glance(C0181_fit)$r.squared
+print(r_squared)
+```
+
+```{r}
+#| label: linear_regression_emotional_support 
+
+C0612_fit <- linear_reg() |>
+  fit(INCPOL18 ~ C0612, data = school_safety) 
+
+
+r_squared <- glance(C0612_fit)$r.squared
+print(r_squared)
 ```
