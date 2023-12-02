@@ -598,34 +598,58 @@ school_safety |>
 ```
 
 ```{r}
-#| label: linear_regression_emotional_support1 
+#| label: linear_regression_1_social_emotional_learning
 
 C0183_fit <- linear_reg() |>
   fit(INCPOL18 ~ C0183, data = school_safety) 
 
 
-r_squared <- glance(C0183_fit)$r.squared
-print(r_squared) 
+r_squared_C0183_fit <- glance(C0183_fit)$r.squared
+print(r_squared_C0183_fit) 
 ```
 
 ```{r}
-#| label: linear_regression_emotional_support2
+#| label: linear_regression_2_individual_mentoring
 
 C0181_fit <- linear_reg() |>
   fit(INCPOL18 ~ C0181, data = school_safety) 
 
 
-r_squared <- glance(C0181_fit)$r.squared
-print(r_squared)
+r_squared_C0181_fit <- glance(C0181_fit)$r.squared
+print(r_squared_C0181_fit)
 ```
 
 ```{r}
-#| label: linear_regression_emotional_support3 
+#| label: linear_regression_3_student_involvement
 
-C0610_fit <- linear_reg() |>
-  fit(INCPOL18 ~ C0610, data = school_safety) 
+C0179_fit <- linear_reg() |>
+  fit(INCPOL18 ~ C0179, data = school_safety) 
 
 
-r_squared <- glance(C0610_fit)$r.squared
-print(r_squared)
+r_squared_C0179_fit <- glance(C0179_fit)$r.squared
+print(r_squared_C0179_fit)
+```
+
+```{r}
+#| label: linear_regression_4_sense_of_community
+
+C0186_fit <- linear_reg() |>
+  fit(INCPOL18 ~ C0186, data = school_safety) 
+
+
+r_squared_C0186_fit <- glance(C0186_fit)$r.squared
+print(r_squared_C0186_fit)
+```
+
+```{r}
+#| label: linear_regression_5_acceptance_group
+
+
+acceptance_group_fit <- linear_reg() |>
+  fit(INCPOL18 ~ C0604 + C0606 + C0608, data = school_safety) 
+
+
+r_squared_acceptance_group_fit <- glance(acceptance_group_fit)$r.squared
+print(r_squared_acceptance_group_fit)
+
 ```
