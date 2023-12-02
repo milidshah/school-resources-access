@@ -8,7 +8,6 @@ format: dashboard
 #| label: load-packages-data
 #| message: FALSE
 
-#install.packages("haven")
 library(shinydashboard)
 library(haven)
 library(tidyverse)
@@ -25,6 +24,8 @@ theme_set(theme_minimal(base_family = "Atkinson Hyperlegible"))
 #| label: filter-data
 
 # filter the data
+# create final dataset to use
+
 school_safety <- school_safety |>
   select(
     SCHID, # Unique school identifier
@@ -213,19 +214,6 @@ school_safety |>
   ggplot(aes(x = C0610, y = INCPOL18)) +
   geom_col() +
   labs(title = "Does the presence of law enforcement officers in the school impact the number of incidents reported to police?", x = "Presence of Law Enforcement Officers", y = "Incidents Reported to Police")
-  
-```
-
-```{r}
-#| label: scatter-plot
-school_safety |>
-  ggplot(aes(x = resource_sum, y = INCPOL18)) +
-  geom_point() +
-  labs(
-    title = "Effect of School Resources on Incidents Reported to Police", 
-    x = "Amount of School Resources (out of 30)",
-    y = "Total Number of Incidents Reported to the Police"
-  )
 ```
 
 ```{r}
@@ -272,8 +260,8 @@ school_safety |>
 ```{r}
 #| label: law-
 
-school_safety <- school_safety |>
-  filter(FR_URBAN == 1)
+#school_safety <- school_safety |>
+ # filter(FR_URBAN == 1)
 
 #school_safety |>
  # ggplot(aes(x = FR_URBAN, y = C0376, fill = INCPOL18)) +
@@ -281,20 +269,68 @@ school_safety <- school_safety |>
  # scale_fill_viridis_c(option = "B", begin = 0.1, end = 0.9)
 ```
 
+# Resource and Incidents Scatterplot - by Urbanicity
+
 ```{r}
-#| label: scatter
+#| label: resource-incidents-plot
+
+# all schools
 school_safety |>
   ggplot(aes(x = resource_sum, y = INCPOL18)) +
-  geom_point() +
+  geom_jitter() +
   labs(
     title = "Effect of School Resources on Incidents Reported to Police", 
     x = "Amount of School Resources (out of 30)",
     y = "Total Number of Incidents Reported to the Police"
-  )
+  ) 
+ #geom_smooth()
+
+# City (1)
+school_safety |>
+  filter(FR_URBAN == 1) |>
+  ggplot(aes(x = resource_sum, y = INCPOL18)) +
+  geom_point() +
+  labs(
+    title = "Effect of School Resources on Incidents Reported to Police \n in Urban Schools", 
+    x = "Amount of School Resources (out of 30)",
+    y = "Total Number of Incidents Reported to the Police"
+  ) 
+ # geom_smooth()
+
+# Suburb (2)
+school_safety |>
+  filter(FR_URBAN == 2) |>
+  ggplot(aes(x = resource_sum, y = INCPOL18)) +
+  geom_point() +
+  labs(
+    title = 
+      "Effect of School Resources on Incidents Reported to Police \n in Suburban Schools", 
+    x = "Amount of School Resources (out of 30)",
+    y = "Total Number of Incidents Reported to the Police"
+  ) 
+  #geom_smooth()
+
+# Town (3)
+school_safety |>
+  filter(FR_URBAN == 3) |>
+  ggplot(aes(x = resource_sum, y = INCPOL18)) +
+  geom_point() +
+  labs(
+    title = "Effect of School Resources on Incidents Reported to Police \n in Town Schools", 
+    x = "Amount of School Resources (out of 30)",
+    y = "Total Number of Incidents Reported to the Police"
+  ) 
+ # geom_smooth()
+
+# Rural (4)
+school_safety |>
+  filter(FR_URBAN == 4) |>
+  ggplot(aes(x = resource_sum, y = INCPOL18)) +
+  geom_point() +
+  labs(
+    title = "Effect of School Resources on Incidents Reported to Police \n in Rural Schools", 
+    x = "Amount of School Resources (out of 30)",
+    y = "Total Number of Incidents Reported to the Police"
+  ) 
+ # geom_smooth()
 ```
-
-# Suburb
-
-# Ruran
-
-# Town
