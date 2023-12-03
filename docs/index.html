@@ -74,6 +74,14 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script src="site_libs/htmlwidgets-1.6.3/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.10.3/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<script src="site_libs/jquery-3.5.1/jquery.min.js"></script>
+<link href="site_libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+<script src="site_libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet">
+<script src="site_libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
 
 
 </head>
@@ -190,7 +198,7 @@ Average Incidents
 Average Resource Score
 </p>
 <p class="value-box-value">
-19.6
+46.5
 </p>
 </div>
 </div>
@@ -236,7 +244,8 @@ Schools
 </div><div class="card tabset html-fill-item html-fill-container bslib-card" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
 <div class="card-header dashboard-card-no-title bslib-navs-card-title">
 
-<ul class="nav nav-tabs card-header-tabs" role="tablist" data-tabsetid="card-tabset-5"><li class="nav-item" role="presentation"><a href="#card-tabset-5-1" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Tab 1" aria-selected="true" class="nav-link active">Tab 1</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-5-2" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Total Incidents between Urbanicity" aria-selected="false" class="nav-link">Total Incidents between Urbanicity</a></li></ul></div>
+<ul class="nav nav-tabs card-header-tabs" role="tablist" data-tabsetid="card-tabset-5"><li class="nav-item" role="presentation"><a href="#card-tabset-5-1" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Tab 1" aria-selected="true" class="nav-link active">Tab 1</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-5-2" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Total Incidents between Urbanicity" aria-selected="false" class="nav-link">Total Incidents between Urbanicity</a></li><li class="nav-item" role="presentation"><a href="#card-tabset-5-3" role="tab" data-toggle="tab" data-bs-toggle="tab" data-value="Tab 3" aria-selected="false" class="nav-link">Tab 3</a></li></ul></div>
+
 
 
 <div class="tab-content html-fill-item html-fill-container" data-tabset-id="card-tabset-5"><div class="tab-pane active show html-fill-item html-fill-container" role="tabpanel" id="card-tabset-5-1"><div class="card-body html-fill-item html-fill-container">
@@ -246,6 +255,11 @@ Schools
 </div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-5-2"><div class="card-body html-fill-item html-fill-container" data-title="Total Incidents between Urbanicity">
 <div class="cell-output-display html-fill-item html-fill-container">
 <img src="index_files/figure-html/Bar graph comparing incidents in the school-1.png" class="img-fluid quarto-dashboard-img-contain">
+</div>
+</div></div><div class="tab-pane html-fill-item html-fill-container" role="tabpanel" id="card-tabset-5-3"><div class="card-body html-fill-item html-fill-container">
+<div class="cell-output-display html-fill-item html-fill-container">
+<div class="plotly html-widget html-fill-item html-fill-container" id="htmlwidget-21a3de9df96921f29d67" style="width:100%;height:406px;"></div>
+<script type="application/json" data-for="htmlwidget-21a3de9df96921f29d67">{"x":{"visdat":{"ab617630e7e3":["function () ","plotlyVisDat"]},"cur_data":"ab617630e7e3","attrs":{"ab617630e7e3":{"x":{},"y":{},"text":{},"hoverinfo":"text","marker":{"color":{},"colorscale":"Viridis"},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":"name","type":"category","categoryorder":"array","categoryarray":["C0110","C0112","C0114","C0116","C0120","C0121","C0122","C0125","C0129","C0134","C0136","C0138","C0139","C0140","C0141","C0142","C0143","C0144","C0146","C0150","C0153","C0155","C0157","C0158","C0161","C0162","C0163","C0165","C0166","C0167","C0169","C0170","C0174","C0175","C0176","C0177","C0179","C0181","C0183","C0186","C0190","C0192","C0204","C0206","C0208","C0210","C0212","C0214","C0216","C0218","C0265","C0266","C0267","C0268","C0269","C0270","C0271","C0272","C0273","C0274","C0276","C0277","C0278","C0600","C0602","C0604","C0606","C0608","C0610","C0612","C0614","C0616","C0618","C0621","C0622","C0624","C0626","C0628","C0630","C0632","C0636","C0638","C0640","C0642","C0644","C0646","C0648","C0650","C0661","C0667"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"slope"},"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["C0110","C0112","C0114","C0116","C0120","C0121","C0122","C0125","C0129","C0134","C0136","C0138","C0140","C0139","C0141","C0143","C0142","C0144","C0146","C0150","C0153","C0155","C0158","C0162","C0166","C0170","C0169","C0161","C0157","C0163","C0165","C0167","C0174","C0183","C0176","C0181","C0175","C0177","C0179","C0186","C0600","C0602","C0604","C0606","C0608","C0190","C0192","C0204","C0206","C0208","C0210","C0212","C0214","C0216","C0218","C0610","C0612","C0614","C0616","C0618","C0621","C0622","C0624","C0626","C0628","C0630","C0632","C0636","C0638","C0640","C0642","C0644","C0646","C0648","C0650","C0661","C0667","C0266","C0268","C0265","C0267","C0269","C0270","C0272","C0278","C0271","C0273","C0274","C0276","C0277"],"y":[5.2408264462809937,-1.49345181096154,2.6851247890800103,6.7534264803725774,7.5069566622883741,-0.28863130055634356,0.85698856195285344,7.9913005392651231,3.0375372295839198,-3.965563361636482,0.933057897971595,4.4576207093633826,0.0012122974133071773,-0.0099967752337972188,-0.47809664310509703,6.2282407553452774,8.4494456081552887,2.3101659961287844,5.0852436154449503,3.3853776933479778,-6.3244086919808469,3.1431785547318456,2.1241739288307815,1.0503764584322217,4.1641327033902726,0.51269925851227349,5.0927667131526118,0.30828309777943902,1.0213039551046657,1.5772223664399438,4.7559172541388861,3.6542493672058289,-2.9009574096894806,-1.2861784478693767,-3.611880341880366,0.4693102089081474,0.91234130001611125,4.1932923316185819,-0.39089238432947943,-0.5686581676750242,4.2655118703430004,0.74004695582365188,14.595153533111358,8.3854052323819435,11.281930045861985,2.6983468279200302,0.78490552931369661,-0.70070027350750064,3.7141710858495105,7.9135351867684776,5.1120427686552929,4.6020738203957352,3.5032041430828378,2.8490534290961147,3.5645380134208402,12.814105393711818,6.6789968278929024,7.0292506376666939,7.0827544040587513,6.8726517271370078,6.7564823100958487,7.1359937849102826,6.7442457289721629,8.2271845456166162,6.8318225386007656,7.0390892891317627,7.9474999305564316,7.1210145624083934,6.7538030621705376,7.1835786867422184,6.9288936363111437,7.5179763197131315,7.6418972038581332,9.0848717486999959,7.3321287825688248,5.3037245814266436,3.429955964808709,1.9771093533166757,2.3000428508558581,1.5865777693884142,0.34410159295978221,2.8542184594925386,3.6128117913831961,0.9036948095719568,3.1036009831821358,1.3372205049977905,0.50286325044329339,4.5347264395737907,0.34689794967752535,1.1371500188404127],"text":["Variable:  C0110 <br>Slope:  5.24082644628099","Variable:  C0112 <br>Slope:  -1.49345181096154","Variable:  C0114 <br>Slope:  2.68512478908001","Variable:  C0116 <br>Slope:  6.75342648037258","Variable:  C0120 <br>Slope:  7.50695666228837","Variable:  C0121 <br>Slope:  -0.288631300556344","Variable:  C0122 <br>Slope:  0.856988561952853","Variable:  C0125 <br>Slope:  7.99130053926512","Variable:  C0129 <br>Slope:  3.03753722958392","Variable:  C0134 <br>Slope:  -3.96556336163648","Variable:  C0136 <br>Slope:  0.933057897971595","Variable:  C0138 <br>Slope:  4.45762070936338","Variable:  C0140 <br>Slope:  0.00121229741330718","Variable:  C0139 <br>Slope:  -0.00999677523379722","Variable:  C0141 <br>Slope:  -0.478096643105097","Variable:  C0143 <br>Slope:  6.22824075534528","Variable:  C0142 <br>Slope:  8.44944560815529","Variable:  C0144 <br>Slope:  2.31016599612878","Variable:  C0146 <br>Slope:  5.08524361544495","Variable:  C0150 <br>Slope:  3.38537769334798","Variable:  C0153 <br>Slope:  -6.32440869198085","Variable:  C0155 <br>Slope:  3.14317855473185","Variable:  C0158 <br>Slope:  2.12417392883078","Variable:  C0162 <br>Slope:  1.05037645843222","Variable:  C0166 <br>Slope:  4.16413270339027","Variable:  C0170 <br>Slope:  0.512699258512273","Variable:  C0169 <br>Slope:  5.09276671315261","Variable:  C0161 <br>Slope:  0.308283097779439","Variable:  C0157 <br>Slope:  1.02130395510467","Variable:  C0163 <br>Slope:  1.57722236643994","Variable:  C0165 <br>Slope:  4.75591725413889","Variable:  C0167 <br>Slope:  3.65424936720583","Variable:  C0174 <br>Slope:  -2.90095740968948","Variable:  C0183 <br>Slope:  -1.28617844786938","Variable:  C0176 <br>Slope:  -3.61188034188037","Variable:  C0181 <br>Slope:  0.469310208908147","Variable:  C0175 <br>Slope:  0.912341300016111","Variable:  C0177 <br>Slope:  4.19329233161858","Variable:  C0179 <br>Slope:  -0.390892384329479","Variable:  C0186 <br>Slope:  -0.568658167675024","Variable:  C0600 <br>Slope:  4.265511870343","Variable:  C0602 <br>Slope:  0.740046955823652","Variable:  C0604 <br>Slope:  14.5951535331114","Variable:  C0606 <br>Slope:  8.38540523238194","Variable:  C0608 <br>Slope:  11.281930045862","Variable:  C0190 <br>Slope:  2.69834682792003","Variable:  C0192 <br>Slope:  0.784905529313697","Variable:  C0204 <br>Slope:  -0.700700273507501","Variable:  C0206 <br>Slope:  3.71417108584951","Variable:  C0208 <br>Slope:  7.91353518676848","Variable:  C0210 <br>Slope:  5.11204276865529","Variable:  C0212 <br>Slope:  4.60207382039574","Variable:  C0214 <br>Slope:  3.50320414308284","Variable:  C0216 <br>Slope:  2.84905342909611","Variable:  C0218 <br>Slope:  3.56453801342084","Variable:  C0610 <br>Slope:  12.8141053937118","Variable:  C0612 <br>Slope:  6.6789968278929","Variable:  C0614 <br>Slope:  7.02925063766669","Variable:  C0616 <br>Slope:  7.08275440405875","Variable:  C0618 <br>Slope:  6.87265172713701","Variable:  C0621 <br>Slope:  6.75648231009585","Variable:  C0622 <br>Slope:  7.13599378491028","Variable:  C0624 <br>Slope:  6.74424572897216","Variable:  C0626 <br>Slope:  8.22718454561662","Variable:  C0628 <br>Slope:  6.83182253860077","Variable:  C0630 <br>Slope:  7.03908928913176","Variable:  C0632 <br>Slope:  7.94749993055643","Variable:  C0636 <br>Slope:  7.12101456240839","Variable:  C0638 <br>Slope:  6.75380306217054","Variable:  C0640 <br>Slope:  7.18357868674222","Variable:  C0642 <br>Slope:  6.92889363631114","Variable:  C0644 <br>Slope:  7.51797631971313","Variable:  C0646 <br>Slope:  7.64189720385813","Variable:  C0648 <br>Slope:  9.0848717487","Variable:  C0650 <br>Slope:  7.33212878256882","Variable:  C0661 <br>Slope:  5.30372458142664","Variable:  C0667 <br>Slope:  3.42995596480871","Variable:  C0266 <br>Slope:  1.97710935331668","Variable:  C0268 <br>Slope:  2.30004285085586","Variable:  C0265 <br>Slope:  1.58657776938841","Variable:  C0267 <br>Slope:  0.344101592959782","Variable:  C0269 <br>Slope:  2.85421845949254","Variable:  C0270 <br>Slope:  3.6128117913832","Variable:  C0272 <br>Slope:  0.903694809571957","Variable:  C0278 <br>Slope:  3.10360098318214","Variable:  C0271 <br>Slope:  1.33722050499779","Variable:  C0273 <br>Slope:  0.502863250443293","Variable:  C0274 <br>Slope:  4.53472643957379","Variable:  C0276 <br>Slope:  0.346897949677525","Variable:  C0277 <br>Slope:  1.13715001884041"],"hoverinfo":["text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text","text"],"marker":{"color":[0.041310626971896254,-0.014893291642717688,0.056633918749019636,0.050596635739071548,0.084143069033811468,-0.0058546120973249861,0.016143376324855969,0.16796675662913088,0.043955045553996479,-0.0612942508178973,0.019609157351814975,0.089766259437350962,1.1183396085693091e-05,-0.00019690248099883892,-0.0090923774305729874,0.13013036965432886,0.12213159833775027,0.044347498729042291,0.066573015581048861,0.058073598577222725,-0.12895151547698036,0.033239649598473413,0.021542198147859182,0.022158025013458021,0.044146061500900433,0.009816930740323436,0.066671503547168859,0.0064964223663188467,0.015260320554235228,0.0167209261925696,0.036387239738087412,0.056842981272980195,-0.031207576385330501,-0.018959986173223885,-0.03581257247110696,0.0054171327327508234,0.019240960396695806,0.056554894647916409,-0.0080449434612677537,-0.0088456540120015834,0.089971755301637757,0.054007292078191056,0.29327811786862429,0.1755419491170889,0.23096532740388606,0.056929588609542239,0.016530395934718726,-0.013943270148352614,0.073329222946301828,0.16513205487850358,0.078282057759280058,0.090036071801015208,0.073837841402154283,0.056150011909095951,0.069470066455576532,0.25364706681834098,0.26321997399700225,0.27438496550545055,0.27447990114795895,0.23365597476602509,0.26558163683478409,0.26980249230236014,0.26490973164836862,0.25746663590798968,0.25595420063170637,0.27451172301503962,0.2830942157666626,0.27451153414313162,0.24457607921288124,0.26683279017899081,0.21893352362269144,0.28408133163311949,0.29313407942880648,0.30190884631146475,0.2730301950221703,0.11094606448333288,0.071171285506689053,0.028088362758996867,0.041302373820101441,0.029521786114678795,0.0054563334279964393,0.059931316129028994,0.030579278551369146,0.019025169330214489,0.058582551743273745,0.027360425010156012,0.0088987423275977227,0.095086954781153074,0.005631865384482391,0.021027375560676714],"colorscale":"Viridis","line":{"color":"rgba(31,119,180,1)"}},"type":"bar","error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div></div></div><bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
     <template>Expand</template>
@@ -285,7 +299,7 @@ Average Incidents
 Average Resource Score
 </p>
 <p class="value-box-value">
-20.2
+45.5
 </p>
 </div>
 </div>
@@ -355,7 +369,7 @@ Average Incidents in Suburb
 Average Resource Score in suburb
 </p>
 <p class="value-box-value">
-20.1
+48.5
 </p>
 </div>
 </div>
@@ -420,7 +434,7 @@ Average Incidents in Town
 Average Resource Score in Town
 </p>
 <p class="value-box-value">
-19.3
+48.1
 </p>
 </div>
 </div>
@@ -485,7 +499,7 @@ Average Incidents in rural schools
 Average Resource Score in rural schools
 </p>
 <p class="value-box-value">
-18.2
+43.1
 </p>
 </div>
 </div>

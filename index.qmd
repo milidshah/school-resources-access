@@ -14,6 +14,7 @@ library(scales)
 library(ggthemes)
 library(forcats)
 library(tidymodels)
+library(plotly)
 
 
 school_safety <- read_sas("data/pu_ssocs18.sas7bdat")
@@ -33,24 +34,32 @@ school_safety <- school_safety |>
     INCPOL18, # Total number of incidents reported to police
     FR_URBAN, # Urbanicity - Based on urban-centric location of school
     FR_SIZE, # Size of school
+    C0110:C0186, # School PRactices and Programs (Did your school do the following)
+    C0600:C0608,
+    C0190:C0192,
+    C0204:C0218,
+    C0610:C0650,
+    C0661,
+    C0667,
+    # Staff Training
     OUTSUS18, # suspensions
-    C0183, # Social emotional learning training for students
-    C0181, # Individual mentoring/tutoring/coaching by adults
-    C0179, # Student involvement in restorative circles
-    C0186, # Promote sense of community/social integration
-    C0604, # LGBTQ acceptance group
-    C0606, # Disability acceptance group
-    C0608, # Cultural diversity acceptance group 
-    C0190, # Formal process to obtain parental input
-    C0192, # Provide training or assistance to parents
-    C0204, # Community involvement - parent groups
-    C0206, # Community involvement - social services
-    C0208, # Community involvement - juvenile justice
-    C0210, # Community involvement - law enforcement
-    C0212, # Community involvement - mental health
-    C0214, # Community involvement - civic organizations
-    C0216, # Community involvement - businesses
-    C0218, # Community involvement - religious organizations
+    # C0183, # Social emotional learning training for students
+    # C0181, # Individual mentoring/tutoring/coaching by adults
+    # C0179, # Student involvement in restorative circles
+    # C0186, # Promote sense of community/social integration
+    # C0604, # LGBTQ acceptance group
+    # C0606, # Disability acceptance group
+    # C0608, # Cultural diversity acceptance group 
+    # C0190, # Formal process to obtain parental input
+    # C0192, # Provide training or assistance to parents
+    # C0204, # Community involvement - parent groups
+    # C0206, # Community involvement - social services
+    # C0208, # Community involvement - juvenile justice
+    # C0210, # Community involvement - law enforcement
+    # C0212, # Community involvement - mental health
+    # C0214, # Community involvement - civic organizations
+    # C0216, # Community involvement - businesses
+    # C0218, # Community involvement - religious organizations
     C0266, # Teacher training - classroom management
     C0268, # Teacher training - discipline policies related to violence
     C0265, # Teacher training - discipline policies related to cyberbullying
@@ -64,7 +73,7 @@ school_safety <- school_safety |>
     C0274, # Teacher training - student alcohol/drug abuse
     C0276, # Teacher training - positive behavioral intervention
     C0277, # Teacher training - crisis prevention and intervention
-    C0610, # Sworn law enforcement officers at school
+    # C0610, # Sworn law enforcement officers at school
   )
 
 
@@ -72,8 +81,8 @@ school_safety <- school_safety |>
   mutate_at(vars(starts_with("C")), ~ str_replace(., "2", "0")) |>
   mutate(across(starts_with("C"), as.numeric)) |>
   mutate(resource_sum = rowSums(across(starts_with("C")))) |>
-  arrange(resource_sum) |>
-  mutate(across(starts_with("C"), as.logical))
+  arrange(resource_sum) 
+  #mutate(across(starts_with("C"), as.logical))
 
 
 
@@ -81,18 +90,22 @@ school_safety <- school_safety |>
 
 ```{r}
 #| label: linear_regressions_for_each_resource
-name <- c("C0183", "C0181" ,  "C0179" ,  "C0186" ,  "C0604" ,  "C0606" ,  "C0608" ,  "C0190" ,  "C0192" , "C0204",
-          "C0206" ,  "C0208" ,  "C0210" ,  "C0212" ,  "C0214" ,  "C0216" ,  "C0218" ,  "C0266" , "C0268" , "C0265",
-          "C0267" ,  "C0269" ,  "C0270" ,  "C0272" ,  "C0278" ,  "C0271" ,  "C0273" ,  "C0274" ,  "C0276" ,
-          "C0277")
+
+name <- colnames(school_safety |>
+  select(starts_with("C")))
+
+# name <- c("C0183", "C0181" ,  "C0179" ,  "C0186" ,  "C0604" ,  "C0606" ,  "C0608" ,  "C0190" ,  "C0192" , "C0204",
+#           "C0206" ,  "C0208" ,  "C0210" ,  "C0212" ,  "C0214" ,  "C0216" ,  "C0218" ,  "C0266" , "C0268" , "C0265",
+#           "C0267" ,  "C0269" ,  "C0270" ,  "C0272" ,  "C0278" ,  "C0271" ,  "C0273" ,  "C0274" ,  "C0276" ,
+#           "C0277", "C0610")
 
 # fits a model to each of the variables
-resources_fit <- linear_reg() |>
-  fit(INCPOL18 ~ C0183 + C0181 + C0179 + C0186 + C0604 + C0606 + C0608 + C0190 + C0192 + 
-           C0204 + C0206 + C0208 + C0210 + C0212 + C0214 + C0216 + C0218 + C0266 + C0268 +
-           C0265 + C0267 + C0269 + C0270 + C0272 + C0278 + C0271 + C0273 + C0274 + C0276 +
-           C0277, 
-      data = school_safety) 
+# resources_fit <- linear_reg() |>
+#   fit(INCPOL18 ~ C0183 + C0181 + C0179 + C0186 + C0604 + C0606 + C0608 + C0190 + C0192 + 
+#            C0204 + C0206 + C0208 + C0210 + C0212 + C0214 + C0216 + C0218 + C0266 + C0268 +
+#            C0265 + C0267 + C0269 + C0270 + C0272 + C0278 + C0271 + C0273 + C0274 + C0276 +
+#            C0277 + C0610, 
+#       data = school_safety) 
 
 # calculate each of the r coefficients 
 cor_coefficients <- sapply(name, function(variable) {
@@ -101,6 +114,7 @@ cor_coefficients <- sapply(name, function(variable) {
 
 # create a vector to store all the values of the r-squared coefficients
 r_squared_values <- numeric()
+slope <- numeric()
 
 # calculate all the r_squared values for every resource
 for (variable in name) {
@@ -109,18 +123,23 @@ for (variable in name) {
 
   # Calculate the R-squared value
   r_squared <- summary(lm_model)$r.squared
+  
+  tidy_slope <- tidy(lm_model)|>
+    filter(term != "(Intercept)")
+  slope_value <- tidy_slope$estimate
 
   # Append values to the vectors
+  slope <- c(slope, slope_value)
   r_squared_values <- c(r_squared_values, r_squared)
 }
 
 # calculate all the slopes for each resource regression
-slopes <- tidy(resources_fit) |>
-  filter(term != "(Intercept)") |>
-  pull(estimate)
+# slopes <- tidy(resources_fit) |>
+#   filter(term != "(Intercept)") |>
+#   pull(estimate)
 
 # assign all vectors to the resource regression dataframe
-resource_regressions <- data.frame(name = name, slope = slopes, rVAl = cor_coefficients, r_squared_val = r_squared_values)
+resource_regressions2 <- data.frame(name = name, slope = slope, rVAl = cor_coefficients, r_squared_val = r_squared_values)
 
 ```
 
@@ -239,6 +258,25 @@ schoolsaf <- school_safety |>
 schoolsaf |>
   ggplot(aes(x = FR_URBAN, y = average_incidents_per_school)) + 
   geom_col()
+```
+
+```{r}
+#| label: Graph of the resource regressions
+
+regression_plot <- ggplot(resource_regressions2, aes(x = name, y = slope, fill = rVAl)) + 
+  geom_col() + 
+  scale_fill_distiller(type = "div", limits = c(-.5, .5)) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+```
+
+```{r}
+#| label: interactive-plot
+
+plot_ly(data = resource_regressions2, x = ~name, y = ~slope, type = 'bar', 
+                            text = ~paste("Variable: ", name, "<br>Slope: ", slope),
+                            hoverinfo = 'text', marker = list(color = ~rVAl, colorscale = 'Viridis'))
 ```
 
 # City
