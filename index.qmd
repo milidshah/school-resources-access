@@ -20,6 +20,12 @@ library(plotly)
 school_safety <- read_sas("data/pu_ssocs18.sas7bdat")
 theme_set(theme_minimal(base_family = "Atkinson Hyperlegible"))
 
+# add the labels to a vector
+# variable_labels_vector <- lapply(school_safety, function(var) attr(var, "label"))
+
+
+
+
 ```
 
 ```{r}
@@ -35,7 +41,8 @@ school_safety <- school_safety |>
     FR_URBAN, # Urbanicity - Based on urban-centric location of school
     FR_SIZE, # Size of school
     C0110:C0186, # School PRactices and Programs (Did your school do the following)
-    C0600:C0608,
+    C0600,
+    C0604:C0608,
     C0190:C0192,
     C0204:C0218,
     C0610:C0650,
@@ -85,6 +92,60 @@ school_safety <- school_safety |>
   #mutate(across(starts_with("C"), as.logical))
 
 
+
+```
+```{r}
+#| label: linear_regressions_for_each_resource against suspensions
+
+name <- colnames(school_safety |>
+  select(starts_with("C")))
+
+# name <- c("C0183", "C0181" ,  "C0179" ,  "C0186" ,  "C0604" ,  "C0606" ,  "C0608" ,  "C0190" ,  "C0192" , "C0204",
+#           "C0206" ,  "C0208" ,  "C0210" ,  "C0212" ,  "C0214" ,  "C0216" ,  "C0218" ,  "C0266" , "C0268" , "C0265",
+#           "C0267" ,  "C0269" ,  "C0270" ,  "C0272" ,  "C0278" ,  "C0271" ,  "C0273" ,  "C0274" ,  "C0276" ,
+#           "C0277", "C0610")
+
+# fits a model to each of the variables
+# resources_fit <- linear_reg() |>
+#   fit(INCPOL18 ~ C0183 + C0181 + C0179 + C0186 + C0604 + C0606 + C0608 + C0190 + C0192 + 
+#            C0204 + C0206 + C0208 + C0210 + C0212 + C0214 + C0216 + C0218 + C0266 + C0268 +
+#            C0265 + C0267 + C0269 + C0270 + C0272 + C0278 + C0271 + C0273 + C0274 + C0276 +
+#            C0277 + C0610, 
+#       data = school_safety) 
+
+# calculate each of the r coefficients 
+cor_coefficients <- sapply(name, function(variable) {
+  cor(school_safety[[variable]], school_safety$OUTSUS18)
+})
+
+# create a vector to store all the values of the r-squared coefficients
+r_squared_values <- numeric()
+slope <- numeric()
+
+# calculate all the r_squared values for every resource
+for (variable in name) {
+  # Fit a simple linear regression model for each predictor variable
+  lm_model <- lm(school_safety$OUTSUS18 ~ school_safety[[variable]])
+
+  # Calculate the R-squared value
+  r_squared <- summary(lm_model)$r.squared
+  
+  tidy_slope <- tidy(lm_model)|>
+    filter(term != "(Intercept)")
+  slope_value <- tidy_slope$estimate
+
+  # Append values to the vectors
+  slope <- c(slope, slope_value)
+  r_squared_values <- c(r_squared_values, r_squared)
+}
+
+# calculate all the slopes for each resource regression
+# slopes <- tidy(resources_fit) |>
+#   filter(term != "(Intercept)") |>
+#   pull(estimate)
+
+# assign all vectors to the resource regression dataframe
+resource_regressions <- data.frame(name = name, slope = slope, rVAl = cor_coefficients, r_squared_val = r_squared_values)
 
 ```
 
@@ -278,6 +339,14 @@ plot_ly(data = resource_regressions2, x = ~name, y = ~slope, type = 'bar',
                             text = ~paste("Variable: ", name, "<br>Slope: ", slope),
                             hoverinfo = 'text', marker = list(color = ~rVAl, colorscale = 'Viridis'))
 ```
+```{r}
+#| label: regression-interactive-plot-for-suspensions
+
+plot_ly(data = resource_regressions, x = ~name, y = ~slope, type = 'bar', 
+                            text = ~paste("Variable: ", name, "<br>Slope: ", slope),
+                            hoverinfo = 'text', marker = list(color = ~rVAl, colorscale = 'Viridis'))
+```
+
 
 # City
 
