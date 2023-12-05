@@ -191,7 +191,7 @@ total_schools_rural <- nrow(school_safety_rural)
 
 # Home
 
-## Column {width="30%"}
+## Column
 
 ```{r}
 #| label: scatter plot resources v. incidents all schools
@@ -288,7 +288,7 @@ regression_plot <- ggplot(resource_regressions2, aes(x = name, y = slope, fill =
 
 plot_ly(data = resource_regressions2, x = ~name, y = ~slope, type = 'bar', 
                             text = ~paste("Variable: ", name, "<br>Slope: ", slope),
-                            hoverinfo = 'text', marker = list(color = ~r_squared_val, colorscale = 'viridis')) |>
+                            hoverinfo = 'text', marker = list(color = ~r_squared_val, colorscale = 'Blues')) |>
   layout(title = "School Resources and Practices Impact on Incidents Reported to Police")
 ```
 
@@ -323,7 +323,8 @@ schoolsaf |>
   geom_col() + 
   labs(x = "Has LGBTQ Acceptance group",
        y = "Average Incidents per School") + 
-  theme(legend.position = "none")
+  theme(legend.position = "none") + 
+  scale_fill_manual(values = c("#D95959", "#8BD1D9"))
 ```
 
 ## Column {.tabset}
@@ -364,8 +365,9 @@ ggplot(school_safety, aes(x = fct_rev(C0562), y = INCPOL18, fill = C0604)) +
   ) +
   scale_fill_discrete(labels = c("No", "Yes")) +
   scale_x_discrete(labels = c("Low", "Moderate", "High")) +
-  scale_fill_viridis_d() +
-  theme(legend.position="bottom")
+  scale_fill_manual(values = c("#F2BB9B", "#03658C")) +
+  theme(legend.position="bottom") + 
+  coord_flip() 
 ```
 
 ```{r}
@@ -404,7 +406,8 @@ ggplot(school_safety, aes(x = as.factor(FR_URBAN), y = INCPOL18, fill = C0604)) 
     fill = "Presence of LGBTQ Acceptance Groups"
   ) +
   scale_fill_discrete(labels = c("No", "Yes")) + 
-  scale_x_discrete(labels = c("City", "Subruban", "Town", "Rural"))
+  scale_x_discrete(labels = c("City", "Subruban", "Town", "Rural")) + 
+  coord_flip()
 
 ```
 
@@ -477,7 +480,8 @@ ggplot(school_safety, aes(x = C0562, y = INCPOL18, fill = C0646)) +
     fill = "Law Enforcement officers provide legal definitions"
   ) +
   scale_fill_discrete(labels = c("No", "Yes")) + 
-  scale_x_discrete(labels = c("High", "Moderate", "Low"))
+  scale_x_discrete(labels = c("High", "Moderate", "Low")) + 
+  coord_flip()
 ```
 
 ```{r}
@@ -516,7 +520,8 @@ ggplot(school_safety, aes(x = as.factor(FR_URBAN), y = INCPOL18, fill = C0646)) 
     fill = "Law Enforcement officers provide legal definitions"
   ) +
   scale_fill_discrete(labels = c("No", "Yes")) + 
-  scale_x_discrete(labels = c("City", "Subruban", "Town", "Rural"))
+  scale_x_discrete(labels = c("City", "Subruban", "Town", "Rural")) + 
+  coord_flip()
 
 ```
 
@@ -557,7 +562,7 @@ schoolsaf |>
 
 ```{r}
 #| label: Required Uniforms - Vary with Size
-#| title: School Size
+#| title: Crime
 #| fig-alt: |
 #|   The graph is a segmented bar plot titled, “Impact of Required School
 #|   Uniforms on Incidents Reported to Police by School Size.” The x axis is
@@ -589,7 +594,8 @@ ggplot(school_safety, aes(x = C0562, y = INCPOL18, fill = C0134)) +
     fill = "Law Enforcement officers provide legal definitions"
   ) +
   scale_fill_discrete(labels = c("No", "Yes")) + 
-  scale_x_discrete(labels = c("High", "Moderate", "Low"))
+  scale_x_discrete(labels = c("High", "Moderate", "Low")) + 
+  coord_flip()
 
 ```
 
@@ -660,7 +666,7 @@ schoolsaf |>
 
 ```{r}
 #| label: Behavioral Modification for Student - Vary with Size
-#| title: School Size
+#| title: Crime
 
 # crime graph
 ggplot(school_safety, aes(x = C0562, y = INCPOL18, fill = C0153)) +
@@ -672,7 +678,8 @@ ggplot(school_safety, aes(x = C0562, y = INCPOL18, fill = C0153)) +
     fill = "Law Enforcement officers provide legal definitions"
   ) +
   scale_fill_discrete(labels = c("No", "Yes")) + 
-  scale_x_discrete(labels = c("High", "Moderate", "Low"))
+  scale_x_discrete(labels = c("High", "Moderate", "Low")) + 
+  coord_flip()
 
 ```
 
@@ -690,6 +697,7 @@ ggplot(school_safety, aes(x = FR_URBAN, y = INCPOL18, fill = C0153)) +
     y = "Incidents Reported to Police",
     fill = "Behavioral Modifications for Students"
   ) +
-  scale_fill_discrete(labels = c("No", "Yes"))
+  scale_fill_discrete(labels = c("No", "Yes")) + 
+  coord_flip()
 
 ```
