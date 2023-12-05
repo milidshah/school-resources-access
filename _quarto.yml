@@ -19,4 +19,4 @@ website:
         href: https://github.com/sta113-f23/project-2-data-diggers
 format: 
   html: 
-    theme: lux
+    theme: [sandstone, theme/custom.scss]

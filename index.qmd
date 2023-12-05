@@ -191,7 +191,7 @@ total_schools_rural <- nrow(school_safety_rural)
 
 # Home
 
-## Column
+## Column {width="30%"}
 
 ```{r}
 #| label: scatter plot resources v. incidents all schools
@@ -288,7 +288,7 @@ regression_plot <- ggplot(resource_regressions2, aes(x = name, y = slope, fill =
 
 plot_ly(data = resource_regressions2, x = ~name, y = ~slope, type = 'bar', 
                             text = ~paste("Variable: ", name, "<br>Slope: ", slope),
-                            hoverinfo = 'text', marker = list(color = ~r_squared_val, colorscale = 'RdBl')) |>
+                            hoverinfo = 'text', marker = list(color = ~r_squared_val, colorscale = 'viridis')) |>
   layout(title = "School Resources and Practices Impact on Incidents Reported to Police")
 ```
 
@@ -364,7 +364,7 @@ ggplot(school_safety, aes(x = fct_rev(C0562), y = INCPOL18, fill = C0604)) +
   ) +
   scale_fill_discrete(labels = c("No", "Yes")) +
   scale_x_discrete(labels = c("Low", "Moderate", "High")) +
-  scale_fill_colorblind() +
+  scale_fill_viridis_d() +
   theme(legend.position="bottom")
 ```
 
@@ -467,7 +467,7 @@ schoolsaf |>
 #|   to about 0.85, and the red portion goes from about 0.85 to 1.00.
 
 
-# size graph
+# crime graph
 ggplot(school_safety, aes(x = C0562, y = INCPOL18, fill = C0646)) +
   geom_col(position = "fill") +
   labs(
@@ -520,116 +520,6 @@ ggplot(school_safety, aes(x = as.factor(FR_URBAN), y = INCPOL18, fill = C0646)) 
 
 ```
 
-# C0610 Sworn law enforcement officers
-
-## Column
-
-```{r}
-#| label: Enforcements Officers Presence - Vary with Incidents
-#| fig-alt: |
-#|   The graph is a bar plot titled, “Law Enforcement Officers and Incidents
-#|   Reported to Police.” The x axis is “Presence of Sworn Law Enforcement
-#|   Officers” with the left bar labeled “No” and the right bar labeled 
-#|   “Yes.” The y axis is “Incidents Reported to Police” and ranges from 0
-#|   to 30000. The left bar, the “No” bar, is filled in to just about 2500,
-#|   and the right bar, the “Yes” bar, is filled in to just below 30000. The
-#|   bars are different colors to provide contrast. 
-
-
-school_safety <- school_safety |>
-  mutate(C0610 = as.factor(C0610))
-
-schoolsaf <- school_safety |>
-  group_by(C0610) |>
-  summarize(average_incidents_per_school = mean(INCPOL18))
-
-schoolsaf |>
-  ggplot(aes(x = C0610, y = average_incidents_per_school, fill = C0610)) + 
-  scale_x_discrete(labels = c("No", "Yes")) +
-  geom_col()
-
-```
-
-## Column {.tabset}
-
-```{r}
-#| label: Enforcement Officers Presence - Vary with Size
-#| title: School Size
-#| fig-alt: |
-#|   The graph is a segmented bar plot titled, “Impact of Law Enforcement
-#|   Officers Present in Schools on Incidents Reported to Police by School
-#|   Size.” The x axis is “School Size,” with four different categories: 
-#|   “> 300,” “300 - 499,” “500 - 999,” and “1000+.” The y axis is
-#|   “Percentage of Incidents Reported to Police” and ranges from 0.00 to 
-#|   1.00. Color is used in this plot to represent “Presence of Law
-#|   Enforcement Officers.” For each of the school size categories, there is
-#|   a full bar going from 0.00 - 1.00, with the bottom of the bar being
-#|   blue, to represent “Yes,” and the top of the bar being red to represent
-#|   “No.” This visualizes each school size category’s proportion of
-#|   incidents reported to police based on whether or not Law Enforcement
-#|   Officers are present. The blue portion of the left-most bar, the 
-#|   “> 300” bar, goes from 0.00 to about 0.85. The red portion of this bar
-#|   goes from about 0.85 to 1.00. The blue portion of the second bar from
-#|   the left, the “300 - 499” bar, goes from 0.00 to about 0.75 and the red
-#|   portion goes from about 0.75 to 1.00. The blue portion of the third bar
-#|   from the left, the “500 - 999” bar, goes from 0.00 to about 0.875 and
-#|   the red portion goes from about 0.875 to 1.00. The blue portion of the
-#|   most-right bar, the “1000+” bar, goes from 0.00 to about 0.95, and the
-#|   red portion goes from about 0.95 to 1.00.
-
-# size graph
-ggplot(school_safety, aes(x = FR_SIZE, y = INCPOL18, fill = C0610)) +
-  geom_col(position = "fill") +
-  labs(
-    title = "Impact of Law Enforcement Officers Present in Schools on
-    Incidents Reported to Police By School Size",
-    x = "School Size",
-    y = "Incidents Reported to Police",
-    fill = "Presence of Law Enforcement Officers"
-  ) +
-  scale_fill_discrete(labels = c("No", "Yes"))
-
-```
-
-```{r}
-#| label: Enforcement Officers Presence - Vary with Urbanicity
-#| title: School Urbanicity
-#| fig-alt: |
-#|   The graph is a segmented bar plot titled, “Impact of Law Enforcement
-#|   Officers on Incidents Reported to Police by School Urbanicity.” The x
-#|   axis is “Urbanicity,” with four different categories: “City,” “Suburb,”
-#|   “Town,” and “Rural.” The y axis is “Percentage of Incidents Reported to
-#|   Police” and ranges from 0.00 to 1.00. Color is used in this plot to
-#|   represent “Presence of Law Enforcement Officers.” For each of the
-#|   school size categories, there is a full bar going from 0.00 - 1.00,
-#|   with the bottom of the bar being blue, to represent “Yes,” and the top
-#|   of the bar being red to represent “No.” This visualizes each school
-#|   urbanicity category’s proportion of incidents reported to police based
-#|   on whether or not Law Enforcement Officers are present. The blue
-#|   portion of the left-most bar, the “City” bar, goes from 0.00 to about 
-#|   0.90. The red portion of this bar goes from about 0.90 to 1.00. The
-#|   blue portion of the second bar from the left, the “Suburb” bar, goes
-#|   from 0.00 to about 0.91 and the red portion goes from about 0.91 to 
-#|   1.00. The blue portion of the third bar from the left, the “Town” bar,
-#|   goes from 0.00 to about 0.89 and the red portion goes from about 0.89
-#|   to 1.00. The blue portion of the most-right bar, the “Rural” bar, goes
-#|   from 0.00 to about 0.875, and the red portion goes from about 0.875 to
-#|   1.00.
-
-
-#urbanicity graph
-ggplot(school_safety, aes(x = FR_URBAN, y = INCPOL18, fill = C0610)) +
-  geom_col(position = "fill") +
-  labs(
-    title = "Impact of Law Enforcement Officers Present in Schools on
-    Incidents Reported to Police By School Urbanicity",
-    x = "Urbanicity",
-    y = "Incidents Reported to Police",
-    fill = "Presence of Law Enforcement Officers"
-  ) +
-  scale_fill_discrete(labels = c("No", "Yes"))
-
-```
 
 # C0134: Uniforms
 
@@ -656,7 +546,10 @@ schoolsaf <- school_safety |>
 schoolsaf |>
   ggplot(aes(x = C0134, y = average_incidents_per_school, fill = C0134)) + 
   scale_x_discrete(labels = c("No", "Yes")) +
-  geom_col()
+  geom_col() + 
+  labs(x = "Has Sworn law enforcement officers participate in providing legal definitions",
+       y = "Average Incidents per School") + 
+  theme(legend.position = "none")
 
 ```
 
@@ -687,17 +580,16 @@ schoolsaf |>
 #|   0.06, and the red portion goes from about 0.06 to 1.00.
 
 
-# size graph
-ggplot(school_safety, aes(x = FR_SIZE, y = INCPOL18, fill = C0134)) +
+ggplot(school_safety, aes(x = C0562, y = INCPOL18, fill = C0134)) +
   geom_col(position = "fill") +
   labs(
-    title = "Impact of Mandatory School Uniforms on Incidents Reported to
-    Police By School Size",
-    x = "School Size",
+    title = "Impact of Officers providing legal definitions on Incidents \n Reported to Police By Crime in School Area",
+    x = "Crime in School Area",
     y = "Incidents Reported to Police",
-    fill = "Mandatory School Uniforms"
+    fill = "Law Enforcement officers provide legal definitions"
   ) +
-  scale_fill_discrete(labels = c("No", "Yes"))
+  scale_fill_discrete(labels = c("No", "Yes")) + 
+  scale_x_discrete(labels = c("High", "Moderate", "Low"))
 
 ```
 
@@ -746,6 +638,7 @@ ggplot(school_safety, aes(x = FR_URBAN, y = INCPOL18, fill = C0134)) +
 ```{r}
 #| label: Behavioral Modification for Students - Vary with Incidents
 
+
 school_safety <- school_safety |>
   mutate(C0153 = as.factor(C0153))
 
@@ -756,7 +649,10 @@ schoolsaf <- school_safety |>
 schoolsaf |>
   ggplot(aes(x = C0153, y = average_incidents_per_school, fill = C0153)) + 
   scale_x_discrete(labels = c("No", "Yes")) +
-  geom_col()
+  geom_col() + 
+  labs(x = "Has Sworn law enforcement officers participate in providing legal definitions",
+       y = "Average Incidents per School") + 
+  theme(legend.position = "none")
 
 ```
 
@@ -766,17 +662,17 @@ schoolsaf |>
 #| label: Behavioral Modification for Student - Vary with Size
 #| title: School Size
 
-# size graph
-ggplot(school_safety, aes(x = FR_SIZE, y = INCPOL18, fill = C0153)) +
+# crime graph
+ggplot(school_safety, aes(x = C0562, y = INCPOL18, fill = C0153)) +
   geom_col(position = "fill") +
   labs(
-    title = "Impact of Behavioral Modifications for Students on Incidents
-    Reported to Police By School Size",
-    x = "School Size",
+    title = "Impact of Officers providing legal definitions on Incidents \n Reported to Police By Crime in School Area",
+    x = "Crime in School Area",
     y = "Incidents Reported to Police",
-    fill = "Behavioral Modifications for Students"
+    fill = "Law Enforcement officers provide legal definitions"
   ) +
-  scale_fill_discrete(labels = c("No", "Yes"))
+  scale_fill_discrete(labels = c("No", "Yes")) + 
+  scale_x_discrete(labels = c("High", "Moderate", "Low"))
 
 ```
 
