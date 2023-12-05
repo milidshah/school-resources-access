@@ -220,6 +220,19 @@ total_schools_rural <- nrow(school_safety_rural)
 
 ```{r}
 #| label: scatter plot resources v. incidents all schools
+#| fig-alt: |
+#|   The graph is a jittered scatter plot titled, “Effect of School on
+#|   Incidents Reported to Police.” The x axis is “Amount of School
+#|   Resources (out of 30)” and the y axis is “Total Number of Incidents
+#|   Reported to the Police.” The x-axis ranges from 0 to 30, and the y
+#|   axis ranges from 0 to about 350. The points are clustered close to
+#|   the x axis, with most of the points being below 100 incidents
+#|   reported to police, though there are some outliers above this line.
+#|   There are also more points clustered between 10 and 30 school
+#|   resources compared to below 10 and over 30. There appears to be a
+#|   slight positive trend, with incidents reported to police increasing as
+#|   amount of school resources increases, though it is very slight and
+#|   difficult to discern. The shape of the distribution is a very slight left skew.
 
 # all schools
 school_safety |>
@@ -278,6 +291,24 @@ regression_plot <- ggplot(resource_regressions2, aes(x = name, y = slope, fill =
 ```{r}
 #| label: interactive-plot
 #| title: School Resources and Practices
+#| fig-alt: |
+#|   The graph is a bar plot titled, “School Resources and Practices Impact
+#|   on Incidents Reported to Police.” The x axis contains the variable
+#|   names of 89 school resources, while the y axis is the slope of each
+#|   variable. Each variable has its own colored bar that visualizes its
+#|   slope compared to the other variables. Most of the variables have
+#|   slopes between 0 and 10, although there are 11 variables with negative
+#|   slopes, and three variables with slopes above 10. When the cursor of
+#|   the computer is hovered over a bar, the variable name and slope will
+#|   appear. The four variables with clearly strong slopes are C0134, with a
+#|   slope of -3.966, C0153, with a slope of -6.324, C0604, with a slope of
+#|   14.595, and C0610, with a slope of 12.814. The colors of the bars
+#|   correlate to the R-values of the variables, with a scale ranging from
+#|   purple to yellow visualizing this. Variables with the lowest R-values
+#|   are colored purple, while variables with the highest R-values are
+#|   colored yellow, with blues and greens visualizing the more average 
+#|   R-values in between.
+
 
 plot_ly(data = resource_regressions2, x = ~name, y = ~slope, type = 'bar', 
                             text = ~paste("Variable: ", name, "<br>Slope: ", slope),
@@ -291,6 +322,15 @@ plot_ly(data = resource_regressions2, x = ~name, y = ~slope, type = 'bar',
 
 ```{r}
 #| label: LGBTQ Acceptance Groups - Vary with Incidents
+#| fig-alt: |
+#|   The graph is a bar plot titled, “LGBTQ Acceptance Groups and Incidents
+#|   Reported to Police.” The x axis is “Presence of LGBTQ Acceptance
+#|   Groups” with the left bar labeled “No” and the right bar labeled “Yes.”
+#|   The y axis is “Incidents Reported to Police” and ranges from 0 to a
+#|   little above 20000. The left bar, the “No” bar, is filled in to just
+#|   below 12500, at about 12000, and the right bar, the “Yes” bar, is
+#|   filled in to just above 20000, at about 22000. The bars are different
+#|   colors to provide contrast. 
 
 # make C0604 factor
 school_safety <- school_safety |>
@@ -314,6 +354,27 @@ ggplot(school_safety, aes(x = C0604, y = INCPOL18, fill = C0604)) +
 ```{r}
 #| label: LGBTQ Groups - Vary with Size
 #| title: School Size
+#| fig-alt: |
+#|   The graph is a segmented bar plot titled, “Impact of LGBTQ Acceptance
+#|   Groups on Incidents Reported to Police by School Size.” The x axis is
+#|   “School Size,” with four different categories: “> 300,” “300 - 499,”
+#|   “500 - 999,” and “1000+.” The y axis is “Percentage of Incidents
+#|   Reported to Police” and ranges from 0.00 to 1.00. Color is used in this
+#|   plot to represent “Presence of LGBTQ Acceptance Groups.” For each of
+#|   the school size categories, there is a full bar going from 0.00 - 1.00,
+#|   with the bottom of the bar being blue, to represent “Yes,” and the top
+#|   of the bar being red to represent “No.” This visualizes each school
+#|   size category’s proportion of incidents reported to police based on
+#|   whether or not LGBTQ Acceptance Groups are present. The blue portion of
+#|   the left-most bar, the “> 300” bar, goes from 0.00 to about 0.35. The
+#|   red portion of this bar goes from about 0.35 to 1.00. The blue portion
+#|   of the second bar from the left, the “300 - 499” bar, goes from 0.00 to
+#|   about 0.20 and the red portion goes from about 0.20 to 1.00. The blue
+#|   portion of the third bar from the left, the “500 - 999” bar, goes from
+#|   0.00 to about 0.30 and the red portion goes from about 0.30 to 1.00.
+#|   The blue portion of the most-right bar, the “1000+” bar, goes from 0.00
+#|   to about 0.85, and the red portion goes from about 0.85 to 1.00.
+
 
 # size graph
 ggplot(school_safety, aes(x = FR_SIZE, y = INCPOL18, fill = C0604)) +
@@ -331,6 +392,27 @@ ggplot(school_safety, aes(x = FR_SIZE, y = INCPOL18, fill = C0604)) +
 ```{r}
 #| label: LGBTQ Groups - Vary with Urbanicity
 #| title: School Urbanicity
+#| fig-alt: |
+#|   The graph is a segmented bar plot titled, “Impact of LGBTQ Acceptance
+#|   Groups on Incidents Reported to Police by School Urbanicity.” The x
+#|   axis is “Urbanicity,” with four different categories: “City,” “Suburb,”
+#|   “Town,” and “Rural.” The y axis is “Percentage of Incidents Reported to
+#|   Police” and ranges from 0.00 to 1.00. Color is used in this plot to
+#|   represent “Presence of LGBTQ Acceptance Groups.” For each of the school
+#|   size categories, there is a full bar going from 0.00 - 1.00, with the
+#|   bottom of the bar being blue, to represent “Yes,” and the top of the
+#|   bar being red to represent “No.” This visualizes each school urbanicity
+#|   category’s proportion of incidents reported to police based on whether
+#|   or not LGBTQ Acceptance Groups are present. The blue portion of the
+#|   left-most bar, the “City” bar, goes from 0.00 to about 0.65. The red
+#|   portion of this bar goes from about 0.65 to 1.00. The blue portion of
+#|   the second bar from the left, the “Suburb” bar, goes from 0.00 to about
+#|   0.70 and the red portion goes from about 0.70 to 1.00. The blue portion
+#|   of the third bar from the left, the “Town” bar, goes from 0.00 to about
+#|   0.365 and the red portion goes from about 0.365 to 1.00. The blue
+#|   portion of the most-right bar, the “Rural” bar, goes from 0.00 to about
+#|   0.45, and the red portion goes from about 0.45 to 1.00.
+
 
 #urbanicity graph
 ggplot(school_safety, aes(x = FR_URBAN, y = INCPOL18, fill = C0604)) +
@@ -352,6 +434,14 @@ ggplot(school_safety, aes(x = FR_URBAN, y = INCPOL18, fill = C0604)) +
 
 ```{r}
 #| label: Enforcements Officers Presence - Vary with Incidents
+#| fig-alt: |
+#|   The graph is a bar plot titled, “Law Enforcement Officers and Incidents
+#|   Reported to Police.” The x axis is “Presence of Sworn Law Enforcement
+#|   Officers” with the left bar labeled “No” and the right bar labeled 
+#|   “Yes.” The y axis is “Incidents Reported to Police” and ranges from 0
+#|   to 30000. The left bar, the “No” bar, is filled in to just about 2500,
+#|   and the right bar, the “Yes” bar, is filled in to just below 30000. The
+#|   bars are different colors to provide contrast. 
 
 # make C0610 factor
 school_safety <- school_safety |>
@@ -375,6 +465,27 @@ ggplot(school_safety, aes(x = C0610, y = INCPOL18, fill = C0610)) +
 ```{r}
 #| label: Enforcement Officers Presence - Vary with Size
 #| title: School Size
+#| fig-alt: |
+#|   The graph is a segmented bar plot titled, “Impact of Law Enforcement
+#|   Officers Present in Schools on Incidents Reported to Police by School
+#|   Size.” The x axis is “School Size,” with four different categories: 
+#|   “> 300,” “300 - 499,” “500 - 999,” and “1000+.” The y axis is
+#|   “Percentage of Incidents Reported to Police” and ranges from 0.00 to 
+#|   1.00. Color is used in this plot to represent “Presence of Law
+#|   Enforcement Officers.” For each of the school size categories, there is
+#|   a full bar going from 0.00 - 1.00, with the bottom of the bar being
+#|   blue, to represent “Yes,” and the top of the bar being red to represent
+#|   “No.” This visualizes each school size category’s proportion of
+#|   incidents reported to police based on whether or not Law Enforcement
+#|   Officers are present. The blue portion of the left-most bar, the 
+#|   “> 300” bar, goes from 0.00 to about 0.85. The red portion of this bar
+#|   goes from about 0.85 to 1.00. The blue portion of the second bar from
+#|   the left, the “300 - 499” bar, goes from 0.00 to about 0.75 and the red
+#|   portion goes from about 0.75 to 1.00. The blue portion of the third bar
+#|   from the left, the “500 - 999” bar, goes from 0.00 to about 0.875 and
+#|   the red portion goes from about 0.875 to 1.00. The blue portion of the
+#|   most-right bar, the “1000+” bar, goes from 0.00 to about 0.95, and the
+#|   red portion goes from about 0.95 to 1.00.
 
 # size graph
 ggplot(school_safety, aes(x = FR_SIZE, y = INCPOL18, fill = C0610)) +
@@ -393,6 +504,28 @@ ggplot(school_safety, aes(x = FR_SIZE, y = INCPOL18, fill = C0610)) +
 ```{r}
 #| label: Enforcement Officers Presence - Vary with Urbanicity
 #| title: School Urbanicity
+#| fig-alt: |
+#|   The graph is a segmented bar plot titled, “Impact of Law Enforcement
+#|   Officers on Incidents Reported to Police by School Urbanicity.” The x
+#|   axis is “Urbanicity,” with four different categories: “City,” “Suburb,”
+#|   “Town,” and “Rural.” The y axis is “Percentage of Incidents Reported to
+#|   Police” and ranges from 0.00 to 1.00. Color is used in this plot to
+#|   represent “Presence of Law Enforcement Officers.” For each of the
+#|   school size categories, there is a full bar going from 0.00 - 1.00,
+#|   with the bottom of the bar being blue, to represent “Yes,” and the top
+#|   of the bar being red to represent “No.” This visualizes each school
+#|   urbanicity category’s proportion of incidents reported to police based
+#|   on whether or not Law Enforcement Officers are present. The blue
+#|   portion of the left-most bar, the “City” bar, goes from 0.00 to about 
+#|   0.90. The red portion of this bar goes from about 0.90 to 1.00. The
+#|   blue portion of the second bar from the left, the “Suburb” bar, goes
+#|   from 0.00 to about 0.91 and the red portion goes from about 0.91 to 
+#|   1.00. The blue portion of the third bar from the left, the “Town” bar,
+#|   goes from 0.00 to about 0.89 and the red portion goes from about 0.89
+#|   to 1.00. The blue portion of the most-right bar, the “Rural” bar, goes
+#|   from 0.00 to about 0.875, and the red portion goes from about 0.875 to
+#|   1.00.
+
 
 #urbanicity graph
 ggplot(school_safety, aes(x = FR_URBAN, y = INCPOL18, fill = C0610)) +
@@ -414,6 +547,14 @@ ggplot(school_safety, aes(x = FR_URBAN, y = INCPOL18, fill = C0610)) +
 
 ```{r}
 #| label: Required Uniforms - Vary with Incidents
+#| fig-alt: |
+#|   The graph is a bar plot titled, “Required School Uniforms and Incidents
+#|   Reported to Police.” The x axis is “Required School Uniforms” with the
+#|   left bar labeled “No” and the right bar labeled “Yes.” The y axis is
+#|   “Incidents Reported to Police” and ranges from 0 to 30000. The left 
+#|   bar, the “No” bar, is filled in to just about 27800, and the right bar,
+#|   the “Yes” bar, is filled in to just about 2800. The bars are different
+#|   colors to provide contrast. 
 
 # make C0134 factor
 school_safety <- school_safety |>
@@ -437,6 +578,27 @@ ggplot(school_safety, aes(x = C0134, y = INCPOL18, fill = C0134)) +
 ```{r}
 #| label: Required Uniforms - Vary with Size
 #| title: School Size
+#| fig-alt: |
+#|   The graph is a segmented bar plot titled, “Impact of Required School
+#|   Uniforms on Incidents Reported to Police by School Size.” The x axis is
+#|   “School Size,” with four different categories: “> 300,” “300 - 499,”
+#|   “500 - 999,” and “1000+.” The y axis is “Percentage of Incidents
+#|   Reported to Police” and ranges from 0.00 to 1.00. Color is used in this
+#|   plot to represent “Required School Uniforms.” For each of the school
+#|   size categories, there is a full bar going from 0.00 - 1.00, with the
+#|   bottom of the bar being blue, to represent “Yes,” and the top of the
+#|   bar being red to represent “No.” This visualizes each school size
+#|   category’s proportion of incidents reported to police based on whether
+#|   or not School Uniforms are required. The blue portion of the left-most
+#|   bar, the “> 300” bar, goes from 0.00 to about 0.39. The red portion of
+#|   this bar goes from about 0.39 to 1.00. The blue portion of the second
+#|   bar from the left, the “300 - 499” bar, goes from 0.00 to about 0.20
+#|   and the red portion goes from about 0.20 to 1.00. The blue portion of
+#|   the third bar from the left, the “500 - 999” bar, goes from 0.00 to
+#|   about 0.19 and the red portion goes from about 0.19 to 1.00. The blue
+#|   portion of the most-right bar, the “1000+” bar, goes from 0.00 to about
+#|   0.06, and the red portion goes from about 0.06 to 1.00.
+
 
 # size graph
 ggplot(school_safety, aes(x = FR_SIZE, y = INCPOL18, fill = C0134)) +
@@ -455,6 +617,26 @@ ggplot(school_safety, aes(x = FR_SIZE, y = INCPOL18, fill = C0134)) +
 ```{r}
 #| label: Required Uniforms - Vary with Urbanicity
 #| title: School Urbanicity
+#| fig-alt: |
+#|   The graph is a segmented bar plot titled, “Impact of Required School
+#|   Uniforms on Incidents Reported to Police by School Urbanicity.” The x
+#|   axis is “Urbanicity,” with four different categories: “City,” “Suburb,”
+#|   “Town,” and “Rural.” The y axis is “Percentage of Incidents Reported to
+#|   Police” and ranges from 0.00 to 1.00. Color is used in this plot to
+#|   represent “Required School Uniforms.” For each of the school size
+#|   categories, there is a full bar going from 0.00 - 1.00, with the bottom
+#|   of the bar being blue, to represent “Yes,” and the top of the bar being
+#|   red to represent “No.” This visualizes each school urbanicity
+#|   category’s proportion of incidents reported to police based on whether
+#|   or not School Uniforms are required. The blue portion of the left-most
+#|   bar, the “City” bar, goes from 0.00 to about 0.18. The red portion of
+#|   this bar goes from about 0.18 to 1.00. The blue portion of the second
+#|   bar from the left, the “Suburb” bar, goes from 0.00 to about 0.10 and
+#|   the red portion goes from about 0.10 to 1.00. The blue portion of the
+#|   third bar from the left, the “Town” bar, goes from 0.00 to about 0.11
+#|   and the red portion goes from about 0.11 to 1.00. The blue portion of
+#|   the most-right bar, the “Rural” bar, goes from 0.00 to about 0.06, and
+#|   the red portion goes from about 0.06 to 1.00.
 
 #urbanicity graph
 ggplot(school_safety, aes(x = FR_URBAN, y = INCPOL18, fill = C0134)) +
@@ -469,7 +651,6 @@ ggplot(school_safety, aes(x = FR_URBAN, y = INCPOL18, fill = C0134)) +
   scale_fill_discrete(labels = c("No", "Yes"))
 
 ```
-
 
 # C0176: Behavioral Modification for Students
 
@@ -533,4 +714,3 @@ ggplot(school_safety, aes(x = FR_URBAN, y = INCPOL18, fill = C0176)) +
   scale_fill_discrete(labels = c("No", "Yes"))
 
 ```
-
