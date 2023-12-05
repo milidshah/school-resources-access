@@ -12,8 +12,6 @@ website:
         text: Proposal    
       - href: project.qmd
         text: Write Up
-      - href: presentation.qmd
-        text: Presentation
       - href: about.qmd
         text: About
     right:

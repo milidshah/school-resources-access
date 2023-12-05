@@ -354,16 +354,18 @@ schoolsaf |>
 
 
 # size graph
-ggplot(school_safety, aes(x = C0562, y = INCPOL18, fill = C0604)) +
+ggplot(school_safety, aes(x = fct_rev(C0562), y = INCPOL18, fill = C0604)) +
   geom_col(position = "fill") +
   labs(
-    title = "Impact of LGBTQ Acceptance Groups on Incidents /nReported to Police By School Size",
+    title = "Impact of LGBTQ Acceptance Groups on Incidents \nReported to Police By School Size",
     x = "Crime in School Area",
     y = "Incidents Reported to Police",
     fill = "Presence of LGBTQ Acceptance Groups"
   ) +
-  scale_fill_discrete(labels = c("No", "Yes")) + 
-  scale_x_discrete(labels = c("High", "Moderate", "Low"))
+  scale_fill_discrete(labels = c("No", "Yes")) +
+  scale_x_discrete(labels = c("Low", "Moderate", "High")) +
+  scale_fill_colorblind() +
+  theme(legend.position="bottom")
 ```
 
 ```{r}
@@ -405,6 +407,7 @@ ggplot(school_safety, aes(x = as.factor(FR_URBAN), y = INCPOL18, fill = C0604)) 
   scale_x_discrete(labels = c("City", "Subruban", "Town", "Rural"))
 
 ```
+
 # C0646: Law Enforcement legal definitions
 
 ## Column
@@ -516,6 +519,7 @@ ggplot(school_safety, aes(x = as.factor(FR_URBAN), y = INCPOL18, fill = C0646)) 
   scale_x_discrete(labels = c("City", "Subruban", "Town", "Rural"))
 
 ```
+
 # C0610 Sworn law enforcement officers
 
 ## Column
