@@ -283,61 +283,9 @@ total_schools_rural <- nrow(school_safety_rural)
 ```
 
 
-#  {.sidebar}
-
-This dashboard displays statistics for:
-
-|                                          |                         |
-|------------------------------------------|-------------------------|
-| **US Public Schools**                    | `r nrow(school_safety)` |
-| **Public Schools in a City Setting**     | 723                     |
-| **Public Schools in a Suburban Setting** | 1034                    |
-| **Public Schools in a Town Setting**     | 382                     |
-| **Public Schools in a Rural Setting**    | 623                     |
-| **Year of Data**                         | 2017-2018 School Year   |
-
-------------------------------------------------------------------------
-
 # Home {orientation="columns"}
 
-## Column
-
-### Row {height="10%"}
-
-```{r}
-#| content: valuebox
-#| title: Average Incidents
-
- list(
-   icon = "rocket",
-   color = "red",
-   value = average_incidents
-   )
-```
-
-```{r}
-#| content: valuebox
-#| title: Average Resource Score
-
- list(
-   icon = "rocket",
-   color = "red",
-   value = average_resource_score
-   )
-```
-
-```{r}
-#| content: valuebox
-#| title: Schools
-
- list(
-   icon = "rocket",
-   color = "red",
-   value = total_schools
-   )
-```
-
-### Row {.tabset}
+## Column {.tabset}
 
 
 ```{r}
