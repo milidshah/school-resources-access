@@ -355,14 +355,16 @@ school_safety <- school_safety |>
   mutate(C0604 = as.factor(C0604))
 
 # incidents graph
-ggplot(school_safety, aes(x = C0604, y = INCPOL18)) +
+ggplot(school_safety, aes(x = C0604, y = INCPOL18, fill = C0604)) +
   geom_col() +
   labs(
     title = "LGBTQ Acceptance Groups and Incidents Reported to Police",
     x = "Presence of LGBTQ Acceptance Groups",
     y = "Incidents Reported to Police"
-  )
-
+  ) +
+  scale_x_discrete(labels = c("No", "Yes")) +
+  theme(legend.position = "none")
+  
 ```
 
 ## Column {.tabset}
@@ -373,8 +375,15 @@ ggplot(school_safety, aes(x = C0604, y = INCPOL18)) +
 
 # size graph
 ggplot(school_safety, aes(x = FR_SIZE, y = INCPOL18, fill = C0604)) +
-  geom_col(position = "fill")
-
+  geom_col(position = "fill") +
+  labs(
+    title = "Impact of LGBTQ Acceptance Groups on Incidents Reported to
+       Police By School Size",
+    x = "School Size",
+    y = "Incidents Reported to Police",
+    fill = "Presence of LGBTQ Acceptance Groups"
+  ) +
+  scale_fill_discrete(labels = c("No", "Yes"))
 ```
 
 ```{r}
@@ -383,7 +392,15 @@ ggplot(school_safety, aes(x = FR_SIZE, y = INCPOL18, fill = C0604)) +
 
 #urbanicity graph
 ggplot(school_safety, aes(x = FR_URBAN, y = INCPOL18, fill = C0604)) +
-  geom_col(position = "fill")  
+  geom_col(position = "fill") +
+  labs(
+    title = "Impact of LGBTQ Acceptance Groups on Incidents Reported to
+       Police By School Urbanicity",
+    x = "Urbanicity",
+    y = "Incidents Reported to Police",
+    fill = "Presence of LGBTQ Acceptance Groups"
+  ) +
+  scale_fill_discrete(labels = c("No", "Yes"))
 
 ```
 
@@ -399,13 +416,15 @@ school_safety <- school_safety |>
   mutate(C0610 = as.factor(C0610))
 
 # incidents graph
-ggplot(school_safety, aes(x = C0610, y = INCPOL18)) +
+ggplot(school_safety, aes(x = C0610, y = INCPOL18, fill = C0610)) +
   geom_col() +
   labs(
     title = "Law Enforcment Officers and Incidents Reported to Police",
     x = "Presence of Sworn Law Enforcment Officers",
     y = "Incidents Reported to Police"
-  )
+  ) +
+  scale_x_discrete(labels = c("No", "Yes")) +
+  theme(legend.position = "none")
 
 ```
 
@@ -417,7 +436,15 @@ ggplot(school_safety, aes(x = C0610, y = INCPOL18)) +
 
 # size graph
 ggplot(school_safety, aes(x = FR_SIZE, y = INCPOL18, fill = C0610)) +
-  geom_col(position = "fill")
+  geom_col(position = "fill") +
+  labs(
+    title = "Impact of Law Enforcement Officers Present in Schools on
+    Incidents Reported to Police By School Size",
+    x = "School Size",
+    y = "Incidents Reported to Police",
+    fill = "Presence of Law Enforcement Officers"
+  ) +
+  scale_fill_discrete(labels = c("No", "Yes"))
 
 ```
 
@@ -427,7 +454,15 @@ ggplot(school_safety, aes(x = FR_SIZE, y = INCPOL18, fill = C0610)) +
 
 #urbanicity graph
 ggplot(school_safety, aes(x = FR_URBAN, y = INCPOL18, fill = C0610)) +
-  geom_col(position = "fill") 
+  geom_col(position = "fill") +
+  labs(
+    title = "Impact of Law Enforcement Officers Present in Schools on
+    Incidents Reported to Police By School Urbanicity",
+    x = "Urbanicity",
+    y = "Incidents Reported to Police",
+    fill = "Presence of Law Enforcement Officers"
+  ) +
+  scale_fill_discrete(labels = c("No", "Yes"))
 
 ```
 
