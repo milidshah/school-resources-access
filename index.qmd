@@ -42,8 +42,7 @@ school_safety <- school_safety |>
     INCPOL18, # Total number of incidents reported to police
     FR_URBAN, # Urbanicity - Based on urban-centric location of school
     FR_SIZE, # Size of school
-    C0110:C0150, # School Practices and Programs 
-    C0158:C0186,
+    C0110:C0186, # School Practices and Programs 
     C0600,
     C0604:C0608,
     C0190:C0192,
@@ -332,21 +331,18 @@ plot_ly(data = resource_regressions2, x = ~name, y = ~slope, type = 'bar',
 #|   filled in to just above 20000, at about 22000. The bars are different
 #|   colors to provide contrast. 
 
-# make C0604 factor
+
 school_safety <- school_safety |>
   mutate(C0604 = as.factor(C0604))
 
-# incidents graph
-ggplot(school_safety, aes(x = C0604, y = INCPOL18, fill = C0604)) +
-  geom_col() +
-  labs(
-    title = "LGBTQ Acceptance Groups and Incidents Reported to Police",
-    x = "Presence of LGBTQ Acceptance Groups",
-    y = "Incidents Reported to Police"
-  ) +
+schoolsaf <- school_safety |>
+  group_by(C0604) |>
+  summarize(average_incidents_per_school = mean(INCPOL18))
+
+schoolsaf |>
+  ggplot(aes(x = C0604, y = average_incidents_per_school, fill = C0604)) + 
   scale_x_discrete(labels = c("No", "Yes")) +
-  theme(legend.position = "none")
-  
+  geom_col()
 ```
 
 ## Column {.tabset}
@@ -443,20 +439,18 @@ ggplot(school_safety, aes(x = FR_URBAN, y = INCPOL18, fill = C0604)) +
 #|   and the right bar, the “Yes” bar, is filled in to just below 30000. The
 #|   bars are different colors to provide contrast. 
 
-# make C0610 factor
+
 school_safety <- school_safety |>
   mutate(C0610 = as.factor(C0610))
 
-# incidents graph
-ggplot(school_safety, aes(x = C0610, y = INCPOL18, fill = C0610)) +
-  geom_col() +
-  labs(
-    title = "Law Enforcement Officers and Incidents Reported to Police",
-    x = "Presence of Sworn Law Enforcment Officers",
-    y = "Incidents Reported to Police"
-  ) +
+schoolsaf <- school_safety |>
+  group_by(C0610) |>
+  summarize(average_incidents_per_school = mean(INCPOL18))
+
+schoolsaf |>
+  ggplot(aes(x = C0610, y = average_incidents_per_school, fill = C0610)) + 
   scale_x_discrete(labels = c("No", "Yes")) +
-  theme(legend.position = "none")
+  geom_col()
 
 ```
 
@@ -556,20 +550,17 @@ ggplot(school_safety, aes(x = FR_URBAN, y = INCPOL18, fill = C0610)) +
 #|   the “Yes” bar, is filled in to just about 2800. The bars are different
 #|   colors to provide contrast. 
 
-# make C0134 factor
 school_safety <- school_safety |>
   mutate(C0134 = as.factor(C0134))
 
-# incidents graph
-ggplot(school_safety, aes(x = C0134, y = INCPOL18, fill = C0134)) +
-  geom_col() +
-  labs(
-    title = "Required School Uniforms and Incidents Reported to Police",
-    x = "Required School Uniforms",
-    y = "Incidents Reported to Police"
-  ) +
+schoolsaf <- school_safety |>
+  group_by(C0134) |>
+  summarize(average_incidents_per_school = mean(INCPOL18))
+
+schoolsaf |>
+  ggplot(aes(x = C0134, y = average_incidents_per_school, fill = C0134)) + 
   scale_x_discrete(labels = c("No", "Yes")) +
-  theme(legend.position = "none")
+  geom_col()
 
 ```
 
@@ -652,28 +643,24 @@ ggplot(school_safety, aes(x = FR_URBAN, y = INCPOL18, fill = C0134)) +
 
 ```
 
-# C0176: Behavioral Modification for Students
+# C0153: Cell Phones Prohibition
 
 ## Column
 
 ```{r}
 #| label: Behavioral Modification for Students - Vary with Incidents
 
-# make C0176 factor
 school_safety <- school_safety |>
-  mutate(C0176 = as.factor(C0176))
+  mutate(C0153 = as.factor(C0153))
 
-# incidents graph
-ggplot(school_safety, aes(x = C0176, y = INCPOL18, fill = C0176)) +
-  geom_col() +
-  labs(
-    title = "Behavioral Modifications for Students and Incidents Reported
-    to Police",
-    x = "Behavioral Modifications for Students",
-    y = "Incidents Reported to Police"
-  ) +
+schoolsaf <- school_safety |>
+  group_by(C0153) |>
+  summarize(average_incidents_per_school = mean(INCPOL18))
+
+schoolsaf |>
+  ggplot(aes(x = C0153, y = average_incidents_per_school, fill = C0153)) + 
   scale_x_discrete(labels = c("No", "Yes")) +
-  theme(legend.position = "none")
+  geom_col()
 
 ```
 
@@ -684,7 +671,7 @@ ggplot(school_safety, aes(x = C0176, y = INCPOL18, fill = C0176)) +
 #| title: School Size
 
 # size graph
-ggplot(school_safety, aes(x = FR_SIZE, y = INCPOL18, fill = C0176)) +
+ggplot(school_safety, aes(x = FR_SIZE, y = INCPOL18, fill = C0153)) +
   geom_col(position = "fill") +
   labs(
     title = "Impact of Behavioral Modifications for Students on Incidents
@@ -702,7 +689,7 @@ ggplot(school_safety, aes(x = FR_SIZE, y = INCPOL18, fill = C0176)) +
 #| title: School Urbanicity
 
 #urbanicity graph
-ggplot(school_safety, aes(x = FR_URBAN, y = INCPOL18, fill = C0176)) +
+ggplot(school_safety, aes(x = FR_URBAN, y = INCPOL18, fill = C0153)) +
   geom_col(position = "fill") +
   labs(
     title = "Impact of Behavioral Modifications for Students on Incidents
