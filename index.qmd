@@ -1,6 +1,8 @@
 ---
 author: "The Data Diggers"
-format: dashboard
+format: 
+  dashboard:
+    orientation: columns
 ---
 
 ```{r}
@@ -87,13 +89,19 @@ school_safety <- school_safety |>
 school_safety <- school_safety |>
   mutate_at(vars(starts_with("C")), ~ str_replace(., "2", "0")) |>
   mutate(across(starts_with("C"), as.numeric)) |>
-  mutate(resource_sum = rowSums(across(starts_with("C")))) |>
+  mutate(resource_sum = 
+           C0183 + C0181 + C0179 + C0186 + C0604 + C0606 + C0608 + C0190 + C0192 + C0204 + C0206 + C0208 + 
+           C0210 + C0212 + C0214 + C0216 + C0218 + C0266 + C0268 + C0265 + C0267 + C0269 + C0270 + C0272 + 
+           C0278 + C0271 + C0273 + C0274 + C0276 + C0277 + C0610
+  ) |>
+  #mutate(resource_sum = rowSums(across(starts_with("C")))) |>
   arrange(resource_sum) 
   #mutate(across(starts_with("C"), as.logical))
 
 
 
 ```
+
 ```{r}
 #| label: linear_regressions_for_each_resource against suspensions
 
@@ -213,68 +221,48 @@ average_resource_score <- round(mean(school_safety$resource_sum), digits = 1)
 
 total_schools <- nrow(school_safety)
 ```
-```{r}
-#| label: filter data for only schools in city
 
+```{r}
+#| label: filter data for urbanicity and make value box
+
+# filter data for city
 school_safety_city <- school_safety |>
   filter(FR_URBAN == 1)
-```
 
-```{r}
-#| label: Calculating value box values for cities
-
+# calculate city value box
 average_incidents_city <- round(mean(school_safety_city$INCPOL18), digits = 1)
 
 average_resource_score_city <- round(mean(school_safety_city$resource_sum), digits = 1)
 
 total_schools_city <- nrow(school_safety_city)
-```
 
-
-```{r}
-#| label: filter data for only schools in suburb
-
+# filter data for suburban
 school_safety_suburban <- school_safety |>
-  filter(FR_URBAN == 2)
-```
+  filter(FR_URBAN == 2) 
 
-```{r}
-#| label: Calculating value box values for suburb
-
+# calculate suburb value box 
 average_incidents_suburban <- round(mean(school_safety_suburban$INCPOL18), digits = 1)
 
 average_resource_score_suburban <- round(mean(school_safety_suburban$resource_sum), digits = 1)
 
 total_schools_suburban <- nrow(school_safety_suburban)
-```
 
-```{r}
-#| label: filter data for only schools in town
-
+# filter data for town 
 school_safety_town <- school_safety |>
   filter(FR_URBAN == 3)
-```
 
-```{r}
-#| label: Calculating value box values for Town schools
-
+# calculate town value box
 average_incidents_town <- round(mean(school_safety_town$INCPOL18), digits = 1)
 
 average_resource_score_town <- round(mean(school_safety_town$resource_sum), digits = 1)
 
 total_schools_town <- nrow(school_safety_town)
-```
-```{r}
-#| label: filter data for only schools in rural schools
 
+# filter for rural 
 school_safety_rural <- school_safety |>
   filter(FR_URBAN == 4)
-```
 
-
-```{r}
-#| label: Calculating value box values for rural schools
-
+# calculate rural value box
 average_incidents_rural <- round(mean(school_safety_rural$INCPOL18), digits = 1)
 
 average_resource_score_rural <- round(mean(school_safety_rural$resource_sum), digits = 1)
@@ -282,18 +270,16 @@ average_resource_score_rural <- round(mean(school_safety_rural$resource_sum), di
 total_schools_rural <- nrow(school_safety_rural)
 ```
 
+# Home
 
-# Home {orientation="columns"}
-
-## Column {.tabset}
-
+## Column
 
 ```{r}
 #| label: scatter plot resources v. incidents all schools
 
 # all schools
 school_safety |>
-  ggplot(aes(x = resource_sum, y = OUTSUS18)) +
+  ggplot(aes(x = resource_sum, y = INCPOL18)) +
   geom_jitter() +
   labs(
     title = "Effect of School Resources on Incidents Reported to Police", 
@@ -302,27 +288,16 @@ school_safety |>
   ) 
 
 ```
-```{r}
-#| label: law-enforcement-graph
-#| title: chart
 
-school_safety |>
-  ggplot(aes(x = C0610, y = INCPOL18)) +
-  geom_col() +
-  labs(title = "Does the presence of law enforcement officers in the school impact the number of incidents reported to police?", x = "Presence of Law Enforcement Officers", y = "Incidents Reported to Police")
-```
 ## Column {.tabset}
-
-
 
 ```{r}
 #| label: geom tile
+
 school_safety |>
 ggplot(aes(x = FR_SIZE , y = FR_URBAN, fill = INCPOL18)) +
 geom_tile(width = .95, height = 0.95) +
 scale_fill_distiller(palette = "RdPu") 
-
-
 
 ```
 
@@ -358,6 +333,7 @@ plot_ly(data = resource_regressions2, x = ~name, y = ~slope, type = 'bar',
                             hoverinfo = 'text', marker = list(color = ~rVAl, colorscale = 'Viridis')) |>
   layout(title = "How School Resources and Practices impact incidents")
 ```
+
 ```{r}
 #| label: regression-interactive-plot-for-suspensions
 
@@ -367,138 +343,179 @@ plot_ly(data = resource_regressions, x = ~name, y = ~slope, type = 'bar',
   layout(title = "How School resources and practices impact Suspensions")
 ```
 
-
 # C0604: LGBTQ Acceptance Groups
 
+## Column
+
+```{r}
+#| label: LGBTQ Acceptance Groups - Vary with Incidents
+
+# make C0604 factor
+school_safety <- school_safety |>
+  mutate(C0604 = as.factor(C0604))
+
+# incidents graph
+ggplot(school_safety, aes(x = C0604, y = INCPOL18)) +
+  geom_col() +
+  labs(
+    title = "LGBTQ Acceptance Groups and Incidents Reported to Police",
+    x = "Presence of LGBTQ Acceptance Groups",
+    y = "Incidents Reported to Police"
+  )
+
+```
+
+## Column {.tabset}
+
+```{r}
+#| label: LGBTQ Groups - Vary with Size
+#| title: School Size
+
+# size graph
+ggplot(school_safety, aes(x = FR_SIZE, y = INCPOL18, fill = C0604)) +
+  geom_col(position = "fill")
+
+```
+
+```{r}
+#| label: LGBTQ Groups - Vary with Urbanicity
+#| title: School Urbanicity
+
+#urbanicity graph
+ggplot(school_safety, aes(x = FR_URBAN, y = INCPOL18, fill = C0604)) +
+  geom_col(position = "fill")  
+
+```
 
 # C0610 Sworn law enforcement officers
 
-# C0134: Uniforms
-
-# C0153: Prohibit Use of Cell phones
-
-
-
-
-# Mili plots
-
-## Row {.tabset}
+## Column
 
 ```{r}
-#| label: resource-incidents-plot
+#| label: Enforcements Officers Presence - Vary with Incidents
 
-# all schools
-school_safety |>
-  ggplot(aes(x = resource_sum, y = INCPOL18)) +
-  geom_jitter() +
-  labs(
-    title = "Effect of School Resources on Incidents Reported to Police", 
-    x = "Amount of School Resources (out of 30)",
-    y = "Total Number of Incidents Reported to the Police"
-  ) +
-  geom_smooth(aes(color = as.factor(FR_URBAN)))
+# make C0610 factor
+school_safety <- school_safety |>
+  mutate(C0610 = as.factor(C0610))
 
-# City (1)
-school_safety |>
-  filter(FR_URBAN == 1) |>
-  ggplot(aes(x = resource_sum, y = INCPOL18)) +
-  geom_point() +
+# incidents graph
+ggplot(school_safety, aes(x = C0610, y = INCPOL18)) +
+  geom_col() +
   labs(
-    title = "Effect of School Resources on Incidents Reported to Police \n in Urban Schools", 
-    x = "Amount of School Resources (out of 30)",
-    y = "Total Number of Incidents Reported to the Police"
-  ) 
- # geom_smooth()
+    title = "Law Enforcment Officers and Incidents Reported to Police",
+    x = "Presence of Sworn Law Enforcment Officers",
+    y = "Incidents Reported to Police"
+  )
 
-# Suburb (2)
-school_safety |>
-  filter(FR_URBAN == 2) |>
-  ggplot(aes(x = resource_sum, y = INCPOL18)) +
-  geom_point() +
-  labs(
-    title = 
-      "Effect of School Resources on Incidents Reported to Police \n in Suburban Schools", 
-    x = "Amount of School Resources (out of 30)",
-    y = "Total Number of Incidents Reported to the Police"
-  ) 
-  #geom_smooth()
+```
 
-# Town (3)
-school_safety |>
-  filter(FR_URBAN == 3) |>
-  ggplot(aes(x = resource_sum, y = INCPOL18)) +
-  geom_point() +
-  labs(
-    title = "Effect of School Resources on Incidents Reported to Police \n in Town Schools", 
-    x = "Amount of School Resources (out of 30)",
-    y = "Total Number of Incidents Reported to the Police"
-  ) 
- # geom_smooth()
+## Column {.tabset}
 
-# Rural (4)
-school_safety |>
-  filter(FR_URBAN == 4) |>
-  ggplot(aes(x = resource_sum, y = INCPOL18)) +
-  geom_point() +
+```{r}
+#| label: Enforcement Officers Presence - Vary with Size
+#| title: School Size
+
+# size graph
+ggplot(school_safety, aes(x = FR_SIZE, y = INCPOL18, fill = C0610)) +
+  geom_col(position = "fill")
+
+```
+
+```{r}
+#| label: Enforcement Officers Presence - Vary with Urbanicity
+#| title: School Urbanicity
+
+#urbanicity graph
+ggplot(school_safety, aes(x = FR_URBAN, y = INCPOL18, fill = C0610)) +
+  geom_col(position = "fill") 
+
+```
+
+# C0134: Uniforms
+
+## Column
+
+```{r}
+#| label: Required Uniforms - Vary with Incidents
+
+# make C0134 factor
+school_safety <- school_safety |>
+  mutate(C0134 = as.factor(C0134))
+
+# incidents graph
+ggplot(school_safety, aes(x = C0134, y = INCPOL18)) +
+  geom_col() +
   labs(
-    title = "Effect of School Resources on Incidents Reported to Police \n in Rural Schools", 
-    x = "Amount of School Resources (out of 30)",
-    y = "Total Number of Incidents Reported to the Police"
-  ) 
- # geom_smooth()
+    title = "Required School Uniforms and Incidents Reported to Police",
+    x = "Required School Uniforms",
+    y = "Incidents Reported to Police"
+  )
+
+```
+
+## Column {.tabset}
+
+```{r}
+#| label: Required Uniforms - Vary with Size
+#| title: School Size
+
+# size graph
+ggplot(school_safety, aes(x = FR_SIZE, y = INCPOL18, fill = C0134)) +
+  geom_col(position = "fill")
+
+```
+
+```{r}
+#| label: Required Uniforms - Vary with Urbanicity
+#| title: School Urbanicity
+
+#urbanicity graph
+ggplot(school_safety, aes(x = FR_URBAN, y = INCPOL18, fill = C0134)) +
+  geom_col(position = "fill") 
+
 ```
 
 
+# C0153: Prohibit Use of Cell Phones
+
+## Column
+
 ```{r}
-#| label: resource-suspensions-plot
+#| label: Prohibit Use of Phones - Vary with Incidents
 
+# make C0153 factor
+school_safety <- school_safety |>
+  mutate(C0153 = as.factor(C0153))
 
-# City (1)
-school_safety |>
-  filter(FR_URBAN == 1) |>
-  ggplot(aes(x = resource_sum, y = OUTSUS18)) +
-  geom_point() +
+# incidents graph
+ggplot(school_safety, aes(x = C0153, y = INCPOL18)) +
+  geom_col() +
   labs(
-    title = "Effect of School Resources on Incidents Reported to Police \n in Urban Schools", 
-    x = "Amount of School Resources (out of 30)",
-    y = "Total Number of Incidents Reported to the Police"
-  ) +
-  geom_smooth(method = "lm")
+    title = "Prohibited Nonacademic Use of Cell Phones and Incidents Reported to Police",
+    x = "Prohibited Nonacademic Use of Cell Phones",
+    y = "Incidents Reported to Police"
+  )
 
-# Suburb (2)
-school_safety |>
-  filter(FR_URBAN == 2) |>
-  ggplot(aes(x = resource_sum, y = OUTSUS18)) +
-  geom_point() +
-  labs(
-    title = 
-      "Effect of School Resources on Incidents Reported to Police \n in Suburban Schools", 
-    x = "Amount of School Resources (out of 30)",
-    y = "Total Number of Incidents Reported to the Police"
-  ) +
-  geom_smooth(method = "lm")
+```
 
-# Town (3)
-school_safety |>
-  filter(FR_URBAN == 3) |>
-  ggplot(aes(x = resource_sum, y = OUTSUS18)) +
-  geom_point() +
-  labs(
-    title = "Effect of School Resources on Incidents Reported to Police \n in Town Schools", 
-    x = "Amount of School Resources (out of 30)",
-    y = "Total Number of Incidents Reported to the Police"
-  ) +
-  geom_smooth(method = "lm")
+## Column {.tabset}
 
-# Rural (4)
-school_safety |>
-  filter(FR_URBAN == 4) |>
-  ggplot(aes(x = resource_sum, y = OUTSUS18)) +
-  geom_point() +
-  labs(
-    title = "Effect of School Resources on Incidents Reported to Police \n in Rural Schools", 
-    x = "Amount of School Resources (out of 30)",
-    y = "Total Number of Incidents Reported to the Police"
-  ) +
-  geom_smooth(method = "lm")
+```{r}
+#| label: Prohibit Use of Phones - Vary with Size
+#| title: School Size
+
+# size graph
+ggplot(school_safety, aes(x = FR_SIZE, y = INCPOL18, fill = C0153)) +
+  geom_col(position = "fill")
+
+```
+
+```{r}
+#| label: Prohibit Use of Phones - Vary with Urbanicity
+#| title: School Urbanicity
+
+#urbanicity graph
+ggplot(school_safety, aes(x = FR_URBAN, y = INCPOL18, fill = C0153)) +
+  geom_col(position = "fill") 
+
 ```
