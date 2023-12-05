@@ -20,6 +20,7 @@ library(plotly)
 
 
 school_safety <- read_sas("data/pu_ssocs18.sas7bdat")
+original_school_safety <- read_sas("data/pu_ssocs18.sas7bdat")
 theme_set(theme_minimal(base_family = "Atkinson Hyperlegible"))
 
 # add the labels to a vector
@@ -44,45 +45,14 @@ school_safety <- school_safety |>
     FR_SIZE, # Size of school
     C0110:C0186, # School Practices and Programs 
     C0600,
-    C0604:C0608,
+    C0604:C0610,
     C0190:C0192,
     C0204:C0218,
     C0610:C0650,
     C0661,
     C0667,
-    # Staff Training
     OUTSUS18, # suspensions
-    # C0183, # Social emotional learning training for students
-    # C0181, # Individual mentoring/tutoring/coaching by adults
-    # C0179, # Student involvement in restorative circles
-    # C0186, # Promote sense of community/social integration
-    # C0604, # LGBTQ acceptance group
-    # C0606, # Disability acceptance group
-    # C0608, # Cultural diversity acceptance group 
-    # C0190, # Formal process to obtain parental input
-    # C0192, # Provide training or assistance to parents
-    # C0204, # Community involvement - parent groups
-    # C0206, # Community involvement - social services
-    # C0208, # Community involvement - juvenile justice
-    # C0210, # Community involvement - law enforcement
-    # C0212, # Community involvement - mental health
-    # C0214, # Community involvement - civic organizations
-    # C0216, # Community involvement - businesses
-    # C0218, # Community involvement - religious organizations
-    C0266, # Teacher training - classroom management
-    C0268, # Teacher training - discipline policies related to violence
-    C0265, # Teacher training - discipline policies related to cyberbullying
-    C0267, # Teacher training - discipline policies related to bullying
-    C0269, # Teacher training - alcohol/drug discipline policy
-    C0270, # Teacher training - safety procedures
-    C0272, # Teacher training - early warning signs for violent behavior
-    C0278, # Teacher training - signs of self-harm or suicidal tendencies
-    C0271, # Teacher training - intervention and referral strategies
-    C0273, # Teacher training - recognize bullying behavior
-    C0274, # Teacher training - student alcohol/drug abuse
-    C0276, # Teacher training - positive behavioral intervention
-    C0277, # Teacher training - crisis prevention and intervention
-    # C0610, # Sworn law enforcement officers at school
+    C0266:C0277, # Teacher training
   )
 
 
@@ -98,6 +68,8 @@ school_safety <- school_safety |>
   #mutate(resource_sum = rowSums(across(starts_with("C")))) |>
   arrange(resource_sum) 
   #mutate(across(starts_with("C"), as.logical))
+
+
 
 ```
 
@@ -252,32 +224,35 @@ school_safety |>
 ## Column {.tabset}
 
 ```{r}
-#| label: geom tile
-#| title: Urbanicity and Size
-
-school_safety |>
-ggplot(aes(x = FR_SIZE , y = FR_URBAN, fill = INCPOL18)) +
-geom_tile(width = .95, height = 0.95) +
-scale_fill_distiller(palette = "RdPu") +
-  labs(
-    title = "School Size and Urbanicity Effect on Incidents Reported to Police",
-    x = "School Size",
-    y = "School Urbanicity"
-  )
+# #| label: geom tile
+# #| title: Urbanicity and Size
+# 
+# school_safety |>
+# ggplot(aes(x = FR_SIZE , y = FR_URBAN, fill = INCPOL18)) +
+# geom_tile(width = .95, height = 0.95) +
+# scale_fill_distiller(palette = "RdPu") +
+#   labs(
+#     title = "School Size and Urbanicity Effect on Incidents Reported to Police",
+#     x = "School Size",
+#     y = "School Urbanicity"
+#   )
 
 ```
 
 ```{r}
-#| label: Bar graph comparing incidents in the school
-#| title: Total Incidents between Urbanicity
+#| label: Bar graph comparing incidents to school size
+#| title: Total Incidents between School Size
 
 schoolsaf <- school_safety |>
-  group_by(FR_URBAN) |>
+  group_by(FR_SIZE) |>
   summarize(average_incidents_per_school = mean(INCPOL18))
 
 schoolsaf |>
-  ggplot(aes(x = FR_URBAN, y = average_incidents_per_school)) + 
-  geom_col()
+  ggplot(aes(x = as.factor(FR_SIZE), y = average_incidents_per_school, fill = FR_SIZE)) + 
+  geom_col() + 
+  scale_x_discrete(labels = c("<300", "300-499", "500, 999", ">=1000")) + 
+  labs( x = "School size", y = "Average Incidents Per School") + 
+  theme(legend.position = "none")
 ```
 
 ```{r}
@@ -287,8 +262,6 @@ regression_plot <- ggplot(resource_regressions2, aes(x = name, y = slope, fill =
   geom_col() + 
   scale_fill_distiller(type = "div", limits = c(-.5, .5)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
-
 ```
 
 ```{r}
@@ -335,25 +308,29 @@ plot_ly(data = resource_regressions2, x = ~name, y = ~slope, type = 'bar',
 #|   filled in to just above 20000, at about 22000. The bars are different
 #|   colors to provide contrast. 
 
+school_safety$C0562 <- as.factor(original_school_safety$C0562)
 
 school_safety <- school_safety |>
-  mutate(C0648 = as.factor(C0648))
+  mutate(C0604 = as.factor(C0604))
 
 schoolsaf <- school_safety |>
-  group_by(C0648) |>
+  group_by(C0604) |>
   summarize(average_incidents_per_school = mean(INCPOL18))
 
 schoolsaf |>
-  ggplot(aes(x = C0648, y = average_incidents_per_school, fill = C0648)) + 
+  ggplot(aes(x = C0604, y = average_incidents_per_school, fill = C0604)) + 
   scale_x_discrete(labels = c("No", "Yes")) +
-  geom_col()
+  geom_col() + 
+  labs(x = "Has LGBTQ Acceptance group",
+       y = "Average Incidents per School") + 
+  theme(legend.position = "none")
 ```
 
 ## Column {.tabset}
 
 ```{r}
-#| label: LGBTQ Groups - Vary with Size
-#| title: School Size
+#| label: LGBTQ Groups - Vary with Crime in School Area
+#| title: Crime
 #| fig-alt: |
 #|   The graph is a segmented bar plot titled, “Impact of LGBTQ Acceptance
 #|   Groups on Incidents Reported to Police by School Size.” The x axis is
@@ -377,16 +354,16 @@ schoolsaf |>
 
 
 # size graph
-ggplot(school_safety, aes(x = FR_SIZE, y = INCPOL18, fill = C0648)) +
+ggplot(school_safety, aes(x = C0562, y = INCPOL18, fill = C0604)) +
   geom_col(position = "fill") +
   labs(
-    title = "Impact of LGBTQ Acceptance Groups on Incidents Reported to
-       Police By School Size",
-    x = "School Size",
+    title = "Impact of LGBTQ Acceptance Groups on Incidents /nReported to Police By School Size",
+    x = "Crime in School Area",
     y = "Incidents Reported to Police",
     fill = "Presence of LGBTQ Acceptance Groups"
   ) +
-  scale_fill_discrete(labels = c("No", "Yes"))
+  scale_fill_discrete(labels = c("No", "Yes")) + 
+  scale_x_discrete(labels = c("High", "Moderate", "Low"))
 ```
 
 ```{r}
@@ -415,7 +392,7 @@ ggplot(school_safety, aes(x = FR_SIZE, y = INCPOL18, fill = C0648)) +
 
 
 #urbanicity graph
-ggplot(school_safety, aes(x = FR_URBAN, y = INCPOL18, fill = C0648)) +
+ggplot(school_safety, aes(x = as.factor(FR_URBAN), y = INCPOL18, fill = C0604)) +
   geom_col(position = "fill") +
   labs(
     title = "Impact of LGBTQ Acceptance Groups on Incidents Reported to
@@ -424,10 +401,121 @@ ggplot(school_safety, aes(x = FR_URBAN, y = INCPOL18, fill = C0648)) +
     y = "Incidents Reported to Police",
     fill = "Presence of LGBTQ Acceptance Groups"
   ) +
-  scale_fill_discrete(labels = c("No", "Yes"))
+  scale_fill_discrete(labels = c("No", "Yes")) + 
+  scale_x_discrete(labels = c("City", "Subruban", "Town", "Rural"))
 
 ```
+# C0646: Law Enforcement legal definitions
 
+## Column
+
+```{r}
+#| label: Law Enforcement officers providing legal definitions - Vary with Incidents
+#| fig-alt: |
+#|   The graph is a bar plot titled, “LGBTQ Acceptance Groups and Incidents
+#|   Reported to Police.” The x axis is “Presence of LGBTQ Acceptance
+#|   Groups” with the left bar labeled “No” and the right bar labeled “Yes.”
+#|   The y axis is “Incidents Reported to Police” and ranges from 0 to a
+#|   little above 20000. The left bar, the “No” bar, is filled in to just
+#|   below 12500, at about 12000, and the right bar, the “Yes” bar, is
+#|   filled in to just above 20000, at about 22000. The bars are different
+#|   colors to provide contrast. 
+
+school_safety <- school_safety |>
+  mutate(C0646 = as.factor(C0646))
+
+schoolsaf <- school_safety |>
+  group_by(C0646) |>
+  summarize(average_incidents_per_school = mean(INCPOL18))
+
+schoolsaf |>
+  ggplot(aes(x = C0646, y = average_incidents_per_school, fill = C0646)) + 
+  scale_x_discrete(labels = c("No", "Yes")) +
+  geom_col() + 
+  labs(x = "Has Sworn law enforcement officers participate in providing legal definitions",
+       y = "Average Incidents per School") + 
+  theme(legend.position = "none")
+```
+
+## Column {.tabset}
+
+```{r}
+#| label: Law Enforcement officers providing legal definitions - Vary with Crime in School Area
+#| title: Crime
+#| fig-alt: |
+#|   The graph is a segmented bar plot titled, “Impact of LGBTQ Acceptance
+#|   Groups on Incidents Reported to Police by School Size.” The x axis is
+#|   “School Size,” with four different categories: “> 300,” “300 - 499,”
+#|   “500 - 999,” and “1000+.” The y axis is “Percentage of Incidents
+#|   Reported to Police” and ranges from 0.00 to 1.00. Color is used in this
+#|   plot to represent “Presence of LGBTQ Acceptance Groups.” For each of
+#|   the school size categories, there is a full bar going from 0.00 - 1.00,
+#|   with the bottom of the bar being blue, to represent “Yes,” and the top
+#|   of the bar being red to represent “No.” This visualizes each school
+#|   size category’s proportion of incidents reported to police based on
+#|   whether or not LGBTQ Acceptance Groups are present. The blue portion of
+#|   the left-most bar, the “> 300” bar, goes from 0.00 to about 0.35. The
+#|   red portion of this bar goes from about 0.35 to 1.00. The blue portion
+#|   of the second bar from the left, the “300 - 499” bar, goes from 0.00 to
+#|   about 0.20 and the red portion goes from about 0.20 to 1.00. The blue
+#|   portion of the third bar from the left, the “500 - 999” bar, goes from
+#|   0.00 to about 0.30 and the red portion goes from about 0.30 to 1.00.
+#|   The blue portion of the most-right bar, the “1000+” bar, goes from 0.00
+#|   to about 0.85, and the red portion goes from about 0.85 to 1.00.
+
+
+# size graph
+ggplot(school_safety, aes(x = C0562, y = INCPOL18, fill = C0646)) +
+  geom_col(position = "fill") +
+  labs(
+    title = "Impact of Officers providing legal definitions on Incidents \n Reported to Police By Crime in School Area",
+    x = "Crime in School Area",
+    y = "Incidents Reported to Police",
+    fill = "Law Enforcement officers provide legal definitions"
+  ) +
+  scale_fill_discrete(labels = c("No", "Yes")) + 
+  scale_x_discrete(labels = c("High", "Moderate", "Low"))
+```
+
+```{r}
+#| label: Law Enforcement officers providing legal definitions - Vary with Urbanicity
+#| title: School Urbanicity
+#| fig-alt: |
+#|   The graph is a segmented bar plot titled, “Impact of LGBTQ Acceptance
+#|   Groups on Incidents Reported to Police by School Urbanicity.” The x
+#|   axis is “Urbanicity,” with four different categories: “City,” “Suburb,”
+#|   “Town,” and “Rural.” The y axis is “Percentage of Incidents Reported to
+#|   Police” and ranges from 0.00 to 1.00. Color is used in this plot to
+#|   represent “Presence of LGBTQ Acceptance Groups.” For each of the school
+#|   size categories, there is a full bar going from 0.00 - 1.00, with the
+#|   bottom of the bar being blue, to represent “Yes,” and the top of the
+#|   bar being red to represent “No.” This visualizes each school urbanicity
+#|   category’s proportion of incidents reported to police based on whether
+#|   or not LGBTQ Acceptance Groups are present. The blue portion of the
+#|   left-most bar, the “City” bar, goes from 0.00 to about 0.65. The red
+#|   portion of this bar goes from about 0.65 to 1.00. The blue portion of
+#|   the second bar from the left, the “Suburb” bar, goes from 0.00 to about
+#|   0.70 and the red portion goes from about 0.70 to 1.00. The blue portion
+#|   of the third bar from the left, the “Town” bar, goes from 0.00 to about
+#|   0.365 and the red portion goes from about 0.365 to 1.00. The blue
+#|   portion of the most-right bar, the “Rural” bar, goes from 0.00 to about
+#|   0.45, and the red portion goes from about 0.45 to 1.00.
+
+
+#urbanicity graph
+ggplot(school_safety, aes(x = as.factor(FR_URBAN), y = INCPOL18, fill = C0646)) +
+  geom_col(position = "fill") +
+  labs(
+    title = "Impact of LGBTQ Acceptance Groups on Incidents Reported to
+       Police By School Urbanicity",
+    x = "Urbanicity",
+    y = "Incidents Reported to Police",
+    fill = "Law Enforcement officers provide legal definitions"
+  ) +
+  scale_fill_discrete(labels = c("No", "Yes")) + 
+  scale_x_discrete(labels = c("City", "Subruban", "Town", "Rural"))
+
+```
 # C0610 Sworn law enforcement officers
 
 ## Column
