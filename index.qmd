@@ -88,6 +88,7 @@ school_safety <- school_safety |>
 
 school_safety <- school_safety |>
   mutate_at(vars(starts_with("C")), ~ str_replace(., "2", "0")) |>
+  mutate_at(vars(starts_with("C")), ~ str_replace(., "-1", "0")) |>
   mutate(across(starts_with("C"), as.numeric)) |>
   mutate(resource_sum = 
            C0183 + C0181 + C0179 + C0186 + C0604 + C0606 + C0608 + C0190 + C0192 + C0204 + C0206 + C0208 + 
@@ -119,10 +120,10 @@ name <- colnames(school_safety |>
 #            C0277 + C0610, 
 #       data = school_safety) 
 
-# calculate each of the r coefficients 
-cor_coefficients <- sapply(name, function(variable) {
-  cor(school_safety[[variable]], school_safety$INCPOL18)
-})
+# # calculate each of the r coefficients 
+# cor_coefficients <- sapply(name, function(variable) {
+#   cor(school_safety[[variable]], school_safety$INCPOL18)
+# })
 
 # create a vector to store all the values of the r-squared coefficients
 r_squared_values <- numeric()
@@ -131,15 +132,18 @@ slope <- numeric()
 # calculate all the r_squared values for every resource
 for (variable in name) {
   # Fit a simple linear regression model for each predictor variable
-  lm_model <- lm(school_safety$INCPOL18 ~ school_safety[[variable]])
+  lm_model <- lm(school_safety$INCPOL18 ~ factor(school_safety[[variable]]) + school_safety$FR_SIZE)
 
   # Calculate the R-squared value
   r_squared <- summary(lm_model)$r.squared
   
+  # tidy_slope <- tidy(lm_model)|>
+  #   filter(term != "(Intercept)") |>
+  #   filter(term != "school_safety$FR_SIZE") |>
+  #   filter(term != "school_safety[[variable]])0")
   tidy_slope <- tidy(lm_model)|>
-    filter(term != "(Intercept)")
+    filter(term == "factor(school_safety[[variable]])1")
   slope_value <- tidy_slope$estimate
-
   # Append values to the vectors
   slope <- c(slope, slope_value)
   r_squared_values <- c(r_squared_values, r_squared)
@@ -151,7 +155,7 @@ for (variable in name) {
 #   pull(estimate)
 
 # assign all vectors to the resource regression dataframe
-resource_regressions2 <- data.frame(name = name, slope = slope, rVAl = cor_coefficients, r_squared_val = r_squared_values)
+resource_regressions2 <- data.frame(name = name, slope = slope, r_squared_val = r_squared_values)
 
 ```
 
@@ -311,7 +315,7 @@ regression_plot <- ggplot(resource_regressions2, aes(x = name, y = slope, fill =
 
 plot_ly(data = resource_regressions2, x = ~name, y = ~slope, type = 'bar', 
                             text = ~paste("Variable: ", name, "<br>Slope: ", slope),
-                            hoverinfo = 'text', marker = list(color = ~rVAl, colorscale = 'Viridis')) |>
+                            hoverinfo = 'text', marker = list(color = ~r_squared_val, colorscale = 'RdBl')) |>
   layout(title = "School Resources and Practices Impact on Incidents Reported to Police")
 ```
 
@@ -333,14 +337,14 @@ plot_ly(data = resource_regressions2, x = ~name, y = ~slope, type = 'bar',
 
 
 school_safety <- school_safety |>
-  mutate(C0604 = as.factor(C0604))
+  mutate(C0648 = as.factor(C0648))
 
 schoolsaf <- school_safety |>
-  group_by(C0604) |>
+  group_by(C0648) |>
   summarize(average_incidents_per_school = mean(INCPOL18))
 
 schoolsaf |>
-  ggplot(aes(x = C0604, y = average_incidents_per_school, fill = C0604)) + 
+  ggplot(aes(x = C0648, y = average_incidents_per_school, fill = C0648)) + 
   scale_x_discrete(labels = c("No", "Yes")) +
   geom_col()
 ```
@@ -373,7 +377,7 @@ schoolsaf |>
 
 
 # size graph
-ggplot(school_safety, aes(x = FR_SIZE, y = INCPOL18, fill = C0604)) +
+ggplot(school_safety, aes(x = FR_SIZE, y = INCPOL18, fill = C0648)) +
   geom_col(position = "fill") +
   labs(
     title = "Impact of LGBTQ Acceptance Groups on Incidents Reported to
@@ -411,7 +415,7 @@ ggplot(school_safety, aes(x = FR_SIZE, y = INCPOL18, fill = C0604)) +
 
 
 #urbanicity graph
-ggplot(school_safety, aes(x = FR_URBAN, y = INCPOL18, fill = C0604)) +
+ggplot(school_safety, aes(x = FR_URBAN, y = INCPOL18, fill = C0648)) +
   geom_col(position = "fill") +
   labs(
     title = "Impact of LGBTQ Acceptance Groups on Incidents Reported to
