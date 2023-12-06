@@ -53,10 +53,8 @@ school_safety <- school_safety |>
   )
 
 school_safety <- school_safety |>
-  mutate_at(
-    vars(starts_with("C")), ~ str_replace(., "2", "0"), 
-    vars(starts_with("C")), ~ str_replace(., "-1", "0")
-  ) |>
+  mutate_at(vars(starts_with("C")), ~ str_replace(., "2", "0")) |>
+  mutate_at(vars(starts_with("C")), ~ str_replace(., "-1", "0")) |>
   mutate(
     across(starts_with("C"), as.numeric),
     resource_sum = 
@@ -95,7 +93,7 @@ for (variable in name) {
   r_squared_values <- c(r_squared_values, r_squared)
 }
 
-# assign all vectors to the resource regression dataframe
+# assign all vectors to the resource regression data frame
 resource_regressions2 <- data.frame(name = name, 
                                     slope = slope, 
                                     r_squared_val = r_squared_values
@@ -231,7 +229,7 @@ plot_ly(data = resource_regressions2,
          )
 ```
 
-# C0648: Law Enforcement Officer for Instructional Hours
+# C0646: Legal Definitions
 
 ## Column
 
@@ -249,15 +247,15 @@ plot_ly(data = resource_regressions2,
 school_safety$C0562 <- as.factor(original_school_safety$C0562)
 
 school_safety <- school_safety |>
-  mutate(C0648 = as.factor(C0648))
+  mutate(C0646 = as.factor(C0646))
 
 school_safety |>
-  group_by(C0648) |>
+  group_by(C0646) |>
   summarize(average_incidents_per_school = mean(INCPOL18)) |>
-  ggplot(aes(x = C0648, y = average_incidents_per_school, fill = C0648)) + 
+  ggplot(aes(x = C0646, y = average_incidents_per_school, fill = C0646)) + 
   geom_col() + 
-  labs(title = "Sworn Law Enforcement Officer Present for All Instructional Hours \nVersus Average Incidents Reported to Police In Schools", 
-       x = "Presence of Sworn Law Enforcement Officers All Instructional Hours",
+  labs(title = "Sworn Law Enforcement Officer Participating in Providing Legal Definitions \nVersus Average Incidents Reported to Police In Schools", 
+       x = "Presence of Sworn Law Enforcement Officers Participating in Providing Legal Definitions",
        y = "Average Incidents Reported to the Police per School") + 
   #scale_x_discrete(labels = c("No", "Yes"))
   theme(legend.position = "none") +
@@ -292,18 +290,19 @@ school_safety |>
 
 
 # crime graph
-ggplot(school_safety, aes(x = fct_rev(C0562), y = INCPOL18, fill = C0648)) +
+ggplot(school_safety, aes(x = C0646, y = INCPOL18, fill = fct_rev(C0562))) +
   geom_col(position = "fill") +
   labs(
-    title = "Sworn Law Enforcement Officer Present for All Instructional Hours \nVersus Crime in School Area",
+    title = "Sworn Law Enforcement Officer participating in Providing Legal Definitions \nVersus Crime in School Area",
     x = "Crime in School Area",
     y = "Incidents Reported to Police",
-    fill = "Presence of Sworn Law Enforcement Officers All Instructional Hours"
+    fill = "Presence of Sworn Law Enforcement Officers Participating in Providing Legal Definitions"
   ) +
-  scale_x_discrete(labels = c("Low", "Moderate", "High")) +
+  scale_x_discrete(labels = c("No", "Yes")) +
  # scale_fill_manual(values = c("#F2BB9B", "#03658C")) +
   theme(legend.position="bottom") +
-  scale_fill_colorblind(labels = c("No", "Yes"))
+  scale_fill_colorblind(labels = c("Low", "Moderate", "High")) + 
+  coord_flip()
 ```
 
 ```{r}
@@ -332,24 +331,25 @@ ggplot(school_safety, aes(x = fct_rev(C0562), y = INCPOL18, fill = C0648)) +
 
 
 #urbanicity graph
-ggplot(school_safety, aes(x = as.factor(FR_URBAN), y = INCPOL18, fill = C0648)) +
+ggplot(school_safety, aes(x = C0646, y = INCPOL18, fill = as.factor(FR_URBAN))) +
   geom_col(position = "fill") +
   labs(
-    title = "Sworn Law Enforcement Officer Present for All Instructional Hours \nVersus School Urbanicity",
+    title = "Sworn Law Enforcement Officer Participating in Providing Legal Definitions \nVersus School Urbanicity",
     x = "School Urbanicity",
     y = "Incidents Reported to Police",
-    fill = "Presence of Sworn Law Enforcement Officers All Instructional Hours"
+    fill = "Presence of Sworn Law Enforcement Officers Participating in Providing Legal Definitions"
   ) +
-  scale_x_discrete(labels = c("City", "Subruban", "Town", "Rural")) +
+  scale_x_discrete(labels = c("No", "Yes")) +
   theme(legend.position="bottom") +
-  scale_fill_colorblind(labels = c("No", "Yes"))
- # coord_flip()
+  scale_fill_colorblind(labels = c("City", "Subruban", "Town", "Rural")) +
+  coord_flip()
 
 ```
 
-# C0626: Law Enforcement Officers Wear Body Camera
+# C0604: LGBTQ
 
 ## Column
+
 
 ```{r}
 #| label: Law-officers-body-camera - vary-with-incidents
@@ -364,15 +364,15 @@ ggplot(school_safety, aes(x = as.factor(FR_URBAN), y = INCPOL18, fill = C0648)) 
 #|   colors to provide contrast. 
 
 school_safety <- school_safety |>
-  mutate(C0626 = as.factor(C0626))
+  mutate(C0604 = as.factor(C0604))
 
 school_safety |>
-  group_by(C0626) |>
+  group_by(C0604) |>
   summarize(average_incidents_per_school = mean(INCPOL18)) |>
-  ggplot(aes(x = C0626, y = average_incidents_per_school, fill = C0626)) + 
+  ggplot(aes(x = C0604, y = average_incidents_per_school, fill = C0604)) + 
   geom_col() + 
-  labs(title = "Sworn Law Enforcement Officer Wearing a Body Camera \nVersus Average Incidents Reported to Police In Schools", 
-       x = "Presence of Sworn Law Enforcement Officers Wearing a Body Camera",
+  labs(title = "Presence of LGBTQ Acceptance Group \nVersus Average Incidents Reported to Police In Schools", 
+       x = "Presence of LGBTQ Acceptance Group",
        y = "Average Incidents Reported to the Police per School") + 
   #scale_x_discrete(labels = c("No", "Yes"))
   theme(legend.position = "none") +
@@ -406,18 +406,19 @@ school_safety |>
 #|   to about 0.85, and the red portion goes from about 0.85 to 1.00.
 
 # crime graph
-ggplot(school_safety, aes(x = fct_rev(C0562), y = INCPOL18, fill = C0626)) +
+ggplot(school_safety, aes(x = fct_rev(C0562), y = INCPOL18, fill = C0604)) +
   geom_col(position = "fill") +
   labs(
-    title = "Sworn Law Enforcement Officers Wearing a Body Camera \nVersus Crime in School Area",
+    title = "Presence of LGBTQ Acceptance Group \nVersus Crime in School Area",
     x = "Crime in School Area",
     y = "Incidents Reported to Police",
-    fill = "Presence of Sworn Law Enforcement Officers Wearing a Body Camera"
+    fill = "Presence of LGBTQ Acceptance Group"
   ) +
   scale_x_discrete(labels = c("Low", "Moderate", "High")) +
  # scale_fill_manual(values = c("#F2BB9B", "#03658C")) +
   theme(legend.position="bottom") +
-  scale_fill_colorblind(labels = c("No", "Yes"))
+  scale_fill_colorblind(labels = c("No", "Yes")) + 
+  coord_flip()
 ```
 
 ```{r}
@@ -445,18 +446,18 @@ ggplot(school_safety, aes(x = fct_rev(C0562), y = INCPOL18, fill = C0626)) +
 #|   0.45, and the red portion goes from about 0.45 to 1.00.
 
 #urbanicity graph
-ggplot(school_safety, aes(x = as.factor(FR_URBAN), y = INCPOL18, fill = C0626)) +
+ggplot(school_safety, aes(x = as.factor(FR_URBAN), y = INCPOL18, fill = C0604)) +
   geom_col(position = "fill") +
   labs(
-    title = "Sworn Law Enforcement Officers Wearing a Body Camera \nVersus School Urbanicity",
+    title = "Presence of LGBTQ Acceptance Group \nVersus School Urbanicity",
     x = "School Urbanicity",
     y = "Incidents Reported to Police",
-    fill = "Presence of Sworn Law Enforcement Officers Wearing a Body Camera"
+    fill = "Presence of LGBTQ Acceptance Group"
   ) +
   scale_x_discrete(labels = c("City", "Subruban", "Town", "Rural")) +
   theme(legend.position="bottom") +
-  scale_fill_colorblind(labels = c("No", "Yes"))
- # coord_flip()
+  scale_fill_colorblind(labels = c("No", "Yes")) +
+  coord_flip()
 
 
 ```
@@ -502,7 +503,8 @@ ggplot(school_safety, aes(x = fct_rev(C0562), y = INCPOL18, fill = C0153)) +
   ) +
   scale_x_discrete(labels = c("Low", "Moderate", "High")) +
   theme(legend.position="bottom") +
-  scale_fill_colorblind(labels = c("No", "Yes"))
+  scale_fill_colorblind(labels = c("No", "Yes")) + 
+  coord_flip()
 
 ```
 
@@ -521,8 +523,8 @@ ggplot(school_safety, aes(x = as.factor(FR_URBAN), y = INCPOL18, fill = C0153)) 
   ) +
   scale_x_discrete(labels = c("City", "Subruban", "Town", "Rural")) +
   theme(legend.position="bottom") +
-  scale_fill_colorblind(labels = c("No", "Yes"))
- # coord_flip()
+  scale_fill_colorblind(labels = c("No", "Yes")) +
+  coord_flip()
 
 ```
 
@@ -584,7 +586,7 @@ school_safety |>
 #|   0.06, and the red portion goes from about 0.06 to 1.00.
 
 # crime graph
-ggplot(school_safety, aes(x = fct_rev(C0562), y = INCPOL18, fill = C0110)) +
+ggplot(school_safety, aes(x = C0110, y = INCPOL18, fill = fct_rev(C0562))) +
   geom_col(position = "fill") +
   labs(
     title = "Required Visitor Check In and Badges \nVersus Crime in School Area",
@@ -592,9 +594,10 @@ ggplot(school_safety, aes(x = fct_rev(C0562), y = INCPOL18, fill = C0110)) +
     y = "Incidents Reported to Police",
     fill = "Required Visitor Check In and Badges"
   ) +
-  scale_x_discrete(labels = c("Low", "Moderate", "High")) +
+  scale_x_discrete(labels = c("No", "Yes")) +
   theme(legend.position="bottom") +
-  scale_fill_colorblind(labels = c("No", "Yes"))
+  scale_fill_colorblind(labels = c("Low", "Moderate", "High")) + 
+  coord_flip()
 
 ```
 
@@ -623,6 +626,19 @@ ggplot(school_safety, aes(x = fct_rev(C0562), y = INCPOL18, fill = C0110)) +
 #|   the red portion goes from about 0.06 to 1.00.
 
 #urbanicity graph
+ggplot(school_safety, aes(x = C0110, y = INCPOL18, fill = as.factor(FR_URBAN))) +
+  geom_col(position = "fill") +
+  labs(
+    title = "Required Visitor Check In and Badges \nVersus School Urbanicity",
+    x = "School Urbanicity",
+    y = "Incidents Reported to Police",
+    fill = "Required Visitor Check In and Badges"
+  ) +
+  scale_x_discrete(labels = c("No", "Yes")) +
+  theme(legend.position="bottom") +
+  scale_fill_colorblind(labels = c("City", "Subruban", "Town", "Rural")) +
+  coord_flip() 
+
 ggplot(school_safety, aes(x = as.factor(FR_URBAN), y = INCPOL18, fill = C0110)) +
   geom_col(position = "fill") +
   labs(
@@ -633,6 +649,6 @@ ggplot(school_safety, aes(x = as.factor(FR_URBAN), y = INCPOL18, fill = C0110)) 
   ) +
   scale_x_discrete(labels = c("City", "Subruban", "Town", "Rural")) +
   theme(legend.position="bottom") +
-  scale_fill_colorblind(labels = c("No", "Yes"))
- # coord_flip()
+  scale_fill_colorblind(labels = c("No", "Yes")) +
+  coord_flip()
 ```
