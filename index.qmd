@@ -6,7 +6,7 @@ format:
 ---
 
 ```{r}
-#| label: load-packages-data-
+#| label: load-packages-data
 #| message: FALSE
 
 library(shinydashboard)
@@ -51,8 +51,8 @@ school_safety <- school_safety |>
     C0610:C0650,
     C0661,
     C0667,
-    OUTSUS18, # suspensions
-    C0266:C0277, # Teacher training
+    OUTSUS18, # Suspensions
+    C0266:C0277, # Teacher Training
   )
 
 
@@ -61,8 +61,9 @@ school_safety <- school_safety |>
   mutate_at(vars(starts_with("C")), ~ str_replace(., "-1", "0")) |>
   mutate(across(starts_with("C"), as.numeric)) |>
   mutate(resource_sum = 
-           C0183 + C0181 + C0179 + C0186 + C0604 + C0606 + C0608 + C0190 + C0192 + C0204 + C0206 + C0208 + 
-           C0210 + C0212 + C0214 + C0216 + C0218 + C0266 + C0268 + C0265 + C0267 + C0269 + C0270 + C0272 + 
+           C0183 + C0181 + C0179 + C0186 + C0604 + C0606 + C0608 + C0190 + 
+           C0192 + C0204 + C0206 + C0208 + C0210 + C0212 + C0214 + C0216 + 
+           C0218 + C0266 + C0268 + C0265 + C0267 + C0269 + C0270 + C0272 + 
            C0278 + C0271 + C0273 + C0274 + C0276 + C0277 + C0610
   ) |>
   #mutate(resource_sum = rowSums(across(starts_with("C")))) |>
@@ -104,7 +105,9 @@ slope <- numeric()
 # calculate all the r_squared values for every resource
 for (variable in name) {
   # Fit a simple linear regression model for each predictor variable
-  lm_model <- lm(school_safety$INCPOL18 ~ factor(school_safety[[variable]]) + school_safety$FR_SIZE)
+  lm_model <- lm(school_safety$INCPOL18 ~ factor(school_safety[[variable]])
+                 + school_safety$FR_SIZE
+                 )
 
   # Calculate the R-squared value
   r_squared <- summary(lm_model)$r.squared
@@ -127,7 +130,10 @@ for (variable in name) {
 #   pull(estimate)
 
 # assign all vectors to the resource regression dataframe
-resource_regressions2 <- data.frame(name = name, slope = slope, r_squared_val = r_squared_values)
+resource_regressions2 <- data.frame(name = name, 
+                                    slope = slope, 
+                                    r_squared_val = r_squared_values
+                                    )
 
 ```
 
@@ -151,7 +157,9 @@ school_safety_city <- school_safety |>
 # calculate city value box
 average_incidents_city <- round(mean(school_safety_city$INCPOL18), digits = 1)
 
-average_resource_score_city <- round(mean(school_safety_city$resource_sum), digits = 1)
+average_resource_score_city <- round(mean(school_safety_city$resource_sum), 
+                                     digits = 1
+                                     )
 
 total_schools_city <- nrow(school_safety_city)
 
@@ -160,9 +168,14 @@ school_safety_suburban <- school_safety |>
   filter(FR_URBAN == 2) 
 
 # calculate suburb value box 
-average_incidents_suburban <- round(mean(school_safety_suburban$INCPOL18), digits = 1)
+average_incidents_suburban <- round(mean(school_safety_suburban$INCPOL18), 
+                                    digits = 1
+                                    )
 
-average_resource_score_suburban <- round(mean(school_safety_suburban$resource_sum), digits = 1)
+average_resource_score_suburban <- round(
+  mean(school_safety_suburban$resource_sum), 
+  digits = 1
+  )
 
 total_schools_suburban <- nrow(school_safety_suburban)
 
@@ -171,9 +184,13 @@ school_safety_town <- school_safety |>
   filter(FR_URBAN == 3)
 
 # calculate town value box
-average_incidents_town <- round(mean(school_safety_town$INCPOL18), digits = 1)
+average_incidents_town <- round(mean(school_safety_town$INCPOL18), 
+                                digits = 1
+                                )
 
-average_resource_score_town <- round(mean(school_safety_town$resource_sum), digits = 1)
+average_resource_score_town <- round(mean(school_safety_town$resource_sum), 
+                                     digits = 1
+                                     )
 
 total_schools_town <- nrow(school_safety_town)
 
@@ -182,9 +199,13 @@ school_safety_rural <- school_safety |>
   filter(FR_URBAN == 4)
 
 # calculate rural value box
-average_incidents_rural <- round(mean(school_safety_rural$INCPOL18), digits = 1)
+average_incidents_rural <- round(mean(school_safety_rural$INCPOL18), 
+                                 digits = 1
+                                 )
 
-average_resource_score_rural <- round(mean(school_safety_rural$resource_sum), digits = 1)
+average_resource_score_rural <- round(mean(school_safety_rural$resource_sum), 
+                                      digits = 1
+                                      )
 
 total_schools_rural <- nrow(school_safety_rural)
 ```
@@ -196,18 +217,21 @@ total_schools_rural <- nrow(school_safety_rural)
 ```{r}
 #| label: scatter plot resources v. incidents all schools
 #| fig-alt: |
-#|   The graph is a jittered scatter plot titled, “Effect of School on
+#|   The graph is a jittered scatter plot titled, “Effect of School Resources on
 #|   Incidents Reported to Police.” The x axis is “Amount of School
 #|   Resources (out of 30)” and the y axis is “Total Number of Incidents
 #|   Reported to the Police.” The x-axis ranges from 0 to 30, and the y
 #|   axis ranges from 0 to about 350. The points are clustered close to
 #|   the x axis, with most of the points being below 100 incidents
-#|   reported to police, though there are some outliers above this line.
-#|   There are also more points clustered between 10 and 30 school
-#|   resources compared to below 10 and over 30. There appears to be a
-#|   slight positive trend, with incidents reported to police increasing as
-#|   amount of school resources increases, though it is very slight and
-#|   difficult to discern. The shape of the distribution is a very slight left skew.
+#|   reported to police, though there are some outliers above this line. Most 
+#|   notably, there is one point located at 29 resources and 325 incidents 
+#|   reported to police. There are also more points clustered between 10 and 30
+#|   school resources compared to below 10 and over 30 (the points above 30 are 
+#|   due to the geom_jitter function, not because there are data points with 
+#|   more than 30 of the 30 possible resources). There appears to be a slight
+#|   positive trend, with incidents reported to police increasing as amount of 
+#|   school resources increases, though it is very slight and difficult to 
+#|   discern. The shape of the distribution is a very slight left skew.
 
 # all schools
 school_safety |>
@@ -241,24 +265,44 @@ school_safety |>
 
 ```{r}
 #| label: Bar graph comparing incidents to school size
-#| title: Total Incidents between School Size
+#| title: Total Incidents Between School Size
+#| fig-alt: |
+#|   This graph is a bar plot titled "Average Incidents Per School Compared to 
+#|   School Size" The x axis is "School Size" with four categories, each with 
+#|   their own bar: "< 300," "300 - 499," "500 - 999," and ">= 1000." The y axis 
+#|   is "Average Incidents Per School," ranging from 0 to about 30. The 
+#|   furthest-left bar, the "> 300" bar, is solid from 0 to about 3. The second 
+#|   bar from the left, the "300 - 499" bar, is solid from 0 to about 4. The 
+#|   third bar from the left, the "500 - 999" bar, is solid from 0 to about 12. 
+#|   The furthest-right bar, the ">=1000" bar is solid from 0 to about 27.
 
 schoolsaf <- school_safety |>
   group_by(FR_SIZE) |>
   summarize(average_incidents_per_school = mean(INCPOL18))
 
 schoolsaf |>
-  ggplot(aes(x = as.factor(FR_SIZE), y = average_incidents_per_school, fill = FR_SIZE)) + 
+  ggplot(aes(x = as.factor(FR_SIZE), 
+             y = average_incidents_per_school, 
+             fill = FR_SIZE
+             )
+         ) + 
   geom_col() + 
-  scale_x_discrete(labels = c("<300", "300-499", "500, 999", ">=1000")) + 
-  labs( x = "School size", y = "Average Incidents Per School") + 
+  scale_x_discrete(labels = c("< 300", "300 - 499", "500 - 999", ">= 1000")) + 
+  labs(title = "Average Incidents Per School Compared to School Size", 
+       x = "School Size", 
+       y = "Average Incidents Per School"
+       ) + 
   theme(legend.position = "none")
 ```
 
 ```{r}
 #| label: Graph of the resource regressions
 
-regression_plot <- ggplot(resource_regressions2, aes(x = name, y = slope, fill = rVAl)) + 
+regression_plot <- ggplot(resource_regressions2, aes(x = name, 
+                                                     y = slope, 
+                                                     fill = rVAl
+                                                     )
+                          ) + 
   geom_col() + 
   scale_fill_distiller(type = "div", limits = c(-.5, .5)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
@@ -270,26 +314,31 @@ regression_plot <- ggplot(resource_regressions2, aes(x = name, y = slope, fill =
 #| fig-alt: |
 #|   The graph is a bar plot titled, “School Resources and Practices Impact
 #|   on Incidents Reported to Police.” The x axis contains the variable
-#|   names of 89 school resources, while the y axis is the slope of each
+#|   names of 91 school resources, while the y axis is the slope of each
 #|   variable. Each variable has its own colored bar that visualizes its
 #|   slope compared to the other variables. Most of the variables have
-#|   slopes between 0 and 10, although there are 11 variables with negative
-#|   slopes, and three variables with slopes above 10. When the cursor of
+#|   slopes between 0 and 10, although there are 22 variables with negative
+#|   slopes, and 12 variables with slopes above 10. When the cursor of
 #|   the computer is hovered over a bar, the variable name and slope will
-#|   appear. The four variables with clearly strong slopes are C0134, with a
-#|   slope of -3.966, C0153, with a slope of -6.324, C0604, with a slope of
-#|   14.595, and C0610, with a slope of 12.814. The colors of the bars
+#|   appear. The four variables with clearly strong slopes are C0110, with a
+#|   slope of -3.367, C0153, with a slope of -3.769, C0604, with a slope of
+#|   9.054, and C0646, with a slope of 9.357. The colors of the bars
 #|   correlate to the R-values of the variables, with a scale ranging from
-#|   purple to yellow visualizing this. Variables with the lowest R-values
-#|   are colored purple, while variables with the highest R-values are
-#|   colored yellow, with blues and greens visualizing the more average 
-#|   R-values in between.
+#|   light blue to dark blue visualizing this. Variables with the lowest 
+#|   R-values are colored lighter blue, while variables with the highest 
+#|   R-values are colored darker blue.
 
 
-plot_ly(data = resource_regressions2, x = ~name, y = ~slope, type = 'bar', 
-                            text = ~paste("Variable: ", name, "<br>Slope: ", slope),
-                            hoverinfo = 'text', marker = list(color = ~r_squared_val, colorscale = 'Blues')) |>
-  layout(title = "School Resources and Practices Impact on Incidents Reported to Police")
+plot_ly(data = resource_regressions2, 
+        x = ~name, 
+        y = ~slope, 
+        type = 'bar', 
+        text = ~paste("Variable: ", name, "<br>Slope: ", slope),
+        hoverinfo = 'text', 
+        marker = list(color = ~r_squared_val, colorscale = 'Blues')) |>
+  layout(title = "School Resources and Practices Impact on Incidents 
+         Reported to Police"
+         )
 ```
 
 # C0604: LGBTQ Acceptance Groups
@@ -299,14 +348,13 @@ plot_ly(data = resource_regressions2, x = ~name, y = ~slope, type = 'bar',
 ```{r}
 #| label: LGBTQ Acceptance Groups - Vary with Incidents
 #| fig-alt: |
-#|   The graph is a bar plot titled, “LGBTQ Acceptance Groups and Incidents
-#|   Reported to Police.” The x axis is “Presence of LGBTQ Acceptance
-#|   Groups” with the left bar labeled “No” and the right bar labeled “Yes.”
-#|   The y axis is “Incidents Reported to Police” and ranges from 0 to a
-#|   little above 20000. The left bar, the “No” bar, is filled in to just
-#|   below 12500, at about 12000, and the right bar, the “Yes” bar, is
-#|   filled in to just above 20000, at about 22000. The bars are different
-#|   colors to provide contrast. 
+#|   The graph is a bar plot titled, “Average Incidents for Schools With and 
+#|   Without LGBTQ Acceptance Groups.” The x axis is “Has LGBTQ 
+#|   Acceptance Groups” with the left bar labeled “No” and the right bar 
+#|   labeled “Yes.” The y axis is “Average Incidents Per School” and ranges 
+#|   from 0 to about 25. The left bar, the “No” bar, is filled in 
+#|   to about 7, and the right bar, the “Yes” bar, is filled in to about 22.
+#|   The bars are different colors to provide contrast. 
 
 school_safety$C0562 <- as.factor(original_school_safety$C0562)
 
@@ -321,7 +369,9 @@ schoolsaf |>
   ggplot(aes(x = C0604, y = average_incidents_per_school, fill = C0604)) + 
   scale_x_discrete(labels = c("No", "Yes")) +
   geom_col() + 
-  labs(x = "Has LGBTQ Acceptance group",
+  labs(title = "Average Incidents for Schools With and Without 
+       LGBTQ Acceptance Groups", 
+       x = "Has LGBTQ Acceptance Groups",
        y = "Average Incidents per School") + 
   theme(legend.position = "none") + 
   scale_fill_manual(values = c("#D95959", "#8BD1D9"))
@@ -524,7 +574,6 @@ ggplot(school_safety, aes(x = as.factor(FR_URBAN), y = INCPOL18, fill = C0646)) 
   coord_flip()
 
 ```
-
 
 # C0134: Uniforms
 
