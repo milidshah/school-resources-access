@@ -26,9 +26,6 @@ theme_set(theme_minimal(base_family = "Atkinson Hyperlegible"))
 # add the labels to a vector
 # variable_labels_vector <- lapply(school_safety, function(var) attr(var, "label"))
 
-
-
-
 ```
 
 ```{r}
@@ -51,52 +48,32 @@ school_safety <- school_safety |>
     C0610:C0650,
     C0661,
     C0667,
-    OUTSUS18, # Suspensions
     C0266:C0277, # Teacher Training
+    OUTSUS18 # Suspensions
   )
 
-
 school_safety <- school_safety |>
-  mutate_at(vars(starts_with("C")), ~ str_replace(., "2", "0")) |>
-  mutate_at(vars(starts_with("C")), ~ str_replace(., "-1", "0")) |>
-  mutate(across(starts_with("C"), as.numeric)) |>
-  mutate(resource_sum = 
+  mutate_at(
+    vars(starts_with("C")), ~ str_replace(., "2", "0"), 
+    vars(starts_with("C")), ~ str_replace(., "-1", "0")
+  ) |>
+  mutate(
+    across(starts_with("C"), as.numeric),
+    resource_sum = 
            C0183 + C0181 + C0179 + C0186 + C0604 + C0606 + C0608 + C0190 + 
            C0192 + C0204 + C0206 + C0208 + C0210 + C0212 + C0214 + C0216 + 
            C0218 + C0266 + C0268 + C0265 + C0267 + C0269 + C0270 + C0272 + 
-           C0278 + C0271 + C0273 + C0274 + C0276 + C0277 + C0610
+           C0278 + C0271 + C0273 + C0274 + C0276 + C0277 + C0610,
   ) |>
-  #mutate(resource_sum = rowSums(across(starts_with("C")))) |>
   arrange(resource_sum) 
-  #mutate(across(starts_with("C"), as.logical))
-
-
 
 ```
 
 ```{r}
-#| label: linear_regressions_for_each_resource
+#| label: linear-regressions-for-each-resource
 
 name <- colnames(school_safety |>
   select(starts_with("C")))
-
-# name <- c("C0183", "C0181" ,  "C0179" ,  "C0186" ,  "C0604" ,  "C0606" ,  "C0608" ,  "C0190" ,  "C0192" , "C0204",
-#           "C0206" ,  "C0208" ,  "C0210" ,  "C0212" ,  "C0214" ,  "C0216" ,  "C0218" ,  "C0266" , "C0268" , "C0265",
-#           "C0267" ,  "C0269" ,  "C0270" ,  "C0272" ,  "C0278" ,  "C0271" ,  "C0273" ,  "C0274" ,  "C0276" ,
-#           "C0277", "C0610")
-
-# fits a model to each of the variables
-# resources_fit <- linear_reg() |>
-#   fit(INCPOL18 ~ C0183 + C0181 + C0179 + C0186 + C0604 + C0606 + C0608 + C0190 + C0192 + 
-#            C0204 + C0206 + C0208 + C0210 + C0212 + C0214 + C0216 + C0218 + C0266 + C0268 +
-#            C0265 + C0267 + C0269 + C0270 + C0272 + C0278 + C0271 + C0273 + C0274 + C0276 +
-#            C0277 + C0610, 
-#       data = school_safety) 
-
-# # calculate each of the r coefficients 
-# cor_coefficients <- sapply(name, function(variable) {
-#   cor(school_safety[[variable]], school_safety$INCPOL18)
-# })
 
 # create a vector to store all the values of the r-squared coefficients
 r_squared_values <- numeric()
@@ -107,15 +84,9 @@ for (variable in name) {
   # Fit a simple linear regression model for each predictor variable
   lm_model <- lm(school_safety$INCPOL18 ~ factor(school_safety[[variable]])
                  + school_safety$FR_SIZE
-                 )
-
+                )
   # Calculate the R-squared value
   r_squared <- summary(lm_model)$r.squared
-  
-  # tidy_slope <- tidy(lm_model)|>
-  #   filter(term != "(Intercept)") |>
-  #   filter(term != "school_safety$FR_SIZE") |>
-  #   filter(term != "school_safety[[variable]])0")
   tidy_slope <- tidy(lm_model)|>
     filter(term == "factor(school_safety[[variable]])1")
   slope_value <- tidy_slope$estimate
@@ -123,11 +94,6 @@ for (variable in name) {
   slope <- c(slope, slope_value)
   r_squared_values <- c(r_squared_values, r_squared)
 }
-
-# calculate all the slopes for each resource regression
-# slopes <- tidy(resources_fit) |>
-#   filter(term != "(Intercept)") |>
-#   pull(estimate)
 
 # assign all vectors to the resource regression dataframe
 resource_regressions2 <- data.frame(name = name, 
@@ -138,76 +104,34 @@ resource_regressions2 <- data.frame(name = name,
 ```
 
 ```{r}
-#| label: Calculate the value box values
+#| label: filter-data-for-urbanicity 
+# filter data for city 
+# school_safety_city <- school_safety |> 
+#   filter(FR_URBAN == 1) 
 
-average_incidents <- round(mean(school_safety$INCPOL18), digits = 1)
+# calculate city value box 
+# average_incidents_city <- round(mean(school_safety_city$INCPOL18), digits = 1)
+# average_resource_score_city <- round(mean(school_safety_city$resource_sum), digits = 1)
+# total_schools_city <- nrow(school_safety_city) 
+# filter data for suburban 
+# school_safety_suburban <- school_safety |> 
+#   filter(FR_URBAN == 2) 
 
-average_resource_score <- round(mean(school_safety$resource_sum), digits = 1)
-
-total_schools <- nrow(school_safety)
-```
-
-```{r}
-#| label: filter data for urbanicity and make value box
-
-# filter data for city
-school_safety_city <- school_safety |>
-  filter(FR_URBAN == 1)
-
-# calculate city value box
-average_incidents_city <- round(mean(school_safety_city$INCPOL18), digits = 1)
-
-average_resource_score_city <- round(mean(school_safety_city$resource_sum), 
-                                     digits = 1
-                                     )
-
-total_schools_city <- nrow(school_safety_city)
-
-# filter data for suburban
-school_safety_suburban <- school_safety |>
-  filter(FR_URBAN == 2) 
-
-# calculate suburb value box 
-average_incidents_suburban <- round(mean(school_safety_suburban$INCPOL18), 
-                                    digits = 1
-                                    )
-
-average_resource_score_suburban <- round(
-  mean(school_safety_suburban$resource_sum), 
-  digits = 1
-  )
-
-total_schools_suburban <- nrow(school_safety_suburban)
-
-# filter data for town 
-school_safety_town <- school_safety |>
-  filter(FR_URBAN == 3)
-
-# calculate town value box
-average_incidents_town <- round(mean(school_safety_town$INCPOL18), 
-                                digits = 1
-                                )
-
-average_resource_score_town <- round(mean(school_safety_town$resource_sum), 
-                                     digits = 1
-                                     )
-
-total_schools_town <- nrow(school_safety_town)
-
-# filter for rural 
-school_safety_rural <- school_safety |>
-  filter(FR_URBAN == 4)
-
-# calculate rural value box
-average_incidents_rural <- round(mean(school_safety_rural$INCPOL18), 
-                                 digits = 1
-                                 )
-
-average_resource_score_rural <- round(mean(school_safety_rural$resource_sum), 
-                                      digits = 1
-                                      )
-
-total_schools_rural <- nrow(school_safety_rural)
+# calculate suburb value box
+# average_incidents_suburban <- round(mean(school_safety_suburban$INCPOL18), digits = 1)
+# average_resource_score_suburban <- round( #   mean(school_safety_suburban$resource_sum), digits = 1) 
+# total_schools_suburban <- nrow(school_safety_suburban) 
+# filter data for town  # school_safety_town <- school_safety |> #   filter(FR_URBAN == 3) #  # # calculate town value box 
+# average_incidents_town <- round(mean(school_safety_town$INCPOL18), digits = 1) 
+# average_resource_score_town <- round(mean(school_safety_town$resource_sum), digits = 1) 
+# total_schools_town <- nrow(school_safety_town) 
+# filter for rural  
+# school_safety_rural <- school_safety |> 
+#   filter(FR_URBAN == 4) 
+# calculate rural value box 
+# average_incidents_rural <- round(mean(school_safety_rural$INCPOL18), digits = 1)
+# average_resource_score_rural <- round(mean(school_safety_rural$resource_sum), digits = 1)
+# total_schools_rural <- nrow(school_safety_rural)
 ```
 
 # Home
@@ -227,10 +151,9 @@ total_schools_rural <- nrow(school_safety_rural)
 #|   notably, there is one point located at 29 resources and 325 incidents 
 #|   reported to police. There are also more points clustered between 10 and 30
 #|   school resources compared to below 10 and over 30 (the points above 30 are 
-#|   due to the geom_jitter function, not because there are data points with 
-#|   more than 30 of the 30 possible resources). There appears to be a slight
-#|   positive trend, with incidents reported to police increasing as amount of 
-#|   school resources increases, though it is very slight and difficult to 
+#|   due to the degree od variability that results from using the geom_jitter function). 
+#|   There appears to be a slight positive trend, with incidents reported to police increasing 
+#|   as amount of school resources increases, though it is very slight and difficult to
 #|   discern. The shape of the distribution is a very slight left skew.
 
 # all schools
@@ -248,64 +171,31 @@ school_safety |>
 ## Column {.tabset}
 
 ```{r}
-# #| label: geom tile
-# #| title: Urbanicity and Size
-# 
-# school_safety |>
-# ggplot(aes(x = FR_SIZE , y = FR_URBAN, fill = INCPOL18)) +
-# geom_tile(width = .95, height = 0.95) +
-# scale_fill_distiller(palette = "RdPu") +
-#   labs(
-#     title = "School Size and Urbanicity Effect on Incidents Reported to Police",
-#     x = "School Size",
-#     y = "School Urbanicity"
-#   )
-
-```
-
-```{r}
 #| label: Bar graph comparing incidents to school size
 #| title: Total Incidents Between School Size
 #| fig-alt: |
-#|   This graph is a bar plot titled "Average Incidents Per School Compared to 
-#|   School Size" The x axis is "School Size" with four categories, each with 
-#|   their own bar: "< 300," "300 - 499," "500 - 999," and ">= 1000." The y axis 
-#|   is "Average Incidents Per School," ranging from 0 to about 30. The 
-#|   furthest-left bar, the "> 300" bar, is solid from 0 to about 3. The second 
-#|   bar from the left, the "300 - 499" bar, is solid from 0 to about 4. The 
-#|   third bar from the left, the "500 - 999" bar, is solid from 0 to about 12. 
-#|   The furthest-right bar, the ">=1000" bar is solid from 0 to about 27.
+#|    This graph is a bar plot titled "Average Incidents Per School Compared to
+#|    School Size" The x axis is "School Size" with four categories, each with
+#|    their own bar: "< 300," "300 - 499," "500 - 999," and ">= 1000." The y axis
+#|    is "Average Incidents Per School," ranging from 0 to about 30. The
+#|    furthest-left bar, the "> 300" bar, is solid from 0 to about 3. The second
+#|    bar from the left, the "300 - 499" bar, is solid from 0 to about 4. The
+#|    third bar from the left, the "500 - 999" bar, is solid from 0 to about 12.
+#|    The furthest-right bar, the ">=1000" bar is solid from 0 to about 27.
 
-schoolsaf <- school_safety |>
+school_safety |>
   group_by(FR_SIZE) |>
-  summarize(average_incidents_per_school = mean(INCPOL18))
-
-schoolsaf |>
-  ggplot(aes(x = as.factor(FR_SIZE), 
-             y = average_incidents_per_school, 
-             fill = FR_SIZE
-             )
-         ) + 
+  summarize(average_incidents_per_school = mean(INCPOL18)) |>
+  ggplot(aes(x = as.factor(FR_SIZE), y = average_incidents_per_school, fill = FR_SIZE)) + 
   geom_col() + 
+  labs(
+    title = "Average Incidents Per School Compared to School Size", 
+    x = "School Size", 
+    y = "Average Incidents Per School"
+  ) +
   scale_x_discrete(labels = c("< 300", "300 - 499", "500 - 999", ">= 1000")) + 
-  labs(title = "Average Incidents Per School Compared to School Size", 
-       x = "School Size", 
-       y = "Average Incidents Per School"
-       ) + 
+  scale_y_continuous(limits = c(0, 30), breaks = seq(0, 30, by = 5)) +
   theme(legend.position = "none")
-```
-
-```{r}
-#| label: Graph of the resource regressions
-
-regression_plot <- ggplot(resource_regressions2, aes(x = name, 
-                                                     y = slope, 
-                                                     fill = rVAl
-                                                     )
-                          ) + 
-  geom_col() + 
-  scale_fill_distiller(type = "div", limits = c(-.5, .5)) +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 ```{r}
@@ -341,12 +231,12 @@ plot_ly(data = resource_regressions2,
          )
 ```
 
-# C0604: LGBTQ Acceptance Groups
+# C0648: Law Enforcement Officer for Instructional Hours
 
 ## Column
 
 ```{r}
-#| label: LGBTQ Acceptance Groups - Vary with Incidents
+#| label: Law-Officers-Present-Vary-with-Incidents
 #| fig-alt: |
 #|   The graph is a bar plot titled, “Average Incidents for Schools With and 
 #|   Without LGBTQ Acceptance Groups.” The x axis is “Has LGBTQ 
@@ -359,144 +249,25 @@ plot_ly(data = resource_regressions2,
 school_safety$C0562 <- as.factor(original_school_safety$C0562)
 
 school_safety <- school_safety |>
-  mutate(C0604 = as.factor(C0604))
+  mutate(C0648 = as.factor(C0648))
 
-schoolsaf <- school_safety |>
-  group_by(C0604) |>
-  summarize(average_incidents_per_school = mean(INCPOL18))
-
-schoolsaf |>
-  ggplot(aes(x = C0604, y = average_incidents_per_school, fill = C0604)) + 
-  scale_x_discrete(labels = c("No", "Yes")) +
+school_safety |>
+  group_by(C0648) |>
+  summarize(average_incidents_per_school = mean(INCPOL18)) |>
+  ggplot(aes(x = C0648, y = average_incidents_per_school, fill = C0648)) + 
   geom_col() + 
-  labs(title = "Average Incidents for Schools With and Without 
-       LGBTQ Acceptance Groups", 
-       x = "Has LGBTQ Acceptance Groups",
-       y = "Average Incidents per School") + 
-  theme(legend.position = "none") + 
-  scale_fill_manual(values = c("#D95959", "#8BD1D9"))
+  labs(title = "Sworn Law Enforcement Officer Present for All Instructional Hours \nVersus Average Incidents Reported to Police In Schools", 
+       x = "Presence of Sworn Law Enforcement Officers All Instructional Hours",
+       y = "Average Incidents Reported to the Police per School") + 
+  #scale_x_discrete(labels = c("No", "Yes"))
+  theme(legend.position = "none") +
+  scale_fill_colorblind()
 ```
 
 ## Column {.tabset}
 
 ```{r}
-#| label: LGBTQ Groups - Vary with Crime in School Area
-#| title: Crime
-#| fig-alt: |
-#|   The graph is a segmented bar plot titled, “Impact of LGBTQ Acceptance
-#|   Groups on Incidents Reported to Police by School Size.” The x axis is
-#|   “School Size,” with four different categories: “> 300,” “300 - 499,”
-#|   “500 - 999,” and “1000+.” The y axis is “Percentage of Incidents
-#|   Reported to Police” and ranges from 0.00 to 1.00. Color is used in this
-#|   plot to represent “Presence of LGBTQ Acceptance Groups.” For each of
-#|   the school size categories, there is a full bar going from 0.00 - 1.00,
-#|   with the bottom of the bar being blue, to represent “Yes,” and the top
-#|   of the bar being red to represent “No.” This visualizes each school
-#|   size category’s proportion of incidents reported to police based on
-#|   whether or not LGBTQ Acceptance Groups are present. The blue portion of
-#|   the left-most bar, the “> 300” bar, goes from 0.00 to about 0.35. The
-#|   red portion of this bar goes from about 0.35 to 1.00. The blue portion
-#|   of the second bar from the left, the “300 - 499” bar, goes from 0.00 to
-#|   about 0.20 and the red portion goes from about 0.20 to 1.00. The blue
-#|   portion of the third bar from the left, the “500 - 999” bar, goes from
-#|   0.00 to about 0.30 and the red portion goes from about 0.30 to 1.00.
-#|   The blue portion of the most-right bar, the “1000+” bar, goes from 0.00
-#|   to about 0.85, and the red portion goes from about 0.85 to 1.00.
-
-
-# size graph
-ggplot(school_safety, aes(x = fct_rev(C0562), y = INCPOL18, fill = C0604)) +
-  geom_col(position = "fill") +
-  labs(
-    title = "Impact of LGBTQ Acceptance Groups on Incidents \nReported to Police By School Size",
-    x = "Crime in School Area",
-    y = "Incidents Reported to Police",
-    fill = "Presence of LGBTQ Acceptance Groups"
-  ) +
-  scale_fill_discrete(labels = c("No", "Yes")) +
-  scale_x_discrete(labels = c("Low", "Moderate", "High")) +
-  scale_fill_manual(values = c("#F2BB9B", "#03658C")) +
-  theme(legend.position="bottom") + 
-  coord_flip() 
-```
-
-```{r}
-#| label: LGBTQ Groups - Vary with Urbanicity
-#| title: School Urbanicity
-#| fig-alt: |
-#|   The graph is a segmented bar plot titled, “Impact of LGBTQ Acceptance
-#|   Groups on Incidents Reported to Police by School Urbanicity.” The x
-#|   axis is “Urbanicity,” with four different categories: “City,” “Suburb,”
-#|   “Town,” and “Rural.” The y axis is “Percentage of Incidents Reported to
-#|   Police” and ranges from 0.00 to 1.00. Color is used in this plot to
-#|   represent “Presence of LGBTQ Acceptance Groups.” For each of the school
-#|   size categories, there is a full bar going from 0.00 - 1.00, with the
-#|   bottom of the bar being blue, to represent “Yes,” and the top of the
-#|   bar being red to represent “No.” This visualizes each school urbanicity
-#|   category’s proportion of incidents reported to police based on whether
-#|   or not LGBTQ Acceptance Groups are present. The blue portion of the
-#|   left-most bar, the “City” bar, goes from 0.00 to about 0.65. The red
-#|   portion of this bar goes from about 0.65 to 1.00. The blue portion of
-#|   the second bar from the left, the “Suburb” bar, goes from 0.00 to about
-#|   0.70 and the red portion goes from about 0.70 to 1.00. The blue portion
-#|   of the third bar from the left, the “Town” bar, goes from 0.00 to about
-#|   0.365 and the red portion goes from about 0.365 to 1.00. The blue
-#|   portion of the most-right bar, the “Rural” bar, goes from 0.00 to about
-#|   0.45, and the red portion goes from about 0.45 to 1.00.
-
-
-#urbanicity graph
-ggplot(school_safety, aes(x = as.factor(FR_URBAN), y = INCPOL18, fill = C0604)) +
-  geom_col(position = "fill") +
-  labs(
-    title = "Impact of LGBTQ Acceptance Groups on Incidents Reported to
-       Police By School Urbanicity",
-    x = "Urbanicity",
-    y = "Incidents Reported to Police",
-    fill = "Presence of LGBTQ Acceptance Groups"
-  ) +
-  scale_fill_discrete(labels = c("No", "Yes")) + 
-  scale_x_discrete(labels = c("City", "Subruban", "Town", "Rural")) + 
-  coord_flip()
-
-```
-
-# C0646: Law Enforcement legal definitions
-
-## Column
-
-```{r}
-#| label: Law Enforcement officers providing legal definitions - Vary with Incidents
-#| fig-alt: |
-#|   The graph is a bar plot titled, “LGBTQ Acceptance Groups and Incidents
-#|   Reported to Police.” The x axis is “Presence of LGBTQ Acceptance
-#|   Groups” with the left bar labeled “No” and the right bar labeled “Yes.”
-#|   The y axis is “Incidents Reported to Police” and ranges from 0 to a
-#|   little above 20000. The left bar, the “No” bar, is filled in to just
-#|   below 12500, at about 12000, and the right bar, the “Yes” bar, is
-#|   filled in to just above 20000, at about 22000. The bars are different
-#|   colors to provide contrast. 
-
-school_safety <- school_safety |>
-  mutate(C0646 = as.factor(C0646))
-
-schoolsaf <- school_safety |>
-  group_by(C0646) |>
-  summarize(average_incidents_per_school = mean(INCPOL18))
-
-schoolsaf |>
-  ggplot(aes(x = C0646, y = average_incidents_per_school, fill = C0646)) + 
-  scale_x_discrete(labels = c("No", "Yes")) +
-  geom_col() + 
-  labs(x = "Has Sworn law enforcement officers participate in providing legal definitions",
-       y = "Average Incidents per School") + 
-  theme(legend.position = "none")
-```
-
-## Column {.tabset}
-
-```{r}
-#| label: Law Enforcement officers providing legal definitions - Vary with Crime in School Area
+#| label: Law-Officers-Present-Vary-with-Crime
 #| title: Crime
 #| fig-alt: |
 #|   The graph is a segmented bar plot titled, “Impact of LGBTQ Acceptance
@@ -521,22 +292,23 @@ schoolsaf |>
 
 
 # crime graph
-ggplot(school_safety, aes(x = C0562, y = INCPOL18, fill = C0646)) +
+ggplot(school_safety, aes(x = fct_rev(C0562), y = INCPOL18, fill = C0648)) +
   geom_col(position = "fill") +
   labs(
-    title = "Impact of Officers providing legal definitions on Incidents \n Reported to Police By Crime in School Area",
+    title = "Sworn Law Enforcement Officer Present for All Instructional Hours \nVersus Crime in School Area",
     x = "Crime in School Area",
     y = "Incidents Reported to Police",
-    fill = "Law Enforcement officers provide legal definitions"
+    fill = "Presence of Sworn Law Enforcement Officers All Instructional Hours"
   ) +
-  scale_fill_discrete(labels = c("No", "Yes")) + 
-  scale_x_discrete(labels = c("High", "Moderate", "Low")) + 
-  coord_flip()
+  scale_x_discrete(labels = c("Low", "Moderate", "High")) +
+ # scale_fill_manual(values = c("#F2BB9B", "#03658C")) +
+  theme(legend.position="bottom") +
+  scale_fill_colorblind(labels = c("No", "Yes"))
 ```
 
 ```{r}
-#| label: Law Enforcement officers providing legal definitions - Vary with Urbanicity
-#| title: School Urbanicity
+#| label: Law-Officers-Present-Vary-with-Urbanicity
+#| title: Urbanicity
 #| fig-alt: |
 #|   The graph is a segmented bar plot titled, “Impact of LGBTQ Acceptance
 #|   Groups on Incidents Reported to Police by School Urbanicity.” The x
@@ -560,27 +332,206 @@ ggplot(school_safety, aes(x = C0562, y = INCPOL18, fill = C0646)) +
 
 
 #urbanicity graph
-ggplot(school_safety, aes(x = as.factor(FR_URBAN), y = INCPOL18, fill = C0646)) +
+ggplot(school_safety, aes(x = as.factor(FR_URBAN), y = INCPOL18, fill = C0648)) +
   geom_col(position = "fill") +
   labs(
-    title = "Impact of LGBTQ Acceptance Groups on Incidents Reported to
-       Police By School Urbanicity",
-    x = "Urbanicity",
+    title = "Sworn Law Enforcement Officer Present for All Instructional Hours \nVersus School Urbanicity",
+    x = "School Urbanicity",
     y = "Incidents Reported to Police",
-    fill = "Law Enforcement officers provide legal definitions"
+    fill = "Presence of Sworn Law Enforcement Officers All Instructional Hours"
   ) +
-  scale_fill_discrete(labels = c("No", "Yes")) + 
-  scale_x_discrete(labels = c("City", "Subruban", "Town", "Rural")) + 
-  coord_flip()
+  scale_x_discrete(labels = c("City", "Subruban", "Town", "Rural")) +
+  theme(legend.position="bottom") +
+  scale_fill_colorblind(labels = c("No", "Yes"))
+ # coord_flip()
 
 ```
 
-# C0134: Uniforms
+# C0626: Law Enforcement Officers Wear Body Camera
 
 ## Column
 
 ```{r}
-#| label: Required Uniforms - Vary with Incidents
+#| label: Law-officers-body-camera - vary-with-incidents
+#| fig-alt: |
+#|   The graph is a bar plot titled, “LGBTQ Acceptance Groups and Incidents
+#|   Reported to Police.” The x axis is “Presence of LGBTQ Acceptance
+#|   Groups” with the left bar labeled “No” and the right bar labeled “Yes.”
+#|   The y axis is “Incidents Reported to Police” and ranges from 0 to a
+#|   little above 20000. The left bar, the “No” bar, is filled in to just
+#|   below 12500, at about 12000, and the right bar, the “Yes” bar, is
+#|   filled in to just above 20000, at about 22000. The bars are different
+#|   colors to provide contrast. 
+
+school_safety <- school_safety |>
+  mutate(C0626 = as.factor(C0626))
+
+school_safety |>
+  group_by(C0626) |>
+  summarize(average_incidents_per_school = mean(INCPOL18)) |>
+  ggplot(aes(x = C0626, y = average_incidents_per_school, fill = C0626)) + 
+  geom_col() + 
+  labs(title = "Sworn Law Enforcement Officer Wearing a Body Camera \nVersus Average Incidents Reported to Police In Schools", 
+       x = "Presence of Sworn Law Enforcement Officers Wearing a Body Camera",
+       y = "Average Incidents Reported to the Police per School") + 
+  #scale_x_discrete(labels = c("No", "Yes"))
+  theme(legend.position = "none") +
+  scale_fill_colorblind()
+```
+
+## Column {.tabset}
+
+```{r}
+#| label: Law-officers-body-camera - vary-with-crime
+#| title: Crime
+#| fig-alt: |
+#|   The graph is a segmented bar plot titled, “Impact of LGBTQ Acceptance
+#|   Groups on Incidents Reported to Police by School Size.” The x axis is
+#|   “School Size,” with four different categories: “> 300,” “300 - 499,”
+#|   “500 - 999,” and “1000+.” The y axis is “Percentage of Incidents
+#|   Reported to Police” and ranges from 0.00 to 1.00. Color is used in this
+#|   plot to represent “Presence of LGBTQ Acceptance Groups.” For each of
+#|   the school size categories, there is a full bar going from 0.00 - 1.00,
+#|   with the bottom of the bar being blue, to represent “Yes,” and the top
+#|   of the bar being red to represent “No.” This visualizes each school
+#|   size category’s proportion of incidents reported to police based on
+#|   whether or not LGBTQ Acceptance Groups are present. The blue portion of
+#|   the left-most bar, the “> 300” bar, goes from 0.00 to about 0.35. The
+#|   red portion of this bar goes from about 0.35 to 1.00. The blue portion
+#|   of the second bar from the left, the “300 - 499” bar, goes from 0.00 to
+#|   about 0.20 and the red portion goes from about 0.20 to 1.00. The blue
+#|   portion of the third bar from the left, the “500 - 999” bar, goes from
+#|   0.00 to about 0.30 and the red portion goes from about 0.30 to 1.00.
+#|   The blue portion of the most-right bar, the “1000+” bar, goes from 0.00
+#|   to about 0.85, and the red portion goes from about 0.85 to 1.00.
+
+# crime graph
+ggplot(school_safety, aes(x = fct_rev(C0562), y = INCPOL18, fill = C0626)) +
+  geom_col(position = "fill") +
+  labs(
+    title = "Sworn Law Enforcement Officers Wearing a Body Camera \nVersus Crime in School Area",
+    x = "Crime in School Area",
+    y = "Incidents Reported to Police",
+    fill = "Presence of Sworn Law Enforcement Officers Wearing a Body Camera"
+  ) +
+  scale_x_discrete(labels = c("Low", "Moderate", "High")) +
+ # scale_fill_manual(values = c("#F2BB9B", "#03658C")) +
+  theme(legend.position="bottom") +
+  scale_fill_colorblind(labels = c("No", "Yes"))
+```
+
+```{r}
+#| label: Law-officers-body-camera - vary-with-urbanicity
+#| title: Urbanicity
+#| fig-alt: |
+#|   The graph is a segmented bar plot titled, “Impact of LGBTQ Acceptance
+#|   Groups on Incidents Reported to Police by School Urbanicity.” The x
+#|   axis is “Urbanicity,” with four different categories: “City,” “Suburb,”
+#|   “Town,” and “Rural.” The y axis is “Percentage of Incidents Reported to
+#|   Police” and ranges from 0.00 to 1.00. Color is used in this plot to
+#|   represent “Presence of LGBTQ Acceptance Groups.” For each of the school
+#|   size categories, there is a full bar going from 0.00 - 1.00, with the
+#|   bottom of the bar being blue, to represent “Yes,” and the top of the
+#|   bar being red to represent “No.” This visualizes each school urbanicity
+#|   category’s proportion of incidents reported to police based on whether
+#|   or not LGBTQ Acceptance Groups are present. The blue portion of the
+#|   left-most bar, the “City” bar, goes from 0.00 to about 0.65. The red
+#|   portion of this bar goes from about 0.65 to 1.00. The blue portion of
+#|   the second bar from the left, the “Suburb” bar, goes from 0.00 to about
+#|   0.70 and the red portion goes from about 0.70 to 1.00. The blue portion
+#|   of the third bar from the left, the “Town” bar, goes from 0.00 to about
+#|   0.365 and the red portion goes from about 0.365 to 1.00. The blue
+#|   portion of the most-right bar, the “Rural” bar, goes from 0.00 to about
+#|   0.45, and the red portion goes from about 0.45 to 1.00.
+
+#urbanicity graph
+ggplot(school_safety, aes(x = as.factor(FR_URBAN), y = INCPOL18, fill = C0626)) +
+  geom_col(position = "fill") +
+  labs(
+    title = "Sworn Law Enforcement Officers Wearing a Body Camera \nVersus School Urbanicity",
+    x = "School Urbanicity",
+    y = "Incidents Reported to Police",
+    fill = "Presence of Sworn Law Enforcement Officers Wearing a Body Camera"
+  ) +
+  scale_x_discrete(labels = c("City", "Subruban", "Town", "Rural")) +
+  theme(legend.position="bottom") +
+  scale_fill_colorblind(labels = c("No", "Yes"))
+ # coord_flip()
+
+
+```
+
+# C0153: Prohibit Cell Phone Use
+
+## Column
+
+```{r}
+#| label: Cell-Phones-Prohibited-Vary-with-Incidents
+
+school_safety <- school_safety |>
+  mutate(C0153 = as.factor(C0153))
+
+school_safety |>
+  group_by(C0153) |>
+  summarize(average_incidents_per_school = mean(INCPOL18)) |>
+  ggplot(aes(x = C0153, y = average_incidents_per_school, fill = C0153)) + 
+  geom_col() + 
+  labs(title = "Non-academic Use of Cell Phones Prohibited During School Hours \nVersus Average Incidents Reported to Police In Schools", 
+       x = "Prohibited Non-academic Use of Cell Phones During School Hours",
+       y = "Average Incidents Reported to the Police per School") + 
+  scale_x_discrete(labels = c("No", "Yes")) +
+  theme(legend.position = "none") +
+  scale_fill_colorblind()
+
+```
+
+## Column {.tabset}
+
+```{r}
+#| label: Cell-Phones-Prohibited-Vary-with-Crime
+#| title: Crime
+
+# crime graph
+ggplot(school_safety, aes(x = fct_rev(C0562), y = INCPOL18, fill = C0153)) +
+  geom_col(position = "fill") +
+  labs(
+    title = "Non-academic Use of Cell Phones Prohibited During School Hours \nVersus Crime in School Area",
+    x = "Crime in School Area",
+    y = "Incidents Reported to Police",
+    fill = "Prohibited Non-academic Use of Cell Phones During School Hours"
+  ) +
+  scale_x_discrete(labels = c("Low", "Moderate", "High")) +
+  theme(legend.position="bottom") +
+  scale_fill_colorblind(labels = c("No", "Yes"))
+
+```
+
+```{r}
+#| label: Cell-Phones-Prohibited-Vary-with-Urbanicity
+#| title: Urbanicity
+
+#urbanicity graph
+ggplot(school_safety, aes(x = as.factor(FR_URBAN), y = INCPOL18, fill = C0153)) +
+  geom_col(position = "fill") +
+  labs(
+    title = "Non-academic Use of Cell Phones Prohibited During School Hours \nVersus School Urbanicity",
+    x = "School Urbanicity",
+    y = "Incidents Reported to Police",
+    fill = "Prohibited Non-academic Use of Cell Phones During School Hours"
+  ) +
+  scale_x_discrete(labels = c("City", "Subruban", "Town", "Rural")) +
+  theme(legend.position="bottom") +
+  scale_fill_colorblind(labels = c("No", "Yes"))
+ # coord_flip()
+
+```
+
+# C0110: Visitor Check in and Badges
+
+## Column
+
+```{r}
+#| label: Visitor-Check-In-Vary-with-Incidents
 #| fig-alt: |
 #|   The graph is a bar plot titled, “Required School Uniforms and Incidents
 #|   Reported to Police.” The x axis is “Required School Uniforms” with the
@@ -591,26 +542,25 @@ ggplot(school_safety, aes(x = as.factor(FR_URBAN), y = INCPOL18, fill = C0646)) 
 #|   colors to provide contrast. 
 
 school_safety <- school_safety |>
-  mutate(C0134 = as.factor(C0134))
+  mutate(C0110 = as.factor(C0110))
 
-schoolsaf <- school_safety |>
-  group_by(C0134) |>
-  summarize(average_incidents_per_school = mean(INCPOL18))
-
-schoolsaf |>
-  ggplot(aes(x = C0134, y = average_incidents_per_school, fill = C0134)) + 
-  scale_x_discrete(labels = c("No", "Yes")) +
+school_safety |>
+  group_by(C0110) |>
+  summarize(average_incidents_per_school = mean(INCPOL18)) |>
+  ggplot(aes(x = C0110, y = average_incidents_per_school, fill = C0110)) + 
   geom_col() + 
-  labs(x = "Has Sworn law enforcement officers participate in providing legal definitions",
-       y = "Average Incidents per School") + 
-  theme(legend.position = "none")
-
+  labs(title = "Required Visitor Check In and Badges \nVersus Average Incidents Reported to Police In Schools", 
+       x = "Required Visitor Check In and Badges",
+       y = "Average Incidents Reported to the Police per School") + 
+  scale_x_discrete(labels = c("No", "Yes")) +
+  theme(legend.position = "none") +
+  scale_fill_colorblind()
 ```
 
 ## Column {.tabset}
 
 ```{r}
-#| label: Required Uniforms - Vary with Size
+#| label: Visitor-Check-In-Vary-with-crime
 #| title: Crime
 #| fig-alt: |
 #|   The graph is a segmented bar plot titled, “Impact of Required School
@@ -633,23 +583,23 @@ schoolsaf |>
 #|   portion of the most-right bar, the “1000+” bar, goes from 0.00 to about
 #|   0.06, and the red portion goes from about 0.06 to 1.00.
 
-
-ggplot(school_safety, aes(x = C0562, y = INCPOL18, fill = C0134)) +
+# crime graph
+ggplot(school_safety, aes(x = fct_rev(C0562), y = INCPOL18, fill = C0110)) +
   geom_col(position = "fill") +
   labs(
-    title = "Impact of Officers providing legal definitions on Incidents \n Reported to Police By Crime in School Area",
+    title = "Required Visitor Check In and Badges \nVersus Crime in School Area",
     x = "Crime in School Area",
     y = "Incidents Reported to Police",
-    fill = "Law Enforcement officers provide legal definitions"
+    fill = "Required Visitor Check In and Badges"
   ) +
-  scale_fill_discrete(labels = c("No", "Yes")) + 
-  scale_x_discrete(labels = c("High", "Moderate", "Low")) + 
-  coord_flip()
+  scale_x_discrete(labels = c("Low", "Moderate", "High")) +
+  theme(legend.position="bottom") +
+  scale_fill_colorblind(labels = c("No", "Yes"))
 
 ```
 
 ```{r}
-#| label: Required Uniforms - Vary with Urbanicity
+#| label: Visitor-Check-In-Vary-with-urbanicity
 #| title: School Urbanicity
 #| fig-alt: |
 #|   The graph is a segmented bar plot titled, “Impact of Required School
@@ -673,80 +623,16 @@ ggplot(school_safety, aes(x = C0562, y = INCPOL18, fill = C0134)) +
 #|   the red portion goes from about 0.06 to 1.00.
 
 #urbanicity graph
-ggplot(school_safety, aes(x = FR_URBAN, y = INCPOL18, fill = C0134)) +
+ggplot(school_safety, aes(x = as.factor(FR_URBAN), y = INCPOL18, fill = C0110)) +
   geom_col(position = "fill") +
   labs(
-    title = "Impact of Mandatory School Uniforms on Incidents Reported to
-    Police By School Urbanicity",
-    x = "Urbanicity",
+    title = "Required Visitor Check In and Badges \nVersus School Urbanicity",
+    x = "School Urbanicity",
     y = "Incidents Reported to Police",
-    fill = "Mandatory School Uniforms"
+    fill = "Required Visitor Check In and Badges"
   ) +
-  scale_fill_discrete(labels = c("No", "Yes"))
-
-```
-
-# C0153: Cell Phones Prohibition
-
-## Column
-
-```{r}
-#| label: Behavioral Modification for Students - Vary with Incidents
-
-
-school_safety <- school_safety |>
-  mutate(C0153 = as.factor(C0153))
-
-schoolsaf <- school_safety |>
-  group_by(C0153) |>
-  summarize(average_incidents_per_school = mean(INCPOL18))
-
-schoolsaf |>
-  ggplot(aes(x = C0153, y = average_incidents_per_school, fill = C0153)) + 
-  scale_x_discrete(labels = c("No", "Yes")) +
-  geom_col() + 
-  labs(x = "Has Sworn law enforcement officers participate in providing legal definitions",
-       y = "Average Incidents per School") + 
-  theme(legend.position = "none")
-
-```
-
-## Column {.tabset}
-
-```{r}
-#| label: Behavioral Modification for Student - Vary with Size
-#| title: Crime
-
-# crime graph
-ggplot(school_safety, aes(x = C0562, y = INCPOL18, fill = C0153)) +
-  geom_col(position = "fill") +
-  labs(
-    title = "Impact of Officers providing legal definitions on Incidents \n Reported to Police By Crime in School Area",
-    x = "Crime in School Area",
-    y = "Incidents Reported to Police",
-    fill = "Law Enforcement officers provide legal definitions"
-  ) +
-  scale_fill_discrete(labels = c("No", "Yes")) + 
-  scale_x_discrete(labels = c("High", "Moderate", "Low")) + 
-  coord_flip()
-
-```
-
-```{r}
-#| label: Behavioral Modification for Student - Vary with Urbanicity
-#| title: School Urbanicity
-
-#urbanicity graph
-ggplot(school_safety, aes(x = FR_URBAN, y = INCPOL18, fill = C0153)) +
-  geom_col(position = "fill") +
-  labs(
-    title = "Impact of Behavioral Modifications for Students on Incidents
-    Reported to Police By School Urbanicity",
-    x = "Urbanicity",
-    y = "Incidents Reported to Police",
-    fill = "Behavioral Modifications for Students"
-  ) +
-  scale_fill_discrete(labels = c("No", "Yes")) + 
-  coord_flip()
-
+  scale_x_discrete(labels = c("City", "Subruban", "Town", "Rural")) +
+  theme(legend.position="bottom") +
+  scale_fill_colorblind(labels = c("No", "Yes"))
+ # coord_flip()
 ```
