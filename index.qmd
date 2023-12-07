@@ -57,7 +57,8 @@ school_safety <- school_safety |>
            C0183 + C0181 + C0179 + C0186 + C0604 + C0606 + C0608 + C0190 + 
            C0192 + C0204 + C0206 + C0208 + C0210 + C0212 + C0214 + C0216 + 
            C0218 + C0266 + C0268 + C0265 + C0267 + C0269 + C0270 + C0272 + 
-           C0278 + C0271 + C0273 + C0274 + C0276 + C0277 + C0610
+           C0278 + C0271 + C0273 + C0274 + C0276 + C0277 + C0610,
+    FR_URBAN = as.factor(FR_URBAN)
   ) |>
   arrange(resource_sum) 
 
@@ -150,11 +151,13 @@ school_safety |>
 school_safety |>
   group_by(FR_SIZE) |>
   summarize(average_incidents_per_school = mean(INCPOL18)) |>
-  ggplot(aes(x = as.factor(FR_SIZE), 
-             y = average_incidents_per_school, 
-             fill = FR_SIZE
-             )
-         ) + 
+  ggplot(
+    aes(
+      x = as.factor(FR_SIZE),
+      y = average_incidents_per_school,
+      fill = as.factor(FR_SIZE)
+    )
+  ) + 
   geom_col() + 
   labs(
     title = "Average Incidents Per School Compared to School Size", 
@@ -163,7 +166,8 @@ school_safety |>
   ) +
   scale_x_discrete(labels = c("< 300", "300 - 499", "500 - 999", ">= 1000")) + 
   scale_y_continuous(limits = c(0, 30), breaks = seq(0, 30, by = 5)) +
-  theme(legend.position = "none")
+  theme(legend.position = "none") +
+  scale_fill_colorblind()
 ```
 
 ```{r}
@@ -182,22 +186,27 @@ school_safety |>
 
 # plot avg incidents based on urbanicity
 school_safety |>
+  mutate(FR_URBAN = fct_relevel(FR_URBAN, "4", "3", "2", "1")) |>
   group_by(FR_URBAN) |>
   summarize(average_incidents_per_school = mean(INCPOL18)) |>
-  ggplot(aes(x = as.factor(FR_URBAN), 
-             y = average_incidents_per_school, 
-             fill = FR_URBAN
-             )
-         ) + 
+  ggplot(
+    aes(
+      x = FR_URBAN, 
+      y = average_incidents_per_school, 
+      fill = FR_URBAN
+    )
+  ) + 
   geom_col() + 
   labs(
     title = "Average Incidents Per School Compared to School Urbanicity", 
     x = "School Urbanicity", 
     y = "Average Incidents Per School"
   ) +
-  scale_x_discrete(labels = c("City", "Suburban", "Town", "Rural")) + 
+  scale_x_discrete(limits = rev(levels(school_safety$FR_URBAN)),
+                   labels = c("Rural", "Town", "Suburban", "City")) + 
   scale_y_continuous(limits = c(0, 30), breaks = seq(0, 30, by = 5)) +
-  theme(legend.position = "none")
+  theme(legend.position = "none") +
+  scale_fill_manual(values = rev(colorblind_pal()(length(unique(school_safety$FR_URBAN)))))
 ```
 
 ```{r}
@@ -303,7 +312,9 @@ school_safety |>
 
 
 #urbanicity graph
-ggplot(school_safety, aes(x = C0646, fill = as.factor(FR_URBAN))) +
+school_safety |>
+  mutate(FR_URBAN = FR_URBAN, "Rural", "Town", "Suburban", "City") |>
+  ggplot(aes(x = C0646, fill = as.factor(FR_URBAN))) +
   geom_bar(position = "fill") +
   labs(
     title = "Sworn Law Enforcement Officers Participating in Providing Legal Definitions \nVersus School Urbanicity",
@@ -314,7 +325,8 @@ ggplot(school_safety, aes(x = C0646, fill = as.factor(FR_URBAN))) +
   scale_x_discrete(labels = c("No", "Yes")) +
   theme(legend.position = "bottom") +
   scale_fill_colorblind(labels = c("City", "Suburban", "Town", "Rural")) +
-  coord_flip()
+  coord_flip() +
+  guides(fill = guide_legend(reverse = TRUE))
 
 ```
 
@@ -380,7 +392,9 @@ school_safety |>
 #|   the "City" portion goes from about 0.77 to 1.00.
 
 #urbanicity graph
-ggplot(school_safety, aes(x = C0604, fill = as.factor(FR_URBAN))) +
+school_safety |>
+  mutate(FR_URBAN = FR_URBAN, "Rural", "Town", "Suburban", "City") |>
+  ggplot(aes(x = C0604, fill = as.factor(FR_URBAN))) +
   geom_bar(position = "fill") +
   labs(
     title = "Presence of LGBTQ Acceptance Group \nVersus School Urbanicity",
@@ -391,7 +405,8 @@ ggplot(school_safety, aes(x = C0604, fill = as.factor(FR_URBAN))) +
   scale_x_discrete(labels = c("No", "Yes")) +
   theme(legend.position = "bottom") +
   scale_fill_colorblind(labels = c("City", "Suburban", "Town", "Rural")) +
-  coord_flip()
+  coord_flip() +
+  guides(fill = guide_legend(reverse = TRUE))
 
 ```
 
@@ -459,7 +474,9 @@ school_safety |>
 #|   portion goes from about 0.76 to 1.00.
 
 #urbanicity graph
-ggplot(school_safety, aes(x = C0153, fill = as.factor(FR_URBAN))) +
+school_safety |>
+  mutate(FR_URBAN = FR_URBAN, "Rural", "Town", "Suburban", "City") |>
+  ggplot(aes(x = C0153, fill = as.factor(FR_URBAN))) +
   geom_bar(position = "fill") +
   labs(
     title = "Non-Academic Use of Cell Phones Prohibited During School Hours \nVersus School Urbanicity",
@@ -470,7 +487,8 @@ ggplot(school_safety, aes(x = C0153, fill = as.factor(FR_URBAN))) +
   scale_x_discrete(labels = c("No", "Yes")) +
   theme(legend.position = "bottom") +
   scale_fill_colorblind(labels = c("City", "Suburban", "Town", "Rural")) +
-  coord_flip()
+  coord_flip() +
+  guides(fill = guide_legend(reverse = TRUE))
 
 ```
 
@@ -535,7 +553,9 @@ school_safety |>
 #|   the "City" portion goes from about 0.70 to 1.00.
 
 # urbanicity graph
-ggplot(school_safety, aes(x = C0110, fill = as.factor(FR_URBAN))) +
+school_safety |>
+  mutate(FR_URBAN = FR_URBAN, "Rural", "Town", "Suburban", "City") |>
+  ggplot(aes(x = C0110, fill = as.factor(FR_URBAN))) +
   geom_bar(position = "fill") +
   labs(
     title = "Required Visitor Check In and Badges \nVersus School Urbanicity",
@@ -546,5 +566,7 @@ ggplot(school_safety, aes(x = C0110, fill = as.factor(FR_URBAN))) +
   scale_x_discrete(labels = c("No", "Yes")) +
   theme(legend.position = "bottom") +
   scale_fill_colorblind(labels = c("City", "Suburban", "Town", "Rural")) +
-  coord_flip()
+  coord_flip() +
+  guides(fill = guide_legend(reverse = TRUE))
+
 ```
