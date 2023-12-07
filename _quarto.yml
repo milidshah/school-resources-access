@@ -12,6 +12,8 @@ website:
         text: Proposal    
       - href: project.qmd
         text: Write Up
+      - href: variables.qmd
+        text: Variable Analysis
       - href: about.qmd
         text: About
     right:

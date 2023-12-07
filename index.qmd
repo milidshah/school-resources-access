@@ -167,7 +167,8 @@ school_safety |>
   scale_x_discrete(labels = c("< 300", "300 - 499", "500 - 999", ">= 1000")) + 
   scale_y_continuous(limits = c(0, 30), breaks = seq(0, 30, by = 5)) +
   theme(legend.position = "none") +
-  scale_fill_colorblind()
+  scale_fill_manual(values = rev(colorblind_pal()(length(unique(school_safety$FR_SIZE)))))
+
 ```
 
 ```{r}

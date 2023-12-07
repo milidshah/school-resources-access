@@ -1,0 +1,59 @@
+## Variable Analysis
+
+Starting with our original research question, we sought to plot the resources against the incidents reported to the police. To quantify resources for every school, we created a resource score for every school made from the following 30 variables representing 10 categories of school resources:
+
+1.  Social emotional learning training for students (`C0183`) 
+
+2.  Individual mentoring/tutoring/coaching by adults (`C0181`)
+
+3.  Student involvement in restorative circles (`C0179`)
+
+4.  Promote sense of community/social integration (`C0186`)
+
+5.  Acceptance groups (LGBTQ Acceptance Group - `C0604`, Disability Acceptance Group - `C0606`, Cultural Diversity Acceptance Group - `C0608`)
+
+6.  Formal process to obtain parental input (`C0190`)
+
+7.  Provide training or assistance to parents (`C0192`)
+
+8.  Community Involvement (Parent Groups - `C0204`, Social Services - `C0206`, Juvenile Justice - `C0208`, Law Enforcement - `C0210`, Mental Health - `C0212`, Civil Organizations - `C0214`, Businesses - `C0216`, Religious Organizations - `C0218`) 
+
+9.  Treatment at school by school-employed or contracted mental health professional (`C0669`)
+
+10. Teacher training (Class Management - `C0266`, Discipline Policies Related to Cyberbullying - `C0265`, Discipline Policies Related to Bullying - `C0267`, Alcohol/Drug Discipline Policy - `C0269`, Safety Procedures - `C0270`, Early Warning Signs for Violent Behavior - `C0272`, Signs of Self-Harm or Suicidal Tendencies - `C0278`, Intervention and Referral Strategies - `C0271`, Recognize Bullying Behavior - `C0273`, Student Alcohol/Drug Abuse - `C0274`, Positive Behavioral Intervention - `C0276`, Crisis Prevention and Intervention - `C0277`)
+
+## What qualifies as an incident?
+
+We chose to use incidents reported to police (`INCPOL18`) to measure incidents. Our dataset defines this variable by combining the following variables, when reported to police: 
+
+-   Rape or attempted rape (`C0310`)
+
+-   Sexual assault other than rape (`C0314`)
+
+-   Robbery with a weapon (`C0318`)
+
+-   Robbery without a weapon (`C0322`)
+
+-   Physical attack or fight with a weapon (`C0326`) 
+
+-   Physical attack or fight without a weapon (`C0330`) 
+
+-   Threat of a physical attack with a weapon (`C0334`) 
+
+-   Threat of a physical attack without a weapon (`C0338`) 
+
+-   Theft/larceny (`C0342`)
+
+-   Possession of a firearm or explosive device (`C0346`) 
+
+-   Possession of a knife or sharp object (`C0350`)
+
+-   The distribution, possession, or use of illegal drugs (`C0354`) 
+
+-   The inappropriate distribution, possession, or use of prescription drugs (`C0355`)
+
+-   The distribution, possession, or use of alcohol (`C0358`) 
+
+-   Vandalism (`C0362`)
+
+-   Hate crime (`C0690`)
