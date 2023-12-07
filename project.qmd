@@ -91,7 +91,7 @@ Our dataset defines incidents with the combination of 16 other variables, all re
 
 ### Resource Sum vs. Incidents Reported to Police Graph 
 
-This scatter plot plots the relationship between the resource score and the number of incidents. We expected to see a decrease in the number of incidents as the resources increased, but instead, we saw a slightly increasing trend. As the number of resources increased, the number of incidents also increased. 
+This scatter plot plots the relationship between the resource score and the number of incidents. We used geom_jitter in order to increase the visual variability. Originally, we expected to see a decrease in the number of incidents as the resources increased, but instead, we saw a slightly increasing trend. As the number of resources increased, the number of incidents also increased. 
 
 Because of this trend, we decided to look further into what specific resources could have impacted the number of incidents reported to the police. 
 
@@ -107,7 +107,7 @@ This graph plots the correlation between school size and the average number of i
 
 ### Urbanicity Graph
 
-We also plotted the school urbanicity in relation to the average number of incidents reported to the police per school. From this plot we are able to see that city schools have more incidents reported to the police per school followed closely by suburban schools. However, town and rural schools have greatly less average incidents per school. This means that urbanicity also has the potential to be a confounding variable as we are analyzing the relationship between the school resource and the number of incidents reported to the police. 
+We also plotted the school urbanicity in relation to the average number of incidents reported to the police per school. From this plot, we are able to see that city schools have more incidents reported to the police per school followed closely by suburban schools. However, town and rural schools have fewer average incidents per school. This means that urbanicity also has the potential to be a confounding variable as we are analyzing the relationship between the school resource and the number of incidents reported to the police. 
 
 ![](images/interactive_plot.png){width="495"}
 
@@ -115,13 +115,13 @@ We also plotted the school urbanicity in relation to the average number of incid
 
 This plot depicts the impact of the resources and practices of a school on the number of incidents reported to the police. The plot was made with regressions for each of the variables indicating whether a school has a practice or a resource. Moreover, to address the confounding variable of school size, we made each regression a joint regression with the school size. Each bar's colors are based on the r-squared value from the respective regression. The y axis represents the respective slopes that we got from each regression. 
 
-In the graph there are two values that stand out to be increasing the number of incidents reported to the police: C0646 and C0604. C0646 signifies law enforcement officers participating in creating legal definitions. C0604 signifies the presence of LGBTQ acceptance groups. 
+In the graph, there are two values that stand out to be increasing the number of incidents reported to the police: C0646 and C0604. C0646 signifies law enforcement officers participating in creating legal definitions. C0604 signifies the presence of LGBTQ acceptance groups. 
 
 There are two values that stand out to be decreasing the number of incidents reported to the police: C0153 and C0110. C0153 is the prohibition of cell phone use. C0110 signifies if the school requires visitor check in and badges. 
 
 ## Subgraphs Tabs
 
-To visualize how the presence of law enforcement providing legal definitions, LGBTQ acceptance groups, prohibition of cell phone use, and requirement of visitor check in and badges affect the number of incidents reported to the police, we created two bar graphs for each variable. The graph on the left shows the average incidents reported to the police per school in the presence or absence of each variable. We chose to plot the average incidents to account for the different numbers of schools who have the variable and those who do not. The graph on the right serves to identify whether urbanicity is a confounding variable, as it demonstrates the urbanicity composition of schools with and without the variable.
+To visualize how the presence of law enforcement providing legal definitions, LGBTQ acceptance groups, prohibition of cell phone use, and requirement of visitor check in and badges affect the number of incidents reported to the police, we created two bar graphs for each variable. The graph on the left shows the average incidents reported to the police per school in the presence or absence of each variable. We chose to plot the average incidents to account for the different numbers of schools that have the variable and those that do not. The graph on the right serves to identify whether urbanicity is a confounding variable, as it demonstrates the urbanicity composition of schools with and without the variable.
 
 ![](images/C0646.png)
 
@@ -129,13 +129,13 @@ To visualize how the presence of law enforcement providing legal definitions, LG
 
 The graph on the left illustrates a discrepancy in average incidents reported to the police in schools with or without sworn law enforcement officers participating in providing legal definitions. On average, there are about 12 more incidents reported to the police per school in the presence of officers providing legal definitions. The urbanicity graph shows that the distribution of schools of different urbanicity does not vary in the presence or absence of law enforcement officers.  Thus, we speculate that urbanicity does not obscure the significance of this variable. 
 
-Our research into national policies suggest that in response to increased incidents, many schools mistakenly implement harsh security measures with the goal of forcefully preventing crime. The "zero tolerance policies" often include inclusion of security guards and police officers within the school setting. Analysts suggest that the more the institution resembles a prison, the more likely students are to fall into the school-to-prison pipeline (Schept, 2014). As supported by our visualizations, inclusion of officers could potentially be the factor that catalyzes the criminalization of the youth. 
+Our research into national policies suggests that in response to increased incidents, many schools mistakenly implement harsh security measures with the goal of forcefully preventing crime. The "zero tolerance policies" often include inclusion of security guards and police officers within the school setting. Analysts suggest that the more the institution resembles a prison, the more likely students are to fall into the school-to-prison pipeline (Schept, 2014). As supported by our visualizations, inclusion of officers could potentially be the factor that catalyzes the criminalization of the youth. 
 
 ![](images/C0604.png)
 
 ### **LGBTQ Group**
 
-The graph on the left suggests that the average number of accidents reported to the police at schools without LGBTQ acceptance group is about 7 compared to over 20 in schools with an LGBTQ acceptance group. We found this discrepancy surprising as we found no research suggesting a strong association between inclusivity groups and incidents of crime.  
+The graph on the left suggests that the average number of accidents reported to the police at schools without an LGBTQ acceptance group is about 7 compared to over 20 in schools with an LGBTQ acceptance group. We found this discrepancy surprising as we found no research suggesting a strong association between inclusivity groups and incidents of crime.  
 
 However, we noticed that the urbanicity distribution of schools with or without LGBTQ groups varies. The majority of schools with LGBTQ acceptance groups are city and suburban schools.  Here, urbanicity is a potential confounding variable. As discussed previously, there are more average incidents per school for city and suburban schools compared to town and rural. Thus, despite the contrast in average number of incidents reported to police per school, the presence of LGBTQ acceptance groups in school might not be a strong contributor to increase in incidents reported to the police. 
 
@@ -143,7 +143,7 @@ However, we noticed that the urbanicity distribution of schools with or without 
 
 ### **Prohibit Cell Phone Use**
 
-The graph suggests that, on average, 5 less incidents are reported to the police in schools with policies prohibiting non-academic use of cell phones during school hours. Since the distribution of schools with different levels of urbanicity does not vary in presence or absence of this policy, we speculate that urbanicity should not be considered a confounding variable. 
+The graph suggests that, on average, five fewer incidents are reported to the police in schools with policies prohibiting non-academic use of cell phones during school hours. Since the distribution of schools with different levels of urbanicity does not vary in presence or absence of this policy, we speculate that urbanicity should not be considered a confounding variable. 
 
 A possible explanation for the pattern of higher incidents when cell phone use is allowed during school depicted in these graphs may come from research that shows how increased cell-phone use poses a risk for cyberbullying (Shin and Ahn). Therefore, if rules against cell phone usage in a school environment do not exist, students may engage more often online and become involved in cyberbullying. 
 
@@ -157,7 +157,7 @@ On the right, the urbanicity graph suggests that suburban schools composed the m
 
 ## Limitations
 
-Our dataset only represented the portion of the SSOCS published for public use, and did not provide access to accurate sizing of the school. If specific information about school size was available, we would have been able to visualize average incidents per student instead of average incidents per school, which would have allowed us to better circumvent the potential confounding variable of school size. 
+Our dataset only represented the portion of the SSOCS published for public use and did not provide access to accurate sizing of the school. If specific information about school size was available, we would have been able to visualize average incidents per student instead of average incidents per school, which would have allowed us to better circumvent the potential confounding variable of school size. 
 
 The calculated r-squared values for each of the school resources and practices were mostly less than 0.5. Low r-squared values indicate that the model is a poor fit. However, this could also be due to each variable's binary structure and the presence of confounding variables. 
 
@@ -167,11 +167,11 @@ The SSOCS dataset was collected in the 2017-2018 school year, and the conditions
 
 Our original research question stemmed from statistics about the school-to-prison pipeline. However, our data analyzes differences in the incidents that were reported to the police. While incidents reported to the police have a certain similarity to future incarceration, it is difficult with this data to draw a clear and certain pipeline.
 
-Our data does not have a clear variable that defines or measures the school to prison pipeline, so visualizing incidents reported to the police as a way to represent a contributor to this pipeline may be a shortcoming of this project and source of error in our analysis.
+Our data does not have a clear variable that defines or measures the school to prison pipeline, so visualizing incidents reported to the police as a way to represent a contributor to this pipeline may be a shortcoming of this project and a source of error in our analysis.
 
 ## Conclusion
 
-Our project explores the intricate relationship between school resources, practices and reported incidents to the police. While our initial expectation presumed a decrease in incidents with increased resources, the data visualizations emerged differently. Upon applying regression models, law enforcement officers, LGBTQ acceptance groups, prohibition of cell phones, and strict visitor check-ins stood out as impactful variables. However, the urbanicity of the school appeared as confounding variable when analyzing the contribution of LGBTQ acceptance groups and visitor check-ins. Our exploration underscores the nuanced interplay between resources, policies, and incident reporting while highlighting the critical need for further research of school resources to formulate more targeted interventions for the school-to-prison pipeline.  
+Our project explores the intricate relationship between school resources, practices and reported incidents to the police. While our initial expectation presumed a decrease in incidents with increased resources, the data visualizations emerged differently. Upon applying regression models, law enforcement officers, LGBTQ acceptance groups, prohibition of cell phones, and strict visitor check-ins stood out as impactful variables. However, the urbanicity of the school appeared as a confounding variable when analyzing the contribution of LGBTQ acceptance groups and visitor check-ins. Our exploration underscores the nuanced interplay between resources, policies, and incident reporting while highlighting the critical need for further research of school resources to formulate more targeted interventions for the school-to-prison pipeline.  
 
 ## Works Cited
 
