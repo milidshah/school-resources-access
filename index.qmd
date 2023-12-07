@@ -37,15 +37,15 @@ school_safety <- school_safety |>
     INCPOL18, # Total number of incidents reported to police
     FR_URBAN, # Urbanicity - Based on urban-centric location of school
     FR_SIZE, # Size of school
-    C0110:C0186, # School Practices and Programs 
-    C0600,
-    C0604:C0610,
-    C0190:C0192,
-    C0204:C0218,
-    C0610:C0650,
-    C0661,
-    C0667,
-    C0266:C0277, # Teacher Training
+    C0110:C0186, # School practices and programs 
+    C0600, # Have a threat assessment team
+    C0604:C0608, # Acceptance groups
+    C0610:C0650, # Law enforcement
+    C0661, # Diagnostic mental health assessment for mental disorders
+    C0667, # Treatment to students for mental health disorders
+    C0190:C0192, # Parent involvement
+    C0204:C0218, # Community involvement
+    C0266:C0277, # Teacher training
   )
 
 school_safety <- school_safety |>
